@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .hamburger-open-1 {
+    @apply rotate-45 translate-x-[5px] translate-y-[5px];
+  }
+
+  .hamburger-open-2 {
+    @apply opacity-0;
+  }
+
+  .hamburger-open-3 {
+    @apply -rotate-45 translate-x-[5px] -translate-y-[5px];
+  }
+}
