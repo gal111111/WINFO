@@ -1,423 +1,81 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { SiteShell } from './components/SiteShell';
+import { HomePage } from './pages/HomePage';
+import { IncorporationPage } from './pages/IncorporationPage';
+import { BudFundPage } from './pages/BudFundPage';
+import { LegalPage } from './pages/LegalPage';
+import { NotFoundPage } from './pages/NotFoundPage';
+import { ContentPage } from './pages/ContentPage';
+import { getUi, toSimplified } from './content/site';
 import './styles.css';
 
-const languages = [
-  { code: 'en', label: 'EN' },
-  { code: 'zh-TW', label: '繁' },
-  { code: 'zh-CN', label: '简' },
-];
-
-const serviceItems = [
-  { id: 'company-setup', icon: 'building', key: 'companySetup', group: 'start' },
-  { id: 'accounting-audit', icon: 'ledger', key: 'accountingAudit', group: 'compliance' },
-  { id: 'funding-grants', icon: 'spark', key: 'fundingGrants', group: 'grow' },
-  { id: 'iang', icon: 'passport', key: 'iang', group: 'start' },
-  { id: 'cross-border', icon: 'globe', key: 'crossBorder', group: 'grow' },
-  { id: 'listed-company', icon: 'chart', key: 'listedCompany', group: 'grow' },
-];
-
-const finderCopy = {
-  en: { title: 'Not sure where to start?', body: 'Choose the situation closest to yours and we will point you to a useful first conversation.', stepOne: 'Tell us what is next', stepTwo: 'Your suggested starting point', back: 'Change selection', options: ['I am starting in Hong Kong', 'I need to stay compliant', 'I want to grow across borders', 'I am planning my IANG move'], result: 'A useful starting point', cta: 'Explore recommended service' },
-  'zh-TW': { title: '下一步，從哪裡開始？', body: '揀選最貼近你現況的一項，我們會幫你找出值得先談的方向。', stepOne: '先告訴我們你正處於哪一步', stepTwo: '建議先由這裡開始', back: '重新選擇', options: ['我準備在香港起步', '我想理順公司合規', '我正部署跨境拓展', '我正在規劃 IANG 落地'], result: '建議先由這裡開始', cta: '查看建議服務' },
-  'zh-CN': { title: '不知道该从哪里开始？', body: '选择最接近你情况的一项，我们帮你找出最值得先谈的方向。', stepOne: '先告诉我们你现在走到哪一步', stepTwo: '建议从这里开始', back: '重新选择', options: ['我准备在香港创业', '我需要处理公司合规', '我想拓展跨境业务', '我正在规划 IANG 落地'], result: '建议从这里开始', cta: '查看推荐服务' },
+const routes = {
+  '/': { component: HomePage, key: 'home' },
+  '/company-registration/hong-kong-resident': { component: IncorporationPage, kind: 'local', key: 'local' },
+  '/company-registration/mainland-resident': { component: IncorporationPage, kind: 'mainland', key: 'mainland' },
+  '/bud-fund': { component: BudFundPage, key: 'bud' },
+  '/pricing': { component: ContentPage, kind: 'pricing', key: 'pricing' },
+  '/cases': { component: ContentPage, kind: 'cases', key: 'cases' },
+  '/about': { component: ContentPage, kind: 'about', key: 'about' },
+  '/contact': { component: ContentPage, kind: 'contact', key: 'contact' },
+  '/services/compliance': { component: ContentPage, kind: 'maintenance', key: 'maintenance' },
+  '/services/cross-border': { component: ContentPage, kind: 'crossBorder', key: 'crossBorder' },
+  '/privacy-policy': { component: LegalPage, kind: 'privacy', key: 'privacy' },
+  '/terms-of-use': { component: LegalPage, kind: 'terms', key: 'terms' },
 };
 
-const faqCopy = {
-  en: {
-    pricing: { kicker: 'COMMON QUESTIONS', title: 'Before we start, let us make the basics clear.', items: [{ q: 'Can I start with one service?', a: 'Yes. We can begin with the most urgent piece of work and identify related support only when it is useful.' }, { q: 'How is the final fee confirmed?', a: 'We confirm the scope, timeline and responsible parties first. The final fee is then agreed against the work required.' }, { q: 'Can you coordinate other professional advisers?', a: 'Where specialist or licensed work is required, we can help coordinate the relevant parties and make responsibilities clear.' }] },
-    service: { kicker: 'COMMON QUESTIONS', title: 'A few useful answers\nbefore the first conversation.', items: [{ q: 'What happens after I make an enquiry?', a: 'We review the situation you share, clarify the immediate question and suggest a sensible first step.' }, { q: 'Do I need to prepare documents now?', a: 'Not necessarily. We will tell you which information is useful at the start and when formal documents are needed.' }, { q: 'Can the scope change later?', a: 'Yes. We keep the initial scope focused and can adjust it when your priorities or the situation becomes clearer.' }] },
-  },
-  'zh-TW': {
-    pricing: { kicker: '常見問題', title: '開始之前，\n先把基本問題講清楚。', items: [{ q: '可以先做其中一項服務嗎？', a: '可以。我們會先處理最急切的一環，只有在確實有幫助時，才建議加入其他支援。' }, { q: '最終費用會怎樣確認？', a: '我們會先確認服務範圍、時間表和各方責任，再按實際工作內容確認最終費用。' }, { q: '你們可以協調其他專業顧問嗎？', a: '如需由持牌或專業人士處理，我們可以協助對接相關人士，並把責任分工說清楚。' }] },
-    service: { kicker: '常見問題', title: '第一次傾之前，\n先解答幾個實際問題。', items: [{ q: '提交查詢後會發生甚麼？', a: '我們會先了解你提供的情況，釐清眼前最重要的問題，再建議一個合適的起步方式。' }, { q: '現在是否需要準備文件？', a: '未必需要。我們會先告訴你初步需要哪些資料，以及何時才要正式文件。' }, { q: '之後可以調整服務範圍嗎？', a: '可以。我們會先把起步範圍收窄，待你的優先次序更清楚後，再按需要調整。' }] },
-  },
-  'zh-CN': {
-    pricing: { kicker: '常见问题', title: '开始之前，\n先把基本问题说清楚。', items: [{ q: '可以先做其中一项服务吗？', a: '可以。我们会先处理最紧要的一环，只有在确实有帮助时，才建议加入其他支持。' }, { q: '最终费用如何确认？', a: '我们会先确认服务范围、时间表和各方责任，再根据实际工作内容确认最终费用。' }, { q: '你们可以协调其他专业顾问吗？', a: '如需持牌或专业人士参与，我们可以协助对接相关人员，并把责任分工说清楚。' }] },
-    service: { kicker: '常见问题', title: '第一次沟通前，\n先回答几个实际问题。', items: [{ q: '提交咨询后会发生什么？', a: '我们会先了解你提供的情况，明确眼前最重要的问题，再建议一个合适的起步方式。' }, { q: '现在需要准备文件吗？', a: '不一定。我们会先告诉你开始时需要哪些资料，以及什么时候才需要正式文件。' }, { q: '之后可以调整服务范围吗？', a: '可以。我们会先把起步范围收窄，等你的优先次序更清楚后，再按需要调整。' }] },
-  },
+const metadata = {
+  home: ['WINFO | Hong Kong Business Solutions', 'Company setup, BUD Fund applications and practical business support for Hong Kong and cross-border founders.'],
+  local: ['Set up a Hong Kong company | WINFO', 'A clear company incorporation process for Hong Kong founders.'],
+  mainland: ['Hong Kong company setup for mainland founders | WINFO', 'Cross-border incorporation preparation, company secretarial and banking readiness.'],
+  bud: ['BUD Fund application support | WINFO', 'Initial BUD Fund assessment, project planning, document preparation and coordination.'],
+  pricing: ['Pricing | WINFO', 'WINFO service scope and pricing framework.'],
+  cases: ['Engagement scenarios | WINFO', 'Illustrative WINFO business service scenarios.'],
+  about: ['About WINFO | Hong Kong Business Solutions', 'How WINFO supports Hong Kong and cross-border businesses.'],
+  contact: ['Contact WINFO', 'Contact WINFO for Hong Kong business service enquiries.'],
+  maintenance: ['Compliance and operations | WINFO', 'Ongoing company maintenance, accounting and tax coordination.'],
+  crossBorder: ['Cross-border and technology landing | WINFO', 'Cross-border expansion and technology landing preparation.'],
+  privacy: ['Privacy policy | WINFO', 'WINFO privacy policy draft and personal-data handling information.'],
+  terms: ['Terms of use | WINFO', 'WINFO website terms of use.'],
 };
-
-const contactFormMeta = {
-  en: { consent: 'I agree to the Privacy Policy.', sending: 'Preparing enquiry...', demoNote: 'Local preview only. This form is not connected to an inbox yet.' },
-  'zh-TW': { consent: '我同意私隱政策。', sending: '正在準備查詢...', demoNote: '目前為本地預覽，表格尚未連接收件箱。' },
-  'zh-CN': { consent: '我同意隐私政策。', sending: '正在准备咨询...', demoNote: '目前为本地预览，表单尚未连接收件箱。' },
-};
-
-const cookieCopy = {
-  en: { message: 'We use essential browser storage to keep WINFO working and remember your preferences.', link: 'Learn more', accept: 'OK' },
-  'zh-TW': { message: '我們使用必要的瀏覽器儲存技術，讓 WINFO 正常運作，並記住你的語言偏好。', link: '了解更多', accept: '知道了' },
-  'zh-CN': { message: '我们使用必要的浏览器存储技术，让 WINFO 正常运行，并记住你的语言偏好。', link: '了解更多', accept: '知道了' },
-};
-
-const legalCopy = {
-  en: {
-    terms: 'Terms of use',
-    cookieTitle: 'Current website storage',
-    cookieBody: 'This website currently uses local browser storage only to remember your language preference and that you have acknowledged the website notice. It does not currently use analytics, advertising or cross-site tracking cookies.',
-    termsKicker: 'LEGAL',
-    termsTitle: 'Terms of use',
-    termsIntro: 'These terms set out the conditions for using the WINFO website. They apply to website visitors and should be read together with our Privacy Policy.',
-    termsSections: [
-      { title: '1. Website information', body: 'Information on this website is provided for general information only. It does not constitute legal, tax, accounting, immigration, financial or other professional advice, and should not be relied on as a substitute for advice tailored to your circumstances.' },
-      { title: '2. Using this website', body: 'You may use this website for lawful purposes and in a way that does not interfere with its operation, security or other users. You must not attempt to gain unauthorised access to the website, its systems or data.' },
-      { title: '3. Intellectual property', body: 'Unless otherwise stated, WINFO and its licensors own the content, design, trade marks and other intellectual property on this website. You may view and print content for personal or internal business use only. Any other use requires our prior written permission.' },
-      { title: '4. External links and third parties', body: 'Links to third-party websites are provided for convenience only. We do not control or endorse those websites and are not responsible for their content, availability or privacy practices.' },
-      { title: '5. Changes and contact', body: 'We may update these terms or this website from time to time. For questions about these terms, contact enquiry@winfo.hk.' },
-    ],
-  },
-  'zh-TW': {
-    terms: '使用條款',
-    cookieTitle: '現時網站儲存技術',
-    cookieBody: '本網站現時只使用本機瀏覽器儲存技術，以記住你的語言偏好及你已閱讀網站告知。現時並沒有使用分析、廣告或跨網站追蹤 Cookie。',
-    termsKicker: '法律資訊',
-    termsTitle: '使用條款',
-    termsIntro: '本條款列出使用 WINFO 網站的條件，適用於所有網站訪客，並應與我們的私隱政策一併閱讀。',
-    termsSections: [
-      { title: '1. 網站資料', body: '本網站資料只供一般參考，並不構成法律、稅務、會計、入境、財務或其他專業意見，亦不應取代按你實際情況提供的專業建議。' },
-      { title: '2. 使用本網站', body: '你只可合法使用本網站，並不得影響網站運作、保安或其他使用者。你不得嘗試未經授權存取本網站、相關系統或資料。' },
-      { title: '3. 知識產權', body: '除非另有說明，本網站的內容、設計、商標及其他知識產權均屬 WINFO 或其授權方所有。你只可作個人或內部業務用途瀏覽及列印內容；其他用途須事先取得我們書面同意。' },
-      { title: '4. 第三方連結', body: '連結至第三方網站只為方便使用者而提供。我們不控制或認可該等網站，亦不對其內容、可用性或私隱安排負責。' },
-      { title: '5. 更新及聯絡', body: '我們可能不時更新本條款或本網站。如對本條款有任何疑問，請電郵至 enquiry@winfo.hk。' },
-    ],
-  },
-  'zh-CN': {
-    terms: '使用条款',
-    cookieTitle: '当前网站存储技术',
-    cookieBody: '本网站目前仅使用本机浏览器存储技术，用于记住你的语言偏好及你已阅读网站告知。目前没有使用分析、广告或跨网站追踪 Cookie。',
-    termsKicker: '法律信息',
-    termsTitle: '使用条款',
-    termsIntro: '本条款列明使用 WINFO 网站的条件，适用于所有网站访客，并应与我们的隐私政策一并阅读。',
-    termsSections: [
-      { title: '1. 网站资料', body: '本网站资料仅供一般参考，并不构成法律、税务、会计、入境、财务或其他专业意见，也不应取代根据你实际情况提供的专业建议。' },
-      { title: '2. 使用本网站', body: '你只能合法使用本网站，并不得影响网站运行、安全或其他用户。你不得尝试未经授权访问本网站、相关系统或资料。' },
-      { title: '3. 知识产权', body: '除非另有说明，本网站的内容、设计、商标及其他知识产权均归 WINFO 或其授权方所有。你只能为个人或内部业务用途浏览及打印内容；其他用途须事先取得我们的书面同意。' },
-      { title: '4. 第三方链接', body: '链接至第三方网站仅为方便用户而提供。我们不控制或认可这些网站，也不对其内容、可用性或隐私安排负责。' },
-      { title: '5. 更新及联系', body: '我们可能不时更新本条款或本网站。如对本条款有任何疑问，请电邮至 enquiry@winfo.hk。' },
-    ],
-  },
-};
-
-const finderOptions = [
-  { id: 'company-setup', key: 'start' },
-  { id: 'accounting-audit', key: 'compliance' },
-  { id: 'cross-border', key: 'grow' },
-  { id: 'iang', key: 'iang' },
-];
-
-const testimonialCopy = {
-  en: {
-    kicker: 'CLIENT PERSPECTIVE / DRAFT',
-    title: 'The right support makes the next decision easier.',
-    ratingLabel: 'Target review score',
-    note: 'Illustrative draft content. Replace with verified feedback and client permission before publishing.',
-    items: {
-      home: { quote: 'The team made our Hong Kong plans easier to understand and easier to act on.', by: 'Illustrative role: Founder, cross-border consumer business' },
-      services: { quote: 'It was helpful to see the whole business support picture in one clear place.', by: 'Illustrative role: Founder preparing to enter Hong Kong' },
-      'company-setup': { quote: 'We knew what had to happen first, what could wait and who was coordinating each step.', by: 'Illustrative role: Mainland founder entering Hong Kong' },
-      'accounting-audit': { quote: 'Our recurring finance work became a rhythm we could plan around instead of a last-minute scramble.', by: 'Illustrative role: Operations lead, growing team' },
-      'funding-grants': { quote: 'The funding conversation became a practical plan with clear owners and next actions.', by: 'Illustrative role: Founder preparing a growth application' },
-      iang: { quote: 'The IANG process felt much less overwhelming once the steps and documents were mapped out.', by: 'Illustrative role: Recent Hong Kong graduate' },
-      'cross-border': { quote: 'WINFO helped us turn a broad expansion idea into a route our team could actually discuss.', by: 'Illustrative role: Regional business development lead' },
-      'listed-company': { quote: 'The structure gave our advisers and internal team a clearer way to move together.', by: 'Illustrative role: Listed company management team' },
-      pricing: { quote: 'The engagement options were clear enough for us to choose a sensible starting point.', by: 'Illustrative role: Founder comparing support options' },
-      cases: { quote: 'The examples helped us understand what the work looks like before we committed to a conversation.', by: 'Illustrative role: Prospective client' },
-      approach: { quote: 'The process was structured without feeling rigid, and we always knew the next step.', by: 'Illustrative role: Cross-border operator' },
-      about: { quote: 'The team combines practical local knowledge with a calm, straightforward way of working.', by: 'Illustrative role: Business owner' },
-      contact: { quote: 'The first conversation gave us a useful way to frame the problem before discussing a solution.', by: 'Illustrative role: New business enquiry' },
-    },
-  },
-  'zh-TW': {
-    kicker: '客戶心聲 / 草稿內容',
-    title: '有人幫你理順，\n下一步自然更好行。',
-    ratingLabel: '目標評分',
-    note: '以上為示範草稿。正式發布前，請換上已核實並獲客戶授權的真實回饋。',
-    items: {
-      home: { quote: '團隊幫我們把香港計劃理得有條有理，知道第一步應該怎樣走。', by: '示範身份：跨境消費品牌創辦人' },
-      services: { quote: '所需服務一目了然，讓我們很快找到適合自己的起點。', by: '示範身份：準備在香港起步的創業者' },
-      'company-setup': { quote: '先做甚麼、後做甚麼、由誰跟進，交代得一清二楚。', by: '示範身份：來港創業的內地創辦人' },
-      'accounting-audit': { quote: '財務和合規終於有了節奏，不用每次到限期才急急腳處理。', by: '示範身份：成長中團隊的營運主管' },
-      'funding-grants': { quote: '資助申請由一個想法，變成有負責人和下一步的實際計劃。', by: '示範身份：準備申請資助的創辦人' },
-      iang: { quote: '步驟和文件一理順，IANG 這件事就沒有想像中那麼複雜。', by: '示範身份：香港應屆畢業生' },
-      'cross-border': { quote: 'WINFO 把一個大方向，拆成團隊真正可以逐步討論的路線。', by: '示範身份：區域業務發展主管' },
-      'listed-company': { quote: '這套架構讓顧問和內部團隊更容易用同一個方向一起推進。', by: '示範身份：上市公司管理團隊' },
-      pricing: { quote: '合作方式足夠清楚，讓我們可以選擇合適的起點。', by: '示範身份：比較支援方案的創辦人' },
-      cases: { quote: '未開始傾之前，已大概掌握到整個合作是怎樣運作。', by: '示範身份：潛在客戶' },
-      approach: { quote: '做法有章法但不死板，每一步都知道下一個著力點。', by: '示範身份：跨境營運者' },
-      about: { quote: '團隊把香港本地經驗和冷靜直接的工作方式結合在一起。', by: '示範身份：企業負責人' },
-      contact: { quote: '第一次對話已經幫助我們整理問題，再去討論合適的方案。', by: '示範身份：新查詢客戶' },
-    },
-  },
-  'zh-CN': {
-    kicker: '客户视角 / 草稿内容',
-    title: '合适的支持，\n让下一个决定更容易。',
-    ratingLabel: '目标评分',
-    note: '以上为示范草稿。正式发布前，请替换为已核实并获得客户授权的真实反馈。',
-    items: {
-      home: { quote: '团队把我们在香港的计划说得更清楚，也让我们更容易开始行动。', by: '示范身份：跨境消费品牌创始人' },
-      services: { quote: '可以在一个清晰的地方看到完整企业支持范围，对我们很有帮助。', by: '示范身份：准备进入香港的创业者' },
-      'company-setup': { quote: '我们清楚知道哪一步要先做、哪些事情可以稍后处理，以及谁负责协调。', by: '示范身份：进入香港的内地创业者' },
-      'accounting-audit': { quote: '日常财务工作变成可以提前安排的节奏，不再总是在最后一刻处理。', by: '示范身份：成长中团队的运营主管' },
-      'funding-grants': { quote: '资助申请从一个想法，变成有负责人和下一步的实际计划。', by: '示范身份：准备申请资助的创始人' },
-      iang: { quote: '把步骤和文件整理好之后，IANG 过程没有之前想象般混乱。', by: '示范身份：香港应届毕业生' },
-      'cross-border': { quote: 'WINFO 把一个较大的拓展想法，整理成团队真正可以讨论的路线。', by: '示范身份：区域业务发展主管' },
-      'listed-company': { quote: '这套架构让顾问和内部团队更容易用同一个方向一起推进。', by: '示范身份：上市公司管理团队' },
-      pricing: { quote: '合作方式足够清楚，让我们可以选择合适的起点。', by: '示范身份：比较支持方案的创始人' },
-      cases: { quote: '案例让我们在对话前，先理解实际工作大概会是什么样子。', by: '示范身份：潜在客户' },
-      approach: { quote: '流程有结构但不僵化，而且我们一直知道下一步是什么。', by: '示范身份：跨境运营者' },
-      about: { quote: '团队把香港本地经验和冷静直接的工作方式结合在一起。', by: '示范身份：企业负责人' },
-      contact: { quote: '第一次对话已经帮助我们整理问题，再去讨论合适的方案。', by: '示范身份：新咨询客户' },
-    },
-  },
-};
-
-const copy = {
-  en: {
-    nav: { services: 'Services', pricing: 'Pricing', cases: 'Cases', approach: 'Our approach', about: 'About', contact: 'Contact', cta: 'Book a consultation', menu: 'Menu', close: 'Close' },
-    menu: { start: 'Start in Hong Kong', compliance: 'Stay compliant', grow: 'Grow across borders', explore: 'Explore all services', support: 'Need help choosing a service?', talk: 'Talk to an advisor' },
-    brand: 'WINFO BUSINESS SOLUTIONS LTD.',
-    hero: { title: 'Start, run and grow your business in Hong Kong.', body: 'Clear advice. Practical execution. One trusted team for company setup, compliance and cross-border growth.', primary: 'Book a consultation', secondary: 'Explore services', note: 'Built for founders, operators and cross-border teams.', visualLabel: 'HONG KONG / BUSINESS OPERATIONS', visualTitle: 'A clearer way forward.', visualText: 'From first registration to the next market, we make the complicated parts easier to move through.' },
-    proof: ['Company setup', 'Accounting & audit', 'Funding & grants', 'IANG one-stop service'],
-    home: { servicesKicker: 'WHAT WE DO', servicesTitle: 'The right support for every stage.', servicesBody: 'Choose the service that matches your next decision. We keep the scope clear, the process visible and the advice practical.', viewAll: 'View all services', whyKicker: 'WHY WINFO', whyTitle: 'Good decisions need more than a checklist.', whyBody: 'We combine Hong Kong operating knowledge with cross-border execution so you can move with confidence, not guesswork.', principles: ['A clear scope before work begins', 'Practical steps your team can act on', 'One accountable point of contact'], casesKicker: 'SELECTED OUTCOMES', casesTitle: 'Built around real business decisions.', casesBody: 'A framework for the work behind the headline: entering a market, securing funding, staying compliant and scaling with control.', casesButton: 'See case studies', quote: 'WINFO helped us turn a complicated Hong Kong setup into a sequence of decisions our team could actually manage.', quoteBy: 'Founder, cross-border consumer business', finalTitle: 'Ready to make the next move clearer?', finalBody: 'Tell us where you are today. We will help map the most useful next step.', finalButton: 'Start a conversation' },
-    services: { kicker: 'SERVICES', title: 'Business support, made easier to act on.', body: 'A complete service framework for founders and cross-border teams. Start with one need or bring us the whole picture.', featured: 'FEATURED SERVICE', all: 'ALL SERVICES', path: 'View service', iangTitle: 'Hong Kong IANG one-stop service', iangBody: 'A practical landing plan for graduates and professionals building their next chapter in Hong Kong.', iangTag: 'New service' },
-    servicePage: { back: 'All services', overview: 'SERVICE OVERVIEW', process: 'HOW IT WORKS', included: 'WHAT IS INCLUDED', ready: 'Ready to discuss your situation?', readyBody: 'We can help you understand the scope, timeline and documents before you commit.', enquire: 'Make an enquiry', placeholder: 'Detailed service content will be added here. The page structure, process steps and enquiry path are ready for your team to complete.' },
-    pricing: { kicker: 'PRICING', title: 'Clear scope. Clearer costs.', body: 'Pricing frameworks are ready for your final service fees. Compare the shape of each engagement and start with a conversation.', note: 'Indicative structure. Final pricing depends on scope, company profile and current requirements.', plans: [{ name: 'Start', desc: 'For founders preparing to enter Hong Kong.', items: ['Company setup planning', 'Registration coordination', 'Initial banking guidance'], action: 'Discuss Start' }, { name: 'Operate', desc: 'For teams that need reliable ongoing compliance.', items: ['Annual compliance calendar', 'Accounting and audit coordination', 'Company secretary support'], action: 'Discuss Operate', featured: true }, { name: 'Grow', desc: 'For companies expanding across markets.', items: ['Funding and grant mapping', 'Cross-border growth planning', 'Strategic execution support'], action: 'Discuss Grow' }] },
-    cases: { kicker: 'CASES', title: 'The work behind the outcome.', body: 'Use this page for concise proof: the starting point, the decisions made and the result achieved.', filters: ['All', 'Start', 'Comply', 'Grow'], projects: [{ type: 'Start', title: 'From first idea to a Hong Kong operating base', body: 'A structured setup path for a mainland founder entering Hong Kong for the first time.', result: 'Clearer launch sequence' }, { type: 'Comply', title: 'A compliance rhythm for a growing team', body: 'A practical annual framework that makes recurring filings and finance work easier to manage.', result: 'Fewer last-minute decisions' }, { type: 'Grow', title: 'Turning a funding opportunity into an executable plan', body: 'A grant-readiness and market expansion roadmap for a business preparing its next phase.', result: 'A plan the team could act on' }] },
-    approach: { kicker: 'OUR APPROACH', title: 'Clarity first. Momentum next.', body: 'We make complex work easier to understand, easier to own and easier to move forward.', steps: [{ n: '01', title: 'Understand', body: 'We map your situation, constraints and the decision you are trying to make.' }, { n: '02', title: 'Structure', body: 'We turn the moving parts into a clear scope, sequence and set of responsibilities.' }, { n: '03', title: 'Execute', body: 'We coordinate the practical work and keep you informed at the points that matter.' }, { n: '04', title: 'Build on it', body: 'We leave you with a stronger operating rhythm for the next stage.' }] },
-    about: { kicker: 'ABOUT WINFO', title: 'A steady partner for ambitious business moves.', body: 'WINFO Business Solutions brings together Hong Kong business services, financial perspective and cross-border execution. We help serious builders make informed decisions and turn them into practical action.', stats: [{ value: 'HK', label: 'Based in Hong Kong' }, { value: '01', label: 'Accountable team' }, { value: '360°', label: 'Business view' }], valuesTitle: 'How we work with you', values: ['We say what is clear and what still needs checking.', 'We keep advice connected to the decision in front of you.', 'We make the next step visible before we close the current one.'] },
-    contact: { kicker: 'CONTACT', title: 'Tell us what you are building.', body: 'Share a few details and our team will come back with a practical starting point.', form: { name: 'Your name', email: 'Work email', company: 'Company name', message: 'What would you like help with?', send: 'Send enquiry', success: 'Thanks. Your enquiry is ready for follow-up.' }, detailsTitle: 'WINFO BUSINESS SOLUTIONS LTD.', address: 'Rm 122, Liven House, 61-63 King Yip Street, Kwun Tong, Kowloon, Hong Kong', email: 'enquiry@winfo.hk', phone: '+852 6651 5286', hours: 'Monday to Friday, 9:00 am to 6:00 pm' },
-    privacy: { kicker: 'LEGAL', title: 'Privacy policy', updated: 'Last updated: 4 September 2026', intro: 'WINFO Business Solutions Ltd. respects your privacy. This policy explains how we collect, use, retain and protect personal data when you visit this website or contact us.', sections: [{ title: '1. Data controller and scope', body: 'WINFO Business Solutions Ltd. is responsible for personal data collected through this website and related enquiries. This policy applies to website visitors, prospective clients and people who communicate with us through the contact channels shown on this site.' }, { title: '2. Personal data we collect', body: 'We may collect your name, company name, email address, telephone number, enquiry details, communication records and basic technical information such as browser type, device information and pages visited. Please do not send identity documents or other sensitive information through the general enquiry form unless we specifically request it through an appropriate channel.' }, { title: '3. How we use data', body: 'We use personal data to respond to enquiries, provide requested information, assess and deliver services, maintain business records, improve this website, prevent misuse and comply with legal or regulatory obligations. We do not sell personal data.' }, { title: '4. Disclosure and processors', body: 'We may share relevant information with professional advisers, technology and hosting providers, payment or communication providers, government bodies or other service providers where reasonably necessary for the purposes above. Service providers are expected to handle data only for authorised purposes and with appropriate safeguards.' }, { title: '5. Retention and security', body: 'We retain personal data only for as long as reasonably necessary for the relevant purpose, legal obligations, dispute resolution and proper business records. We use reasonable administrative, technical and organisational measures to protect data, but no internet transmission or storage system can be guaranteed to be completely secure.' }, { title: '6. Your rights and enquiries', body: 'Under Hong Kong\'s Personal Data (Privacy) Ordinance, you may request access to and correction of personal data held about you, subject to applicable requirements and exemptions. To make a data access or correction request, contact enquiry@winfo.hk. We may need to verify your identity before responding.' }, { title: '7. Cookies and third-party links', body: 'This website may use essential technologies needed for operation and limited analytics or embedded services if enabled. Third-party websites linked from this site have their own privacy practices, and you should review their policies before providing information.' }, { title: '8. Changes to this policy', body: 'We may update this policy when our services, technology or legal obligations change. The latest version will be posted on this page with its update date.' }] },
-    notFound: { kicker: '404', title: 'This page is not available.', body: 'The link may be out of date, or the page may still be being prepared. Let us get you back to a useful place.', home: 'Back to home', contact: 'Contact WINFO' },
-    footer: { line: 'For people building across Hong Kong and beyond.', services: 'Services', company: 'Company', legal: 'Legal', privacy: 'Privacy policy', copyright: 'WINFO Business Solutions Ltd. All rights reserved.' },
-  },
-  'zh-TW': {
-    nav: { services: '服務', pricing: '收費方案', cases: '實戰案例', approach: '我們的做法', about: '認識 WINFO', contact: '聯絡我們', cta: '預約諮詢', menu: '選單', close: '關閉' },
-    menu: { start: '在香港起步', compliance: '公司合規', grow: '跨境發展', explore: '瀏覽全部服務', support: '未肯定要由哪裡開始？', talk: '找顧問傾一傾' },
-    brand: 'WINFO 盈豐商業有限公司',
-    hero: { title: '在香港起步、站穩，\n再把生意做遠。', body: '建議講得明，事情做得妥。由公司成立、日常合規到跨境發展，一個團隊陪你逐步落實。', primary: '預約諮詢', secondary: '看看我們怎樣幫你', note: '為創業者、營運團隊及跨境企業而設。', visualLabel: '香港 / 企業營運', visualTitle: '下一步，心裡有數。', visualText: '由首次註冊到開拓新市場，複雜事情逐件理順，讓你走得更穩。' },
-    proof: ['公司成立', '會計與審計', '資助與基金', 'IANG 一條龍服務'],
-    home: { servicesKicker: '我們可以幫甚麼', servicesTitle: '每個階段，\n都有對應的做法。', servicesBody: '由你眼前要處理的一件事開始。我們把範圍、次序和下一步交代清楚。', viewAll: '瀏覽全部服務', whyKicker: '為何選擇 WINFO', whyTitle: '好決定，\n從來不只是一張清單。', whyBody: '香港實戰經驗，配合跨境執行能力。少點估估下，多點有把握地向前。', principles: ['開始前，先把範圍講清楚', '每一步都落到團隊做得到的事', '由一位負責人全程跟進'], casesKicker: '實戰成果', casesTitle: '真正的生意決定，\n值得有更好的準備。', casesBody: '由落地香港、申請資助，到持續合規和有序拓展，逐個關鍵決定幫你理順。', casesButton: '看看實戰案例', quote: 'WINFO 把複雜的香港落地工作，理成團隊真正掌握得到的一連串決定。', quoteBy: '跨境消費品牌創辦人', finalTitle: '下一步，\n想走得更穩？', finalBody: '說說你現在的情況，我們一起找出最值得先做的一步。', finalButton: '開始傾一傾' },
-    services: { kicker: '服務範圍', title: '把企業事務理順，\n才有空專心做生意。', body: '為創業者和跨境團隊而設。由一項急切需要開始，或把整個營運情況交給我們一齊拆解。', featured: '重點服務', all: '全部服務', path: '了解服務', iangTitle: '香港 IANG 一條龍服務', iangBody: '為畢業生和專業人士而設的落地方案，幫你在香港開展下一個階段。', iangTag: '全新服務' },
-    servicePage: { back: '返回全部服務', overview: '服務概覽', process: '合作流程', included: '服務包括', ready: '想先傾清楚\n你的情況？', readyBody: '落實之前，我們先幫你釐清服務範圍、時間和所需文件。', enquire: '提交查詢', placeholder: '詳細服務內容將會補充。頁面架構、合作流程和查詢入口已經準備好。' },
-    pricing: { kicker: '收費方案', title: '先講清楚要做甚麼，\n再談應付多少。', body: '收費框架已準備好，最終費用會按你的實際需要確認。先看看不同合作方式，再由一次對話開始。', note: '以下為參考架構；最終費用會按服務範圍、公司背景及實際要求確認。', plans: [{ name: '起步', desc: '適合準備在香港開展業務的創業者。', items: ['公司成立規劃', '註冊流程協調', '初步開戶指引'], action: '了解起步方案' }, { name: '營運', desc: '適合想把日常合規理順的團隊。', items: ['年度合規日程', '會計與審計協調', '公司秘書服務'], action: '了解營運方案', featured: true }, { name: '拓展', desc: '適合正部署多市場發展的企業。', items: ['資助與基金規劃', '跨境發展部署', '策略落地支援'], action: '了解拓展方案' }] },
-    cases: { kicker: '實戰案例', title: '成果背後，\n是一套做得到的工作方法。', body: '由起點、關鍵決定到成果，把合作怎樣產生實際價值交代清楚。', filters: ['全部', '起步', '合規', '拓展'], projects: [{ type: '起步', title: '由一個想法，到一個香港營運據點', body: '為首次來港發展的內地創業者，理順由註冊到落地的先後次序。', result: '起步更有方向' }, { type: '合規', title: '讓成長中的團隊，跟合規有個節奏', body: '把定期申報和財務工作放進年度安排，減少每逢限期才臨急抱佛腳。', result: '少一點臨急決定' }, { type: '拓展', title: '把資助機會，變成行得通的計劃', body: '為準備走向下一階段的企業，整理申請條件、執行路線和市場方向。', result: '團隊即刻有得跟進' }] },
-    approach: { kicker: '我們的做法', title: '先把事情理順，\n再一步一步做成。', body: '複雜的工作不用講得複雜。釐清方向、分好責任、穩穩推進。', steps: [{ n: '01', title: '先聽清楚', body: '了解你現在的情況、限制，以及真正需要處理的決定。' }, { n: '02', title: '理出頭緒', body: '把各個環節拆成範圍、次序和責任，人人知道自己要做甚麼。' }, { n: '03', title: '落手去做', body: '協調實際工作，到了關鍵節點，讓你一直掌握進度。' }, { n: '04', title: '為下一步鋪路', body: '建立更穩定的營運節奏，令下一個階段接得上。' }] },
-    about: { kicker: '認識 WINFO', title: '認真做生意的人，\n值得有個靠得住的拍檔。', body: 'WINFO 盈豐商業有限公司結合香港企業服務、金融視角和跨境執行經驗，陪你把要做的決定講清楚，再落到實處。', stats: [{ value: 'HK', label: '立足香港' }, { value: '01', label: '專責團隊' }, { value: '360°', label: '由全局出發' }], valuesTitle: '我們怎樣跟你合作', values: ['知道甚麼，未知道甚麼，都會坦白交代。', '每個建議，都扣連到你眼前真正要作的決定。', '完成這一步之前，先讓你看見下一步。'] },
-    contact: { kicker: '聯絡我們', title: '說說你想做的事，\n我們一起拆解。', body: '簡單說說你的情況，我們會回覆你一個清晰可行的起點。', form: { name: '你的姓名', email: '工作電郵', company: '公司名稱', message: '你想我們幫你處理甚麼？', send: '提交查詢', success: '多謝，你的查詢已準備好跟進。' }, detailsTitle: 'WINFO 盈豐商業有限公司', address: '香港九龍觀塘敬業街 61-63 號利維大廈 1 樓 122 室', email: 'enquiry@winfo.hk', phone: '+852 6651 5286', hours: '星期一至五，上午 9 時至下午 6 時' },
-    privacy: { kicker: '法律資訊', title: '私隱政策', updated: '最後更新：2026 年 9 月 4 日', intro: 'WINFO 盈豐商業有限公司尊重你的私隱。本政策說明當你瀏覽本網站或與我們聯絡時，我們如何收集、使用、保留和保障個人資料。', sections: [{ title: '1. 資料控制者及適用範圍', body: 'WINFO 盈豐商業有限公司負責處理透過本網站及相關查詢收集的個人資料。本政策適用於網站訪客、潛在客戶，以及透過本網站聯絡方式與我們溝通的人士。' }, { title: '2. 我們收集的個人資料', body: '我們可能收集你的姓名、公司名稱、電郵地址、電話號碼、查詢內容、通訊記錄，以及瀏覽器類型、裝置資料和瀏覽頁面等基本技術資料。除非我們透過合適渠道特別要求，請不要在一般查詢表格提交身分證明文件或其他敏感資料。' }, { title: '3. 資料的使用方式', body: '我們會使用個人資料回覆查詢、提供你要求的資料、評估及提供服務、保存業務記錄、改善網站、防止濫用，以及履行法律或監管責任。我們不會出售個人資料。' }, { title: '4. 披露資料及服務供應商', body: '在合理需要的情況下，我們可能向專業顧問、網站及技術服務供應商、付款或通訊服務商、政府機構，或其他協助我們提供服務的供應商披露相關資料。服務供應商只可按授權目的處理資料，並應採取適當保障措施。' }, { title: '5. 保留及保安', body: '我們只會在相關目的、法律責任、爭議處理及妥善業務記錄所需期間保留個人資料。我們會採取合理的行政、技術及組織措施保障資料，但任何互聯網傳送或儲存系統均不能保證絕對安全。' }, { title: '6. 你的權利及查詢', body: '根據香港《個人資料（私隱）條例》，你可在適用要求及豁免規定下，要求查閱及更正我們持有的個人資料。如要提出查閱或更正要求，請電郵至 enquiry@winfo.hk。我們可能需要先核實你的身分。' }, { title: '7. Cookie 及第三方連結', body: '本網站可能使用運作所需的基本技術，以及在啟用時使用有限分析工具或嵌入式服務。由本網站連結至的第三方網站有其自己的私隱安排，你應在提供資料前查閱相關政策。' }, { title: '8. 政策修改', body: '當我們的服務、技術或法律責任有變化時，可能更新本政策。最新版本會連同更新日期在本頁公布。' }] },
-    notFound: { kicker: '404', title: '這個頁面暫時不存在。', body: '連結可能已經更新，或頁面仍在準備中。先回到有用的地方。', home: '返回首頁', contact: '聯絡 WINFO' },
-    footer: { line: '為在香港及更遠地方建設事業的人而設。', services: '服務', company: '公司', legal: '法律資訊', privacy: '私隱政策', copyright: 'WINFO 盈豐商業有限公司。版權所有。' },
-  },
-  'zh-CN': {
-    nav: { services: '服务', pricing: '价格方案', cases: '案例', approach: '我们的方式', about: '关于我们', contact: '联系', cta: '预约咨询', menu: '菜单', close: '关闭' },
-    menu: { start: '在香港创业', compliance: '安心处理合规', grow: '拓展跨境业务', explore: '查看全部服务', support: '不知道该从哪里开始？', talk: '找顾问聊聊' },
-    brand: 'WINFO 盈丰商业有限公司',
-    hero: { title: '在香港开创事业、稳步经营，\n再把生意做大做强。', body: '清晰建议，务实执行。从公司成立、合规管理到跨境发展，由同一支可靠团队陪你前进。', primary: '预约咨询', secondary: '查看服务', note: '为创业者、运营团队及跨境企业而设。', visualLabel: '香港 / 商业运营', visualTitle: '让下一步更清楚。', visualText: '从首次注册到下一个市场，我们把复杂环节整理成可执行的步骤。' },
-    proof: ['公司成立', '会计与审计', '资助与基金', 'IANG 一条龙服务'],
-    home: { servicesKicker: '我们的服务', servicesTitle: '每个阶段，\n都有合适的支持。', servicesBody: '按你的下一步选择服务。我们把范围、流程和建议都讲清楚。', viewAll: '查看全部服务', whyKicker: '为什么选择 WINFO', whyTitle: '做好决定，\n不只是列出清单。', whyBody: '我们结合香港运营经验与跨境执行能力，让你不用靠猜，也能有把握地前进。', principles: ['开始前先确认清晰范围', '团队可以马上落地的实际步骤', '由同一位负责人跟进'], casesKicker: '精选成果', casesTitle: '围绕真正的商业决定，\n建立清晰的工作方法。', casesBody: '从进入市场、申请资助，到持续合规和有序扩张，为每个关键决定建立清晰框架。', casesButton: '查看案例', quote: 'WINFO 把复杂的香港落地工作，整理成团队真正可以掌握的一连串决定。', quoteBy: '跨境消费品牌创始人', finalTitle: '准备好，\n让下一步更清楚吗？', finalBody: '告诉我们你现在的情况，我们一起整理最有用的下一步。', finalButton: '开始聊聊' },
-    services: { kicker: '服务范围', title: '让企业事务更好懂，\n也更好落地。', body: '为创业者和跨境团队准备的完整服务框架。你可以从最急迫的一件事开始，也可以把整体情况交给我们。', featured: '重点服务', all: '全部服务', path: '查看服务', iangTitle: '香港 IANG 一条龙服务', iangBody: '为毕业生和专业人士准备的香港落地方案，支持你在香港开展下一个阶段。', iangTag: '新增服务' },
-    servicePage: { back: '全部服务', overview: '服务概览', process: '服务流程', included: '服务包括', ready: '准备好讨论\n你的情况吗？', readyBody: '在你决定之前，我们可以先协助你了解范围、时间和所需文件。', enquire: '提交咨询', placeholder: '详细服务内容将会补充。页面结构、流程步骤和咨询入口已经准备好。' },
-    pricing: { kicker: '价格方案', title: '范围清楚，\n费用更清楚。', body: '价格框架已经准备好，待补充最终服务费用。先了解不同合作方式，再从一次对话开始。', note: '以上为参考结构，最终费用会按服务范围、公司背景和实际要求确认。', plans: [{ name: '起步', desc: '适合准备进入香港的创业者。', items: ['公司成立规划', '注册流程协调', '初步银行开户指引'], action: '了解起步方案' }, { name: '运营', desc: '适合需要稳定处理日常合规的团队。', items: ['年度合规日程', '会计与审计协调', '公司秘书支持'], action: '了解运营方案', featured: true }, { name: '拓展', desc: '适合正在拓展多个市场的企业。', items: ['资助与基金规划', '跨境发展规划', '策略执行支持'], action: '了解拓展方案' }] },
-    cases: { kicker: '案例', title: '成果背后，\n是一套清楚的工作方法。', body: '从起点、关键决定到成果，把合作如何产生实际价值讲清楚。', filters: ['全部', '起步', '合规', '拓展'], projects: [{ type: '起步', title: '从第一个想法到香港运营基地', body: '为首次进入香港的内地创业者，整理一套清晰的落地步骤。', result: '起步方向更清楚' }, { type: '合规', title: '为成长中的团队建立合规节奏', body: '以实际年度框架整理定期申报和财务工作，减少临急决定。', result: '少一点临急决定' }, { type: '拓展', title: '把资助机会变成可执行计划', body: '为准备下一阶段的企业整理申请条件、执行路线和市场拓展方向。', result: '团队可以直接行动' }] },
-    approach: { kicker: '我们的方式', title: '先把事情说清楚，\n再一步步推进。', body: '让复杂工作更容易理解、更容易分工，也更容易持续推进。', steps: [{ n: '01', title: '先了解', body: '先整理你的情况、限制，以及你真正需要作出的决定。' }, { n: '02', title: '理出头绪', body: '把各个环节整理成清晰范围、次序和责任。' }, { n: '03', title: '落地执行', body: '协调实际工作，在重要节点让你掌握进度。' }, { n: '04', title: '为下一步铺路', body: '建立更稳定的运营节奏，让下一个阶段衔接得上。' }] },
-    about: { kicker: '关于 WINFO', title: '陪伴认真打拼事业的人，\n稳稳走好每一步。', body: 'WINFO 盈丰商业有限公司结合香港企业服务、金融视角和跨境执行能力，协助认真打拼事业的人作出清楚决定，再把决定落实成实际行动。', stats: [{ value: 'HK', label: '立足香港' }, { value: '01', label: '专责团队' }, { value: '360°', label: '整体视角' }], valuesTitle: '我们如何与你合作', values: ['清楚说明已知事项，也标明仍需确认的部分。', '把建议连接到你眼前真正要作出的决定。', '在完成当前工作前，先让下一步变得可见。'] },
-    contact: { kicker: '联系我们', title: '告诉我们，\n你想做成什么。', body: '简单说说你的情况，我们会回复你一个清晰可行的起点。', form: { name: '你的姓名', email: '工作邮箱', company: '公司名称', message: '你希望我们协助什么？', send: '提交咨询', success: '谢谢，你的咨询已准备好跟进。' }, detailsTitle: 'WINFO 盈丰商业有限公司', address: '香港九龙观塘敬业街 61-63 号利维大厦 1 楼 122 室', email: 'enquiry@winfo.hk', phone: '+852 6651 5286', hours: '星期一至五，上午 9 时至下午 6 时' },
-    privacy: { kicker: '法律信息', title: '隐私政策', updated: '最后更新：2026 年 9 月 4 日', intro: 'WINFO 盈丰商业有限公司尊重你的隐私。本政策说明当你浏览本网站或与我们联系时，我们如何收集、使用、保留和保护个人资料。', sections: [{ title: '1. 数据控制者及适用范围', body: 'WINFO 盈丰商业有限公司负责处理通过本网站及相关咨询收集的个人资料。本政策适用于网站访客、潜在客户，以及通过本网站联系方式与我们沟通的人士。' }, { title: '2. 我们收集的个人资料', body: '我们可能收集你的姓名、公司名称、邮箱地址、电话号码、咨询内容、通信记录，以及浏览器类型、设备资料和浏览页面等基本技术资料。除非我们通过合适渠道特别要求，请不要在一般咨询表格提交身份证明文件或其他敏感资料。' }, { title: '3. 资料的使用方式', body: '我们会使用个人资料回复咨询、提供你要求的资料、评估及提供服务、保存业务记录、改善网站、防止滥用，以及履行法律或监管责任。我们不会出售个人资料。' }, { title: '4. 披露资料及服务供应商', body: '在合理需要的情况下，我们可能向专业顾问、网站及技术服务供应商、付款或通讯服务商、政府机构，或其他协助我们提供服务的供应商披露相关资料。服务供应商只可按授权目的处理资料，并应采取适当保障措施。' }, { title: '5. 保留及安全', body: '我们只会在相关目的、法律责任、争议处理及妥善业务记录所需期间保留个人资料。我们会采取合理的行政、技术及组织措施保障资料，但任何互联网传送或储存系统均不能保证绝对安全。' }, { title: '6. 你的权利及咨询', body: '根据香港《个人资料（隐私）条例》，你可在适用要求及豁免规定下，要求查阅及更正我们持有的个人资料。如要提出查阅或更正要求，请电邮至 enquiry@winfo.hk。我们可能需要先核实你的身份。' }, { title: '7. Cookie 及第三方链接', body: '本网站可能使用运行所需的基本技术，以及在启用时使用有限分析工具或嵌入式服务。由本网站链接至的第三方网站有其自己的隐私安排，你应在提供资料前查阅相关政策。' }, { title: '8. 政策修改', body: '当我们的服务、技术或法律责任有变化时，可能更新本政策。最新版本会连同更新日期在本页公布。' }] },
-    notFound: { kicker: '404', title: '这个页面暂时不存在。', body: '链接可能已经更新，或页面仍在准备中。先回到有用的地方。', home: '返回首页', contact: '联系 WINFO' },
-    footer: { line: '为在香港和更远地方打拼事业的人而设。', services: '服务', company: '公司', legal: '法律信息', privacy: '隐私政策', copyright: 'WINFO 盈丰商业有限公司。版权所有。' },
-  },
-};
-
-const serviceContent = {
-  companySetup: { en: { name: 'Company setup & banking', summary: 'A clear starting point for registering and operating a Hong Kong company.', detail: 'Plan the right structure, coordinate the setup steps and understand the practical banking path before you begin.', items: ['Company structure and registration planning', 'Registered address and company secretary coordination', 'Corporate bank account preparation and guidance', 'Company changes and selected add-on services'], process: ['Share your business profile', 'Confirm the structure and documents', 'Coordinate registration and banking steps', 'Hand over a clear operating checklist'] }, 'zh-TW': { name: '公司成立與\n銀行開戶', summary: '由成立公司開始，幫你把在港營運的第一步走穩。', detail: '先按你的生意需要定好架構，再逐項跟進註冊和開戶，少走冤枉路。', items: ['公司架構及註冊規劃', '註冊地址及公司秘書協調', '公司銀行戶口準備及開戶指引', '公司資料變更及指定增值服務'], process: ['了解你的業務背景', '確認架構和所需文件', '跟進註冊及銀行開戶', '交付一份實用營運清單'] }, 'zh-CN': { name: '公司成立与\n银行开户', summary: '为在香港成立和运营公司，准备一个清晰的起点。', detail: '从架构规划到注册流程，再到银行开户，先理解实际路径，再开始执行。', items: ['公司架构及注册规划', '注册地址及公司秘书协调', '公司银行账户准备及指引', '公司资料变更及指定增值服务'], process: ['分享你的业务背景', '确认架构和所需文件', '协调注册及银行开户步骤', '交付清晰的运营清单'] } },
-  accountingAudit: { en: { name: 'Accounting, audit & tax', summary: 'Keep recurring compliance work clear, timely and easier to manage.', detail: 'Build an annual rhythm around accounting, audit, profits tax filing, company secretarial and MPF requirements.', items: ['Bookkeeping and financial record coordination', 'Licensed accountant audit and profits tax filing', 'Company secretary and annual return support', 'MPF administration guidance'], process: ['Review your current records', 'Map deadlines and responsibilities', 'Coordinate the required professional work', 'Keep the next compliance point visible'] }, 'zh-TW': { name: '會計、審計\n與稅務', summary: '把每年要做的合規工作排好，準時完成，少一點臨急抱佛腳。', detail: '由記帳、審計、利得稅報稅到公司秘書和強積金，幫你建立一套全年跟得上的節奏。', items: ['帳目及財務記錄整理', '持牌會計師審計及利得稅報稅', '公司秘書及周年申報服務', '強積金行政指引'], process: ['先看看現有財務記錄', '列出限期和責任分工', '協調所需的專業工作', '預先看見下一個合規節點'] }, 'zh-CN': { name: '会计、审计\n与税务', summary: '让定期合规工作清晰、准时，也更容易管理。', detail: '围绕会计、审计、利得税报税、公司秘书和强积金要求，建立全年工作节奏。', items: ['账目及财务记录协调', '持牌会计师审计及利得税报税', '公司秘书及周年申报支持', '强积金行政指引'], process: ['检查你现有的财务记录', '整理期限和责任分工', '协调所需的专业工作', '让下一个合规节点清楚可见'] } },
-  fundingGrants: { en: { name: 'Funding & grants', summary: 'Turn funding opportunities into applications your team can execute.', detail: 'From BUD funding to innovation park support, we help you understand fit, readiness and the work behind an application.', items: ['Funding opportunity and eligibility mapping', 'BUD Fund application preparation', 'Mainland innovation park support review', 'Application documents and execution planning'], process: ['Clarify the business objective', 'Check the fit and eligibility', 'Build the application workplan', 'Coordinate submission and follow-through'] }, 'zh-TW': { name: '資助與基金\n申請', summary: '有機會申請的資助，先整理成真正做得到的計劃。', detail: '由 BUD 基金到內地創新園區支援，幫你先看是否適合，再落實申請背後的工作。', items: ['資助機會及申請資格整理', 'BUD 基金申請準備', '內地創新園區支援評估', '申請文件及執行規劃'], process: ['釐清企業想達到的目標', '確認是否適合及符合資格', '砌好申請工作計劃', '協調提交及後續跟進'] }, 'zh-CN': { name: '资助与基金\n申请', summary: '把资助机会整理成团队可以执行的申请计划。', detail: '从 BUD 基金到内地创新园区支持，协助你了解是否适合、是否准备好，以及申请背后的实际工作。', items: ['资助机会及申请资格整理', 'BUD 基金申请准备', '内地创新园区支持评估', '申请文件及执行规划'], process: ['明确企业目标', '确认适用性及申请资格', '建立申请工作计划', '协调提交及后续跟进'] } },
-  iang: { en: { name: 'Hong Kong IANG one-stop service', summary: 'A practical landing plan for graduates and professionals building in Hong Kong.', detail: 'A structured one-stop framework for IANG-related planning, company setup, banking, housing and the practical steps around settling into Hong Kong.', items: ['IANG planning and timeline overview', 'Company setup and banking coordination', 'Housing, identity and practical landing referrals', 'Ongoing business support after arrival'], process: ['Understand your background and target', 'Map the IANG and landing timeline', 'Coordinate the selected services', 'Support your next operating step'] }, 'zh-TW': { name: '香港 IANG\n一條龍服務', summary: '由簽證規劃到安頓香港，為畢業生和專業人士準備好落地路線。', detail: '以 IANG 規劃、公司成立、銀行開戶、住屋和落地安排為核心，幫你逐步處理來港後的大小事項。', items: ['IANG 規劃及時間線概覽', '公司成立及銀行開戶協調', '住屋、身分及落地轉介', '抵港後的持續商業支援'], process: ['了解你的背景和目標', '排好 IANG 及落地時間線', '協調你選定的服務', '接住下一個營運步驟'] }, 'zh-CN': { name: '香港 IANG\n一条龙服务', summary: '为毕业生和专业人士准备的香港落地方案。', detail: '以 IANG 规划、公司成立、银行开户、住房和落地安排为核心，整理在香港开始下一阶段所需的实际步骤。', items: ['IANG 规划及时间线概览', '公司成立及银行开户协调', '住房、身份及落地转介', '抵港后的持续商业支持'], process: ['了解你的背景和目标', '整理 IANG 及落地时间线', '协调选定的服务', '支持下一个运营步骤'] } },
-  crossBorder: { en: { name: 'Cross-border growth', summary: 'Make expansion across Hong Kong, Mainland China and beyond easier to plan.', detail: 'Connect market entry, business development, resource matching and practical execution into one focused growth plan.', items: ['Market entry and operating model review', 'Cross-border resource and partner matching', 'Business development and expansion planning', 'Execution coordination across stakeholders'], process: ['Define the expansion question', 'Assess markets and resources', 'Build a practical growth route', 'Coordinate the first execution cycle'] }, 'zh-TW': { name: '跨境業務\n拓展', summary: '由香港、內地到更遠的市場，先把拓展路線部署好。', detail: '把入市策略、業務發展、資源配對和落地執行，收斂成一條團隊跟得上的發展路線。', items: ['市場進入及營運模式檢視', '跨境資源及合作夥伴配對', '業務發展及拓展規劃', '協調各方的執行工作'], process: ['先釐清要拓展甚麼', '評估市場和手上資源', '訂出可行的發展路線', '推進第一輪落地工作'] }, 'zh-CN': { name: '跨境业务\n拓展', summary: '让香港、内地及其他市场的拓展更容易规划。', detail: '把市场进入、业务发展、资源匹配和实际执行，整理成一套聚焦的发展方案。', items: ['市场进入及运营模式检查', '跨境资源及合作伙伴匹配', '业务发展及拓展规划', '协调各方的执行工作'], process: ['定义拓展问题', '评估市场及资源', '建立实际发展路线', '协调第一个执行周期'] } },
-  listedCompany: { en: { name: 'Listed company support', summary: 'A structured support layer for companies managing the next phase.', detail: 'Prepare a framework for listed company maintenance, stakeholder coordination, strategic transactions and continued growth.', items: ['Listed company maintenance planning', 'Stakeholder and shareholder coordination', 'M&A and strategic transaction support', 'Pre- and post-IPO financing pathways'], process: ['Understand the company objective', 'Review the current structure', 'Align the relevant advisers and parties', 'Move the agreed workstream forward'] }, 'zh-TW': { name: '上市公司\n維護支援', summary: '公司走到下一階段，更需要一套有條不紊的支援。', detail: '圍繞上市公司維護、持份者協調、策略交易和持續發展，搭好可供各方配合的工作框架。', items: ['上市公司維護規劃', '持份者及股東協調', '併購及策略交易支援', '上市前後融資路線'], process: ['了解企業目前目標', '檢視現有架構', '對齊相關顧問及持份者', '推進已確認的工作範圍'] }, 'zh-CN': { name: '上市公司\n维护支持', summary: '为处理下一阶段的上市公司，建立有结构的支持层。', detail: '围绕上市公司维护、利益相关方协调、战略交易和持续发展，准备清晰的工作框架。', items: ['上市公司维护规划', '利益相关方及股东协调', '并购及战略交易支持', '上市前后融资路径'], process: ['了解企业目标', '检查现有架构', '协调相关顾问及利益相关方', '推进已确认的工作范围'] } },
-};
-
-function Icon({ name, size = 20 }) {
-  const paths = {
-    arrow: <><path d="M4 12h15" /><path d="m14 6 6 6-6 6" /></>,
-    chevron: <path d="m6 9 6 6 6-6" />,
-    menu: <><path d="M4 7h16" /><path d="M4 12h16" /><path d="M4 17h16" /></>,
-    close: <><path d="m6 6 12 12" /><path d="m18 6-12 12" /></>,
-    building: <><path d="M4 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16" /><path d="M16 9h3a2 2 0 0 1 2 2v10" /><path d="M8 7h4M8 11h4M8 15h4M8 19h4M18 15h1M18 19h1" /></>,
-    ledger: <><rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 7h8M8 11h8M8 15h5M8 19h7" /></>,
-    spark: <><path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z" /><path d="m19 16 .6 1.8L21 18.4l-1.4.6L19 21l-.6-2-1.4-.6 1.4-.6L19 16Z" /></>,
-    passport: <><rect x="5" y="3" width="14" height="18" rx="2" /><circle cx="12" cy="11" r="3" /><path d="M8 17h8M9 11h6M12 8v6" /></>,
-    globe: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.4 2.5 3.5 5.5 3.5 9s-1.1 6.5-3.5 9c-2.4-2.5-3.5-5.5-3.5-9S9.6 5.5 12 3Z" /></>,
-    chart: <><path d="M4 19V5M4 19h16" /><path d="m7 15 3-4 3 2 5-6" /></>,
-    check: <path d="m5 12 4 4L19 6" />,
-    mail: <><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></>,
-    phone: <><path d="M6.5 3.5 9 3l2 5-2.5 1.7a14 14 0 0 0 5.3 5.3l1.7-2.5 5 2 .-5 2.5-1.5c-7.3-1.1-11.4-5.2-12.5-12.5l1.5-1.5Z" /></>,
-    map: <><path d="m9 18-6 3V6l6-3 6 3 6-3v15l-6 3-6-3Z" /><path d="M9 3v15M15 6v15" /></>,
-    cookie: <><path d="M20.5 12.4A7.9 7.9 0 0 1 11.6 3.5 8.7 8.7 0 1 0 20.5 12.4Z" /><circle cx="8.5" cy="12" r=".8" fill="currentColor" stroke="none" /><circle cx="12" cy="16" r=".8" fill="currentColor" stroke="none" /><circle cx="15.5" cy="9" r=".8" fill="currentColor" stroke="none" /></>,
-  };
-  return <svg className="icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>;
-}
-
-function routeFor(pathname) {
-  const normalized = pathname.replace(/\/$/, '') || '/';
-  if (normalized === '/') return { name: 'home' };
-  if (normalized === '/services') return { name: 'services' };
-  if (normalized.startsWith('/services/')) return { name: 'service', id: normalized.slice('/services/'.length) };
-  if (normalized === '/pricing') return { name: 'pricing' };
-  if (normalized === '/cases') return { name: 'cases' };
-  if (normalized === '/approach') return { name: 'approach' };
-  if (normalized === '/about') return { name: 'about' };
-  if (normalized === '/contact') return { name: 'contact' };
-  if (normalized === '/privacy') return { name: 'privacy' };
-  if (normalized === '/terms') return { name: 'terms' };
-  return { name: '404' };
-}
 
 function useRoute() {
-  const [route, setRoute] = useState(() => routeFor(window.location.pathname));
-  useEffect(() => {
-    const onPop = () => setRoute(routeFor(window.location.pathname));
-    window.addEventListener('popstate', onPop);
-    return () => window.removeEventListener('popstate', onPop);
-  }, []);
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-  }, [route.name, route.id]);
+  const getPath = () => window.location.pathname.replace(/\/$/, '') || '/';
+  const [path, setPath] = useState(getPath);
+  useEffect(() => { const onPopState = () => setPath(getPath()); window.addEventListener('popstate', onPopState); return () => window.removeEventListener('popstate', onPopState); }, []);
   const navigate = (to) => {
-    const [path, hash] = to.split('#');
-    window.history.pushState({}, '', `${path}${hash ? `#${hash}` : ''}`);
-    setRoute(routeFor(path));
+    const [nextPath = '', anchor] = to.split('#');
+    if (!nextPath && anchor) { document.querySelector(`#${anchor}`)?.scrollIntoView({ behavior: 'smooth' }); return; }
+    const targetPath = nextPath || '/';
+    window.history.pushState({}, '', anchor ? `${targetPath}#${anchor}` : targetPath);
+    setPath(targetPath);
+    requestAnimationFrame(() => anchor ? document.querySelector(`#${anchor}`)?.scrollIntoView({ behavior: 'smooth' }) : window.scrollTo({ top: 0, behavior: 'auto' }));
   };
-  return [route, navigate];
+  return [path, navigate];
 }
 
-function Reveal({ children, className = '', delay = 0 }) {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
+function App() {
+  const [path, navigate] = useRoute();
+  const [language, setLanguage] = useState(() => localStorage.getItem('winfo-language') || 'en');
+  const route = routes[path];
+  const copy = getUi(language);
+  useEffect(() => { localStorage.setItem('winfo-language', language); document.documentElement.lang = language; }, [language]);
   useEffect(() => {
-    const node = ref.current;
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    document.documentElement.classList.add('motion-ready');
-    if (reduced || !node || !('IntersectionObserver' in window)) {
-      setVisible(true);
-      return undefined;
-    }
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      setVisible(true);
-      observer.disconnect();
-    }, { threshold: 0.12, rootMargin: '0px 0px -28px' });
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-  return <div ref={ref} className={`motion-reveal ${visible ? 'is-visible' : ''} ${className}`} style={{ '--reveal-delay': `${delay}ms` }}>{children}</div>;
+    if (language !== 'zh-Hans') return undefined;
+    const frame = requestAnimationFrame(() => {
+      const walker = document.createTreeWalker(document.getElementById('root'), NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach((node) => { node.nodeValue = toSimplified(node.nodeValue); });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [language, path]);
+  useEffect(() => { const [title, description] = metadata[route?.key] || [copy.notFound, copy.notFoundText]; document.title = title; document.querySelector('meta[name="description"]')?.setAttribute('content', description); document.querySelector('link[rel="canonical"]')?.setAttribute('href', `${window.location.origin}${window.location.pathname}`); }, [path, route, copy]);
+  const Page = route?.component || NotFoundPage;
+  return <SiteShell key={language} navigate={navigate} path={path} language={language} setLanguage={setLanguage}><Page navigate={navigate} kind={route?.kind} language={language} /></SiteShell>;
 }
 
-function ParticleField() {
-  const canvasRef = useRef(null);
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
-    let frame;
-    let width = 0;
-    let height = 0;
-    const points = Array.from({ length: 38 }, (_, index) => ({ x: (index * 97) % 1000, y: (index * 53) % 480, vx: (index % 3 - 1) * 0.08, vy: (index % 4 - 2) * 0.04 }));
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const resize = () => { width = canvas.width = canvas.offsetWidth * window.devicePixelRatio; height = canvas.height = canvas.offsetHeight * window.devicePixelRatio; context.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0); width /= window.devicePixelRatio; height /= window.devicePixelRatio; };
-    const draw = () => {
-      context.clearRect(0, 0, width, height);
-      points.forEach((point) => { point.x += reduced ? 0 : point.vx; point.y += reduced ? 0 : point.vy; if (point.x < 0 || point.x > width) point.vx *= -1; if (point.y < 0 || point.y > height) point.vy *= -1; });
-      points.forEach((point, index) => points.slice(index + 1).forEach((other) => { const dx = point.x - other.x; const dy = point.y - other.y; const distance = Math.sqrt(dx * dx + dy * dy); if (distance < 145) { context.strokeStyle = `rgba(1, 97, 254, ${0.08 * (1 - distance / 145)})`; context.lineWidth = 1; context.beginPath(); context.moveTo(point.x, point.y); context.lineTo(other.x, other.y); context.stroke(); } }));
-      points.forEach((point) => { context.fillStyle = 'rgba(1, 97, 254, .22)'; context.beginPath(); context.arc(point.x, point.y, 1.7, 0, Math.PI * 2); context.fill(); });
-      if (!reduced) frame = requestAnimationFrame(draw);
-    };
-    resize(); draw(); window.addEventListener('resize', resize);
-    return () => { cancelAnimationFrame(frame); window.removeEventListener('resize', resize); };
-  }, []);
-  return <canvas className="particle-field" ref={canvasRef} aria-hidden="true" />;
-}
-
-function Header({ t, lang, setLang, navigate, route }) {
-  const [open, setOpen] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  useEffect(() => {
-    if (!mobileOpen) return undefined;
-    const closeOnEscape = (event) => { if (event.key === 'Escape') setMobileOpen(false); };
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', closeOnEscape);
-    return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', closeOnEscape); };
-  }, [mobileOpen]);
-  const go = (to) => { setOpen(false); setMobileOpen(false); navigate(to); };
-  const isActive = (name) => route.name === name || (name === 'services' && route.name === 'service');
-  return <>
-    <header className="site-header">
-      <div className="header-inner">
-        <button className="brand" type="button" onClick={() => go('/')} aria-label="WINFO home"><img src="/WINFO-gold.png" alt="WINFO" /><span>{t.brand}</span></button>
-        <nav className="desktop-nav" aria-label="Primary navigation">
-          <div className="nav-menu-shell" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)} onFocus={() => setOpen(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false); }}>
-            <button type="button" className={`nav-link nav-services ${open ? 'is-open' : ''} ${isActive('services') ? 'is-active' : ''}`} aria-expanded={open} aria-controls="services-mega-menu" aria-current={isActive('services') ? 'page' : undefined} onClick={() => go('/services')}>{t.nav.services}<Icon name="chevron" size={15} /></button>
-            <div id="services-mega-menu" className={`mega-menu ${open ? 'is-open' : ''}`}>
-              <div className="mega-grid"><div><span className="menu-label">{t.menu.start}</span>{serviceItems.filter((item) => item.group === 'start').map((item) => <ServiceMenuLink key={item.id} item={item} t={t} lang={lang} go={go} />)}</div><div><span className="menu-label">{t.menu.compliance}</span>{serviceItems.filter((item) => item.group === 'compliance').map((item) => <ServiceMenuLink key={item.id} item={item} t={t} lang={lang} go={go} />)}</div><div><span className="menu-label">{t.menu.grow}</span>{serviceItems.filter((item) => item.group === 'grow').map((item) => <ServiceMenuLink key={item.id} item={item} t={t} lang={lang} go={go} />)}</div><div className="mega-aside"><span>{t.menu.support}</span><button type="button" onClick={() => go('/contact')}>{t.menu.talk}<Icon name="arrow" size={16} /></button></div></div>
-              <div className="mega-footer"><button type="button" onClick={() => go('/services')}>{t.menu.explore}<Icon name="arrow" size={16} /></button><span>WINFO / 01</span></div>
-            </div>
-          </div>
-          <button type="button" aria-current={isActive('pricing') ? 'page' : undefined} className={`nav-link ${isActive('pricing') ? 'is-active' : ''}`} onClick={() => go('/pricing')}>{t.nav.pricing}</button><button type="button" aria-current={isActive('cases') ? 'page' : undefined} className={`nav-link ${isActive('cases') ? 'is-active' : ''}`} onClick={() => go('/cases')}>{t.nav.cases}</button><button type="button" aria-current={isActive('approach') ? 'page' : undefined} className={`nav-link ${isActive('approach') ? 'is-active' : ''}`} onClick={() => go('/approach')}>{t.nav.approach}</button><button type="button" aria-current={isActive('about') ? 'page' : undefined} className={`nav-link ${isActive('about') ? 'is-active' : ''}`} onClick={() => go('/about')}>{t.nav.about}</button><button type="button" aria-current={isActive('contact') ? 'page' : undefined} className={`nav-link ${isActive('contact') ? 'is-active' : ''}`} onClick={() => go('/contact')}>{t.nav.contact}</button>
-        </nav>
-        <div className="header-actions"><div className="language-switcher" aria-label="Language switcher">{languages.map((item) => <button key={item.code} type="button" className={lang === item.code ? 'is-active' : ''} onClick={() => setLang(item.code)}>{item.label}</button>)}</div><button type="button" className="header-cta" onClick={() => go('/contact')}>{t.nav.cta}<Icon name="arrow" size={16} /></button><button type="button" className="mobile-toggle" onClick={() => setMobileOpen(true)} aria-label={t.nav.menu} aria-expanded={mobileOpen}><Icon name="menu" size={22} /></button></div>
-      </div>
-    </header>
-    {mobileOpen && <div className="mobile-menu" role="dialog" aria-modal="true" aria-label={t.nav.menu}><div className="mobile-menu-head"><button className="brand" type="button" onClick={() => go('/')}><img src="/WINFO-gold.png" alt="WINFO" /><span>{t.brand}</span></button><button type="button" className="mobile-close" onClick={() => setMobileOpen(false)} aria-label={t.nav.close}><Icon name="close" size={22} /></button></div><div className="mobile-menu-scroll"><button type="button" className="mobile-nav-link" onClick={() => go('/services')}>{t.nav.services}<Icon name="arrow" size={17} /></button>{serviceItems.map((item) => <button type="button" className="mobile-service-link" key={item.id} onClick={() => go(`/services/${item.id}`)}><Icon name={item.icon} size={18} /><span>{serviceContent[item.key][lang].name}</span><Icon name="arrow" size={15} /></button>)}<button type="button" className="mobile-nav-link" onClick={() => go('/pricing')}>{t.nav.pricing}<Icon name="arrow" size={17} /></button><button type="button" className="mobile-nav-link" onClick={() => go('/cases')}>{t.nav.cases}<Icon name="arrow" size={17} /></button><button type="button" className="mobile-nav-link" onClick={() => go('/approach')}>{t.nav.approach}<Icon name="arrow" size={17} /></button><button type="button" className="mobile-nav-link" onClick={() => go('/about')}>{t.nav.about}<Icon name="arrow" size={17} /></button><button type="button" className="mobile-nav-link" onClick={() => go('/contact')}>{t.nav.contact}<Icon name="arrow" size={17} /></button></div><div className="mobile-menu-footer"><div className="language-switcher">{languages.map((item) => <button key={item.code} type="button" className={lang === item.code ? 'is-active' : ''} onClick={() => setLang(item.code)}>{item.label}</button>)}</div><button type="button" className="header-cta" onClick={() => go('/contact')}>{t.nav.cta}<Icon name="arrow" size={16} /></button></div></div>}
-  </>;
-}
-
-function ServiceMenuLink({ item, t, lang, go }) { const title = serviceContent[item.key][lang].name; return <button type="button" className="mega-service-link" onClick={() => go(`/services/${item.id}`)}><span className="menu-icon"><Icon name={item.icon} size={18} /></span><span><strong>{title}</strong><small>{item.group === 'start' ? t.menu.start : item.group === 'grow' ? t.menu.grow : t.menu.compliance}</small></span><Icon name="arrow" size={15} /></button>; }
-
-function ServiceCard({ item, lang, t, navigate }) { const service = serviceContent[item.key][lang]; return <button type="button" className="service-card" style={{ '--card-delay': `${serviceItems.indexOf(item) * 55}ms` }} onClick={() => navigate(`/services/${item.id}`)}><span className="service-card-top"><span className="service-icon"><Icon name={item.icon} size={22} /></span><span className="service-index">0{serviceItems.indexOf(item) + 1}</span></span><span className="service-card-title">{service.name}</span><span className="service-card-body">{service.summary}</span><span className="service-card-link">{t.services.path}<Icon name="arrow" size={15} /></span></button>; }
-
-function PageCta({ t, navigate }) { return <section className="section final-cta page-cta"><Reveal><div className="content-width final-cta-inner"><div><div className="eyebrow"><span className="eyebrow-dot" />{t.nav.contact}</div><h2>{t.home.finalTitle}</h2><p>{t.home.finalBody}</p></div><button type="button" className="button button-primary" onClick={() => navigate('/contact')}>{t.home.finalButton}<Icon name="arrow" size={17} /></button></div></Reveal></section>; }
-
-function TestimonialSection({ lang, page }) { const labels = testimonialCopy[lang] || testimonialCopy.en; const item = labels.items[page] || labels.items.home; return <section className="section testimonial-section"><Reveal><div className="content-width testimonial-layout"><div><div className="eyebrow"><span className="eyebrow-dot" />{labels.kicker}</div><h2>{labels.title}</h2><blockquote>“{item.quote}”</blockquote><cite>{item.by}</cite></div><div className="testimonial-proof"><span className="rating-stars" aria-hidden="true">★★★★★</span><strong>4.6 <small>/ 5</small></strong><span>{labels.ratingLabel}</span><p>{labels.note}</p></div></div></Reveal></section>; }
-
-function ServiceFinder({ lang, navigate }) { const [selectedId, setSelectedId] = useState('company-setup'); const [step, setStep] = useState(1); const labels = finderCopy[lang]; const selectedOption = finderOptions.find((option) => option.id === selectedId) || finderOptions[0]; const selectedItem = serviceItems.find((item) => item.id === selectedOption.id); const selectedService = serviceContent[selectedItem.key][lang]; return <section className="section service-finder-section"><Reveal><div className="content-width service-finder"><div className="finder-heading"><div className="eyebrow"><span className="eyebrow-dot" />WINFO / FIND YOUR STARTING POINT</div><h2>{labels.title}</h2><p>{labels.body}</p><div className="finder-progress" aria-label={`${step} of 2`}><span className={step === 1 ? 'is-active' : 'is-complete'}>01</span><i className={step === 2 ? 'is-active' : ''} /><span className={step === 2 ? 'is-active' : ''}>02</span></div></div><div key={step} className={`finder-content finder-step-${step}`}><div className="finder-panel-heading"><span>{step === 1 ? '01 / 02' : '02 / 02'}</span><strong>{step === 1 ? labels.stepOne : labels.stepTwo}</strong></div>{step === 1 ? <div className="finder-options">{labels.options.map((label, index) => { const isSelected = selectedId === finderOptions[index].id; return <button type="button" key={label} className={isSelected ? 'is-active' : ''} aria-pressed={isSelected} onClick={() => { setSelectedId(finderOptions[index].id); setStep(2); }}><span>0{index + 1}</span><strong>{label}</strong><Icon name="arrow" size={16} /></button>; })}</div> : <div className="finder-result"><span>{labels.result}</span><h3>{selectedService.name}</h3><p>{selectedService.summary}</p><div className="finder-result-actions"><button type="button" className="button button-primary" onClick={() => navigate(`/services/${selectedItem.id}`)}>{labels.cta}<Icon name="arrow" size={16} /></button><button type="button" className="text-button" onClick={() => setStep(1)}>{labels.back}<Icon name="arrow" size={16} /></button></div></div>}</div></div></Reveal></section>; }
-
-function FAQSection({ lang, context }) { const labels = faqCopy[lang][context]; const [openIndex, setOpenIndex] = useState(0); return <section className="section faq-section"><Reveal><div className="content-width faq-layout"><div className="faq-heading"><div className="eyebrow"><span className="eyebrow-dot" />{labels.kicker}</div><h2>{labels.title}</h2></div><div className="faq-list">{labels.items.map((item, index) => { const isOpen = openIndex === index; const answerId = `faq-answer-${context}-${index}`; return <div className={`faq-item ${isOpen ? 'is-open' : ''}`} key={item.q}><button type="button" className="faq-trigger" aria-expanded={isOpen} aria-controls={answerId} onClick={() => setOpenIndex(isOpen ? -1 : index)}><span>{item.q}</span><span className="faq-plus" aria-hidden="true">{isOpen ? '−' : '+'}</span></button><div id={answerId} className="faq-answer" aria-hidden={!isOpen}><div className="faq-answer-inner"><p>{item.a}</p></div></div></div>; })}</div></div></Reveal></section>; }
-
-function HomePage({ t, lang, navigate }) { return <main>
-  <section className="hero-section"><ParticleField /><div className="hero-inner"><div className="hero-copy"><div className="eyebrow"><span className="eyebrow-dot" />WINFO / BUSINESS SOLUTIONS</div><h1>{t.hero.title}</h1><p>{t.hero.body}</p><div className="hero-actions"><button type="button" className="button button-primary" onClick={() => navigate('/contact')}>{t.hero.primary}<Icon name="arrow" size={17} /></button><button type="button" className="text-button" onClick={() => navigate('/services')}>{t.hero.secondary}<Icon name="arrow" size={17} /></button></div><span className="hero-note">{t.hero.note}</span></div><div className="hero-visual"><div className="hero-image-wrap"><img src="/Main_banner.jpg" alt="Hong Kong skyline at night" /><div className="hero-image-shade" /></div><div className="hero-info-card"><span>{t.hero.visualLabel}</span><strong>{t.hero.visualTitle}</strong><p>{t.hero.visualText}</p><button type="button" onClick={() => navigate('/approach')}>{t.nav.approach}<Icon name="arrow" size={15} /></button></div><div className="hero-coordinate">22.3193° N<br />114.1694° E</div></div></div><div className="hero-bottom"><div className="hero-rule"><i /></div><span>Hong Kong · Cross-border</span></div></section>
-  <section className="proof-strip"><div className="content-width proof-inner"><span className="proof-label">WINFO SUPPORTS</span>{t.proof.map((item) => <span key={item} className="proof-item"><i /><span>{item}</span></span>)}</div></section>
-  <section className="section services-preview"><div className="content-width"><div className="section-heading split-heading"><div><div className="eyebrow"><span className="eyebrow-dot" />{t.home.servicesKicker}</div><h2>{t.home.servicesTitle}</h2></div><div className="heading-side"><p>{t.home.servicesBody}</p><button type="button" className="text-button" onClick={() => navigate('/services')}>{t.home.viewAll}<Icon name="arrow" size={17} /></button></div></div><div className="service-grid">{serviceItems.slice(0, 4).map((item) => <ServiceCard key={item.id} item={item} lang={lang} t={t} navigate={navigate} />)}</div></div></section>
-  <ServiceFinder lang={lang} navigate={navigate} />
-  <section className="section blue-band"><div className="content-width blue-band-grid"><div><div className="eyebrow eyebrow-light"><span className="eyebrow-dot" />{t.home.whyKicker}</div><h2>{t.home.whyTitle}</h2></div><div><p>{t.home.whyBody}</p><ul className="check-list">{t.home.principles.map((item) => <li key={item}><Icon name="check" size={17} />{item}</li>)}</ul><button type="button" className="button button-white" onClick={() => navigate('/approach')}>{t.nav.approach}<Icon name="arrow" size={17} /></button></div></div></section>
-  <section className="section cases-preview"><div className="content-width"><div className="section-heading split-heading"><div><div className="eyebrow"><span className="eyebrow-dot" />{t.home.casesKicker}</div><h2>{t.home.casesTitle}</h2></div><div className="heading-side"><p>{t.home.casesBody}</p><button type="button" className="text-button" onClick={() => navigate('/cases')}>{t.home.casesButton}<Icon name="arrow" size={17} /></button></div></div><div className="case-feature"><div className="case-feature-number">01</div><div><span className="case-kicker">WINFO / OPERATING CLARITY</span><h3>Make the next business decision easier to own.</h3><p>{t.home.quote}</p><span className="case-by">{t.home.quoteBy}</span></div><div className="case-feature-mark"><span>→</span><small>EXPLORE<br />THE METHOD</small></div></div></div></section>
-  <TestimonialSection lang={lang} page="home" />
-  <section className="section final-cta"><div className="content-width final-cta-inner"><div><div className="eyebrow"><span className="eyebrow-dot" />WINFO / NEXT STEP</div><h2>{t.home.finalTitle}</h2><p>{t.home.finalBody}</p></div><button type="button" className="button button-primary" onClick={() => navigate('/contact')}>{t.home.finalButton}<Icon name="arrow" size={17} /></button></div></section>
- </main>; }
-
-function ServicesPage({ t, lang, navigate }) { return <PageShell className="services-page"><PageIntro kicker={t.services.kicker} title={t.services.title} body={t.services.body} /><section className="content-width featured-service"><div className="featured-service-copy"><span className="eyebrow"><span className="eyebrow-dot" />{t.services.featured}</span><h2>{t.services.iangTitle}</h2><p>{t.services.iangBody}</p><button type="button" className="button button-primary" onClick={() => navigate('/services/iang')}>{t.services.path}<Icon name="arrow" size={17} /></button></div><div className="featured-service-art"><img src="/Main_banner.jpg" alt="Hong Kong skyline at night" /><div className="featured-service-shade" /><ParticleField /><div className="art-code">HKG<br />IANG<br />01</div><div className="art-orbit" /></div></section><section className="section services-all"><div className="content-width"><div className="eyebrow"><span className="eyebrow-dot" />{t.services.all}</div><div className="service-grid service-grid-six">{serviceItems.map((item) => <ServiceCard key={item.id} item={item} lang={lang} t={t} navigate={navigate} />)}</div></div></section><TestimonialSection lang={lang} page="services" /><PageCta t={t} navigate={navigate} /></PageShell>; }
-
-function PageShell({ children, className = '' }) { return <main className={className}>{children}</main>; }
-function PageIntro({ kicker, title, body }) { return <section className="page-intro"><Reveal><div className="content-width page-intro-inner"><div className="eyebrow"><span className="eyebrow-dot" />{kicker}</div><h1>{title}</h1><p>{body}</p></div></Reveal></section>; }
-
-function ServicePage({ t, lang, id, navigate }) { const item = serviceItems.find((service) => service.id === id); const content = item ? serviceContent[item.key][lang] : null; if (!content) return <NotFoundPage t={t} navigate={navigate} />; return <PageShell className="service-detail-page"><section className="page-intro service-detail-intro"><div className="content-width"><button type="button" className="back-link" onClick={() => navigate('/services')}><span>←</span>{t.servicePage.back}</button><div className="service-detail-layout"><div><div className="service-icon large"><Icon name={item.icon} size={28} /></div><div className="eyebrow"><span className="eyebrow-dot" />{t.servicePage.overview}</div><h1>{content.name}</h1><p>{content.summary}</p></div><div className="detail-note"><span>WINFO / {String(serviceItems.indexOf(item) + 1).padStart(2, '0')}</span><p>{content.detail}</p></div></div></div></section><section className="section detail-content"><div className="content-width detail-grid"><div><div className="eyebrow"><span className="eyebrow-dot" />{t.servicePage.included}</div><ul className="included-list">{content.items.map((entry) => <li key={entry}><Icon name="check" size={18} /><span>{entry}</span></li>)}</ul></div><div><div className="eyebrow"><span className="eyebrow-dot" />{t.servicePage.process}</div><div className="process-list">{content.process.map((entry, index) => <div className="process-row" key={entry}><span>{String(index + 1).padStart(2, '0')}</span><strong>{entry}</strong></div>)}</div></div></div></section><section className="section detail-placeholder"><div className="content-width placeholder-box"><span className="placeholder-line" /><p>{t.servicePage.placeholder}</p><span className="placeholder-line short" /></div></section><FAQSection lang={lang} context="service" /><TestimonialSection lang={lang} page={id} /><section className="section detail-cta"><div className="content-width detail-cta-inner"><div><h2>{t.servicePage.ready}</h2><p>{t.servicePage.readyBody}</p></div><button type="button" className="button button-primary" onClick={() => navigate('/contact')}>{t.servicePage.enquire}<Icon name="arrow" size={17} /></button></div></section></PageShell>; }
-
-function PricingPage({ t, lang, navigate }) { return <PageShell className="pricing-page"><PageIntro kicker={t.pricing.kicker} title={t.pricing.title} body={t.pricing.body} /><section className="section pricing-section"><div className="content-width"><div className="pricing-grid">{t.pricing.plans.map((plan) => <div className={`pricing-plan ${plan.featured ? 'is-featured' : ''}`} key={plan.name}>{plan.featured && <span className="featured-label">RECOMMENDED</span>}<span className="plan-index">0{t.pricing.plans.indexOf(plan) + 1}</span><h2>{plan.name}</h2><p>{plan.desc}</p><ul className="check-list dark">{plan.items.map((item) => <li key={item}><Icon name="check" size={16} />{item}</li>)}</ul><button type="button" className={plan.featured ? 'button button-primary' : 'text-button'} onClick={() => navigate('/contact')}>{plan.action}<Icon name="arrow" size={16} /></button></div>)}</div><p className="pricing-note">{t.pricing.note}</p></div></section><FAQSection lang={lang} context="pricing" /><TestimonialSection lang={lang} page="pricing" /></PageShell>; }
-
-function CasesPage({ t, lang, navigate }) { const [filterIndex, setFilterIndex] = useState(0); const activeFilter = t.cases.filters[filterIndex] || t.cases.filters[0]; const projects = filterIndex === 0 ? t.cases.projects : t.cases.projects.filter((item) => item.type === activeFilter); return <PageShell className="cases-page"><PageIntro kicker={t.cases.kicker} title={t.cases.title} body={t.cases.body} /><section className="section cases-section"><Reveal><div className="content-width"><div className="filter-row" role="tablist" aria-label={t.cases.kicker}>{t.cases.filters.map((item, index) => <button type="button" role="tab" aria-selected={filterIndex === index} className={filterIndex === index ? 'is-active' : ''} key={item} onClick={() => setFilterIndex(index)}>{item}</button>)}</div><div key={activeFilter} className="case-list case-list-enter" aria-live="polite">{projects.map((project, index) => <article className="case-row" key={project.title}><span className="case-row-number">{String(index + 1).padStart(2, '0')}</span><div><span className="case-kicker">{project.type}</span><h2>{project.title}</h2><p>{project.body}</p></div><div className="case-result"><span>RESULT</span><strong>{project.result}</strong></div></article>)}</div></div></Reveal></section><TestimonialSection lang={lang} page="cases" /><PageCta t={t} navigate={navigate} /></PageShell>; }
-
-function ApproachPage({ t, lang, navigate }) { return <PageShell className="approach-page"><PageIntro kicker={t.approach.kicker} title={t.approach.title} body={t.approach.body} /><section className="section approach-section"><Reveal><div className="content-width approach-list">{t.approach.steps.map((step, index) => <article className="approach-step" style={{ '--step-delay': `${index * 65}ms` }} key={step.n}><span className="step-number">{step.n}</span><div><h2>{step.title}</h2><p>{step.body}</p></div><span className="step-arrow">↘</span></article>)}</div></Reveal></section><TestimonialSection lang={lang} page="approach" /><PageCta t={t} navigate={navigate} /></PageShell>; }
-
-function AboutPage({ t, lang, navigate }) { return <PageShell className="about-page"><PageIntro kicker={t.about.kicker} title={t.about.title} body={t.about.body} /><section className="section about-stats"><div className="content-width stats-grid">{t.about.stats.map((stat) => <div className="stat" key={stat.label}><strong>{stat.value}</strong><span>{stat.label}</span></div>)}</div></section><section className="section values-section"><div className="content-width values-grid"><div><div className="eyebrow"><span className="eyebrow-dot" />WINFO / VALUES</div><h2>{t.about.valuesTitle}</h2></div><ul className="number-list">{t.about.values.map((value, index) => <li key={value}><span>0{index + 1}</span><p>{value}</p></li>)}</ul></div></section><TestimonialSection lang={lang} page="about" /><PageCta t={t} navigate={navigate} /></PageShell>; }
-
-function ContactPage({ t, lang, navigate }) { const [status, setStatus] = useState('idle'); const [form, setForm] = useState({ name: '', email: '', company: '', message: '', consent: false }); const meta = contactFormMeta[lang] || contactFormMeta.en; const update = (key, value) => setForm((current) => ({ ...current, [key]: value })); const submit = (event) => { event.preventDefault(); setStatus('submitting'); window.setTimeout(() => setStatus('success'), 650); }; return <PageShell className="contact-page"><PageIntro kicker={t.contact.kicker} title={t.contact.title} body={t.contact.body} /><section className="section contact-section"><div className="content-width contact-grid"><div className="contact-details"><span className="eyebrow"><span className="eyebrow-dot" />{t.contact.detailsTitle}</span><a href={`mailto:${t.contact.email}`}><Icon name="mail" size={18} />{t.contact.email}</a><a href={`tel:${t.contact.phone.replace(/\s/g, '')}`}><Icon name="phone" size={18} />{t.contact.phone}</a><p><Icon name="map" size={18} />{t.contact.address}</p><span className="hours">{t.contact.hours}</span></div><form className="contact-form" onSubmit={submit}><label>{t.contact.form.name}<input required name="name" autoComplete="name" value={form.name} onChange={(event) => update('name', event.target.value)} placeholder={t.contact.form.name} /></label><label>{t.contact.form.email}<input required type="email" name="email" autoComplete="email" value={form.email} onChange={(event) => update('email', event.target.value)} placeholder={t.contact.form.email} /></label><label>{t.contact.form.company}<input name="company" autoComplete="organization" value={form.company} onChange={(event) => update('company', event.target.value)} placeholder={t.contact.form.company} /></label><label>{t.contact.form.message}<textarea required name="message" value={form.message} onChange={(event) => update('message', event.target.value)} placeholder={t.contact.form.message} rows="5" /></label><label className="consent-field"><input required type="checkbox" checked={form.consent} onChange={(event) => update('consent', event.target.checked)} /><span>{meta.consent} <button type="button" className="inline-link" onClick={() => navigate('/privacy')}>{t.footer.privacy}</button></span></label><div className="form-actions"><button type="submit" className="button button-primary" disabled={status === 'submitting'}>{status === 'success' ? t.contact.form.success : status === 'submitting' ? meta.sending : t.contact.form.send}<Icon name={status === 'success' ? 'check' : 'arrow'} size={17} /></button><span className="form-note">{meta.demoNote}</span></div></form></div></section><TestimonialSection lang={lang} page="contact" /></PageShell>; }
-
-function PrivacyPage({ t, lang }) { const legal = legalCopy[lang] || legalCopy.en; return <PageShell className="privacy-page"><PageIntro kicker={t.privacy.kicker} title={t.privacy.title} body={t.privacy.intro} /><section className="section privacy-section"><div className="content-width privacy-layout"><aside><span>{t.privacy.updated}</span><a href="mailto:enquiry@winfo.hk">enquiry@winfo.hk</a></aside><div className="privacy-copy">{t.privacy.sections.map((section) => <section key={section.title}><h2>{section.title}</h2><p>{section.body}</p></section>)}<section><h2>{legal.cookieTitle}</h2><p>{legal.cookieBody}</p></section></div></div></section></PageShell>; }
-function TermsPage({ lang }) { const legal = legalCopy[lang] || legalCopy.en; return <PageShell className="terms-page"><PageIntro kicker={legal.termsKicker} title={legal.termsTitle} body={legal.termsIntro} /><section className="section privacy-section"><div className="content-width privacy-layout"><aside><span>WINFO</span><a href="mailto:enquiry@winfo.hk">enquiry@winfo.hk</a></aside><div className="privacy-copy">{legal.termsSections.map((section) => <section key={section.title}><h2>{section.title}</h2><p>{section.body}</p></section>)}</div></div></section></PageShell>; }
-function NotFoundPage({ t, navigate }) { return <PageShell className="not-found-page"><section className="page-intro"><div className="content-width not-found"><div className="eyebrow"><span className="eyebrow-dot" />{t.notFound.kicker}</div><h1>{t.notFound.title}</h1><p>{t.notFound.body}</p><div className="hero-actions"><button type="button" className="button button-primary" onClick={() => navigate('/')}>{t.notFound.home}<Icon name="arrow" size={17} /></button><button type="button" className="text-button" onClick={() => navigate('/contact')}>{t.notFound.contact}<Icon name="arrow" size={17} /></button></div></div></section></PageShell>; }
-
-function Footer({ t, lang, navigate }) { const legal = legalCopy[lang] || legalCopy.en; return <footer className="site-footer"><div className="content-width footer-main"><div className="footer-brand"><button className="brand" type="button" onClick={() => navigate('/')}><img src="/WINFO-gold.png" alt="WINFO" /><span>{t.brand}</span></button><p>{t.footer.line}</p></div><div className="footer-columns"><div><span>{t.footer.services}</span><button type="button" onClick={() => navigate('/services')}>{t.nav.services}</button><button type="button" onClick={() => navigate('/pricing')}>{t.nav.pricing}</button><button type="button" onClick={() => navigate('/cases')}>{t.nav.cases}</button></div><div><span>{t.footer.company}</span><button type="button" onClick={() => navigate('/about')}>{t.nav.about}</button><button type="button" onClick={() => navigate('/approach')}>{t.nav.approach}</button><button type="button" onClick={() => navigate('/contact')}>{t.nav.contact}</button></div><div><span>{t.footer.legal}</span><button type="button" onClick={() => navigate('/privacy')}>{t.footer.privacy}</button><button type="button" onClick={() => navigate('/terms')}>{legal.terms}</button><a href="mailto:enquiry@winfo.hk">enquiry@winfo.hk</a><a href="tel:+85266515286">+852 6651 5286</a></div></div></div><div className="content-width footer-bottom"><span>© {new Date().getFullYear()} {t.footer.copyright}</span><span>HONG KONG / WINFO</span></div></footer>; }
-
-function CookieNotice({ lang, navigate }) { const [visible, setVisible] = useState(() => window.localStorage.getItem('winfo-cookie-notice') !== 'accepted'); const labels = cookieCopy[lang] || cookieCopy.en; if (!visible) return null; const accept = () => { window.localStorage.setItem('winfo-cookie-notice', 'accepted'); setVisible(false); }; return <aside className="cookie-notice" role="dialog" aria-label="Cookie notice"><span className="cookie-mark" aria-hidden="true"><Icon name="cookie" size={27} /></span><p>{labels.message} <button type="button" onClick={() => navigate('/privacy')}>{labels.link}</button></p><button type="button" className="cookie-accept" onClick={accept}>{labels.accept}</button></aside>; }
-
-function App() { const [route, navigate] = useRoute(); const [lang, setLang] = useState(() => window.localStorage.getItem('winfo-language') || 'en'); const t = useMemo(() => copy[lang] || copy.en, [lang]); useEffect(() => { window.localStorage.setItem('winfo-language', lang); document.documentElement.lang = lang === 'en' ? 'en' : lang === 'zh-TW' ? 'zh-Hant' : 'zh-Hans'; document.title = route.name === 'home' ? 'WINFO | Business Solutions in Hong Kong' : `${route.name === '404' ? 'Page not found' : route.name[0].toUpperCase() + route.name.slice(1)} | WINFO`; }, [lang, route]); let content; if (route.name === 'home') content = <HomePage t={t} lang={lang} navigate={navigate} />; else if (route.name === 'services') content = <ServicesPage t={t} lang={lang} navigate={navigate} />; else if (route.name === 'service') content = <ServicePage t={t} lang={lang} id={route.id} navigate={navigate} />; else if (route.name === 'pricing') content = <PricingPage t={t} lang={lang} navigate={navigate} />; else if (route.name === 'cases') content = <CasesPage t={t} lang={lang} navigate={navigate} />; else if (route.name === 'approach') content = <ApproachPage t={t} lang={lang} navigate={navigate} />; else if (route.name === 'about') content = <AboutPage t={t} lang={lang} navigate={navigate} />; else if (route.name === 'contact') content = <ContactPage t={t} lang={lang} navigate={navigate} />; else if (route.name === 'privacy') content = <PrivacyPage t={t} lang={lang} />; else if (route.name === 'terms') content = <TermsPage lang={lang} />; else content = <NotFoundPage t={t} navigate={navigate} />; return <div className="site-shell"><Header t={t} lang={lang} setLang={setLang} navigate={navigate} route={route} />{content}<Footer t={t} lang={lang} navigate={navigate} /><CookieNotice lang={lang} navigate={navigate} /></div>; }
+export default App;
 
 createRoot(document.getElementById('root')).render(<App />);
