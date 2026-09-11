@@ -1,6 +1,6 @@
 import { getExtendedContent, getUi } from '../content/site';
 import { Icon, consultationUrl } from '../components/SiteShell';
-import { Breadcrumb, Checklist, ConsultationPanel, FinalCta, SectionHeading, TestimonialSection } from '../components/Sections';
+import { Breadcrumb, Checklist, ConsultationPanel, ContactInquiry, FinalCta, SectionHeading, TestimonialSection } from '../components/Sections';
 
 const crumbs = {
   pricing: { en: 'Pricing', zh: '價格方案' },
@@ -26,10 +26,10 @@ export function ContentPage({ kind, navigate, language }) {
       <aside><span>{isPricing ? copy.pricing : copy.initialConsultation}</span><strong>{isPricing ? (language === 'en' ? 'A quote built around the work actually needed' : '按實際需要，提供清晰正式報價') : (language === 'en' ? 'Start with the information that matters' : '先由真正重要的資料開始')}</strong><p>{isPricing ? page.note : copy.noSensitive}</p></aside></div>
     </div></section>
     <section className="section"><div className="container"><SectionHeading label={page.label} title={isPricing ? (language === 'en' ? 'Choose a conversation, not a generic package.' : '先選擇合適的對話方向，不用套用制式套餐。') : (language === 'en' ? 'A clear working framework.' : '清楚的服務框架。')} text={isPricing ? page.note : page.lead} />
-      <div className={`content-card-grid ${isPricing ? 'pricing-grid' : ''}`}>{page.cards.map(([title, text, items]) => <article key={title}><span>{page.label}</span><h2>{title}</h2><p>{text}</p>{items && <Checklist dark items={items} />}{isContact && title === 'WhatsApp' && <a className="inline-link" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer">{copy.whatsappEnquiry} <Icon name="arrow" size={15} /></a>}</article>)}</div>
+      <div className={`content-card-grid ${isPricing ? 'pricing-grid' : ''}`}>{page.cards.map(([title, text, items]) => <article key={title}><span>{page.label}</span><h2>{title}</h2><p>{text}</p>{items && <Checklist dark items={items} />}{isContact && title === 'WhatsApp' && <a className="inline-link" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer">{copy.whatsappEnquiry} <Icon name="arrow" size={15} /></a>}{isContact && (title === 'Email' || title === '電郵') && <a className="inline-link" href="mailto:enquiry@winfo.hk">enquiry@winfo.hk <Icon name="arrow" size={15} /></a>}{isContact && (title === 'Hong Kong office' || title === '香港辦公室') && <a className="inline-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(text)}`} target="_blank" rel="noreferrer">{language === 'en' ? 'Open in Maps' : '在地圖中查看'} <Icon name="arrow" size={15} /></a>}</article>)}</div>
       <p className="page-note">{page.note}</p></div></section>
-    {!isContact && <TestimonialSection language={language} testimonials={extended.testimonials} compact />}
-    {isContact ? <ContactActions language={language} /> : <ConsultationPanel language={language} navigate={navigate} topic={page.label} documentsTarget="/contact" />}
+    <TestimonialSection language={language} testimonials={extended.testimonials} compact />
+    {isContact ? <><ContactInquiry language={language} /><ContactActions language={language} /></> : <ConsultationPanel language={language} navigate={navigate} topic={page.label} documentsTarget="/contact#contact-enquiry" />}
     <FinalCta language={language} topic={page.label} />
   </>;
 }

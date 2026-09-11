@@ -50,8 +50,14 @@ function useRoute() {
     const targetPath = nextPath || '/';
     window.history.pushState({}, '', anchor ? `${targetPath}#${anchor}` : targetPath);
     setPath(targetPath);
-    requestAnimationFrame(() => anchor ? document.querySelector(`#${anchor}`)?.scrollIntoView({ behavior: 'smooth' }) : window.scrollTo({ top: 0, behavior: 'auto' }));
+    requestAnimationFrame(() => anchor ? document.querySelector(`#${anchor}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) : window.scrollTo({ top: 0, behavior: 'auto' }));
   };
+  useEffect(() => {
+    const anchor = window.location.hash.slice(1);
+    if (!anchor) return undefined;
+    const frame = requestAnimationFrame(() => document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    return () => cancelAnimationFrame(frame);
+  }, [path]);
   return [path, navigate];
 }
 
@@ -73,7 +79,7 @@ function App() {
   }, [language, path]);
   useEffect(() => { const [title, description] = metadata[route?.key] || [copy.notFound, copy.notFoundText]; document.title = title; document.querySelector('meta[name="description"]')?.setAttribute('content', description); document.querySelector('link[rel="canonical"]')?.setAttribute('href', `${window.location.origin}${window.location.pathname}`); }, [path, route, copy]);
   const Page = route?.component || NotFoundPage;
-  return <SiteShell key={language} navigate={navigate} path={path} language={language} setLanguage={setLanguage}><Page navigate={navigate} kind={route?.kind} language={language} /></SiteShell>;
+  return <SiteShell key={language} navigate={navigate} path={path} language={language} setLanguage={setLanguage}><main id="main-content" tabIndex="-1"><Page navigate={navigate} kind={route?.kind} language={language} /></main></SiteShell>;
 }
 
 export default App;

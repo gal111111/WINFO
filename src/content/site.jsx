@@ -21,7 +21,7 @@ const traditional = {
     ] },
     { title: '資助與拓展', items: [
       { title: 'BUD 專項基金', description: '初評、計劃書、文件及申請協調。', to: '/bud-fund' },
-      { title: '內地創新園', description: '園區及跨境發展方向初步評估。', to: '#consultation' },
+      { title: '內地創新園', description: '園區及跨境發展方向初步評估。', to: '/services/cross-border' },
     ] },
     { title: '合規與營運', items: [
       { title: '審計、報稅及公司秘書', description: '建立全年合規處理節奏。', to: '/services/compliance' },
@@ -33,10 +33,10 @@ const traditional = {
     ] },
   ],
   homeServices: [
-    { number: '01', title: '成立香港公司', text: '按香港本地或內地身份，釐清公司架構、文件、公司秘書及註冊地址需要。', cta: '選擇你的身份', to: '/company-registration/hong-kong-resident' },
-    { number: '02', title: 'BUD 專項基金申請', text: '由資格初評、計劃書、預算整理到提交與補件，讓申請工作有清楚次序。', cta: '檢查申請資格', to: '/bud-fund' },
-    { number: '03', title: '審計、報稅與公司維護', text: '把周年申報、法定記錄、會計及稅務需要放進可執行的年度節奏。', cta: '了解合規服務', to: '/services/compliance' },
-    { number: '04', title: '跨境及科技落地', text: '從跨境業務、園區到資本市場需要，先釐清條件，再安排下一步。', cta: '與顧問討論', to: '/services/cross-border' },
+    { label: '公司成立', title: '成立香港公司', text: '按香港本地或內地身份，釐清公司架構、文件、公司秘書及註冊地址需要。', cta: '選擇你的身份', to: '/company-registration/hong-kong-resident' },
+    { label: '資助申請', title: 'BUD 專項基金申請', text: '由資格初評、計劃書、預算整理到提交與補件，讓申請工作有清楚次序。', cta: '檢查申請資格', to: '/bud-fund' },
+    { label: '持續營運', title: '審計、報稅與公司維護', text: '把周年申報、法定記錄、會計及稅務需要放進可執行的年度節奏。', cta: '了解合規服務', to: '/services/compliance' },
+    { label: '跨境拓展', title: '跨境及科技落地', text: '從跨境業務、園區到資本市場需要，先釐清條件，再安排下一步。', cta: '與顧問討論', to: '/services/cross-border' },
   ],
   incorporation: {
     local: {
@@ -66,15 +66,15 @@ const traditional = {
 const english = {
   serviceGroups: [
     { title: 'Start in Hong Kong', items: [{ title: 'Company setup for HK residents', description: 'Name, statutory documents and handover.', to: '/company-registration/hong-kong-resident' }, { title: 'Company setup for mainland founders', description: 'Cross-border documents and banking readiness.', to: '/company-registration/mainland-resident' }] },
-    { title: 'Funding and Growth', items: [{ title: 'BUD Fund', description: 'Initial review, proposal, documents and coordination.', to: '/bud-fund' }, { title: 'Mainland innovation parks', description: 'An initial review of park and expansion options.', to: '#consultation' }] },
+    { title: 'Funding and Growth', items: [{ title: 'BUD Fund', description: 'Initial review, proposal, documents and coordination.', to: '/bud-fund' }, { title: 'Mainland innovation parks', description: 'An initial review of park and expansion options.', to: '/services/cross-border' }] },
     { title: 'Compliance and Operations', items: [{ title: 'Audit, tax and company secretarial', description: 'Put annual compliance on a clear schedule.', to: '/services/compliance' }, { title: 'Listed-company support', description: 'Ongoing support tailored to your needs.', to: '/services/compliance' }] },
     { title: 'Technology and Cross-border', items: [{ title: 'Mainland software registration', description: 'Practical preparation for cross-border business.', to: '/services/cross-border' }, { title: 'Hong Kong incubation parks', description: 'Clarify application and landing requirements.', to: '/services/cross-border' }] },
   ],
   homeServices: [
-    { number: '01', title: 'Set up a Hong Kong company', text: 'Clarify structure, documents, secretarial and registered-address needs for local and mainland founders.', cta: 'Choose your profile', to: '/company-registration/hong-kong-resident' },
-    { number: '02', title: 'Apply for the BUD Fund', text: 'From initial fit to proposal, budget, submission and follow-up, put the work in the right order.', cta: 'Check your eligibility', to: '/bud-fund' },
-    { number: '03', title: 'Audit, tax and company upkeep', text: 'Turn annual filings, statutory records, accounting and tax into an actionable rhythm.', cta: 'Explore compliance support', to: '/services/compliance' },
-    { number: '04', title: 'Cross-border and technology landing', text: 'Clarify the conditions for expansion, parks and capital-market needs before the next move.', cta: 'Talk to an adviser', to: '/services/cross-border' },
+    { label: 'Company setup', title: 'Set up a Hong Kong company', text: 'Clarify structure, documents, secretarial and registered-address needs for local and mainland founders.', cta: 'Choose your profile', to: '/company-registration/hong-kong-resident' },
+    { label: 'Funding', title: 'Apply for the BUD Fund', text: 'From initial fit to proposal, budget, submission and follow-up, put the work in the right order.', cta: 'Check your eligibility', to: '/bud-fund' },
+    { label: 'Ongoing operations', title: 'Audit, tax and company upkeep', text: 'Turn annual filings, statutory records, accounting and tax into an actionable rhythm.', cta: 'Explore compliance support', to: '/services/compliance' },
+    { label: 'Growth and landing', title: 'Cross-border and technology landing', text: 'Clarify the conditions for expansion, parks and capital-market needs before the next move.', cta: 'Talk to an adviser', to: '/services/cross-border' },
   ],
   incorporation: {
     local: {
@@ -122,6 +122,29 @@ export const toSimplified = (value) => {
 
 Object.assign(ui.en, { pricingNav: 'Pricing', casesNav: 'Cases', aboutNav: 'About WINFO', contactNav: 'Contact', ratingLabel: 'Illustrative rating', ratingValue: '4.6 / 5', testimonialTitle: 'What a clearer process feels like.', testimonialLabel: 'Client feedback', testimonialHeading: 'The right support makes the next step easier to see.' });
 Object.assign(traditionalUi, { pricingNav: '價格方案', casesNav: '案例方向', aboutNav: '認識 WINFO', contactNav: '聯絡我們', ratingLabel: '示例評分', ratingValue: '4.6 / 5', testimonialTitle: '把流程說清楚，客戶才走得安心。', testimonialLabel: '客戶回饋', testimonialHeading: '好的支援，讓下一步更容易看清。' });
+
+Object.assign(ui.en, {
+  enquiryTitle: 'Start with a short enquiry.',
+  enquiryText: 'Share a few general details and we will prepare a WhatsApp message for you to review. Do not include identity documents, bank records or confidential information.',
+  enquiryService: 'What would you like to discuss?',
+  enquiryTiming: 'When would you like to start?',
+  enquiryMessage: 'Anything else we should know?',
+  enquiryMessagePlaceholder: 'A short description is enough for the first conversation.',
+  enquirySubmit: 'Prepare WhatsApp message',
+  enquiryServices: ['Company setup', 'Annual compliance', 'BUD Fund', 'Cross-border or technology landing', 'Not sure yet'],
+  enquiryTimings: ['As soon as possible', 'Within one month', 'Within three months', 'I am researching options'],
+});
+Object.assign(traditionalUi, {
+  enquiryTitle: '先用幾句話，說明你現在的需要。',
+  enquiryText: '填寫一般資料後，我們會先為你準備 WhatsApp 查詢內容供你確認。請勿填寫身份證明、銀行紀錄或其他保密資料。',
+  enquiryService: '想先了解哪一項服務？',
+  enquiryTiming: '希望何時開始？',
+  enquiryMessage: '還有甚麼想讓我們先知道？',
+  enquiryMessagePlaceholder: '第一次聯絡，只需簡單說明即可。',
+  enquirySubmit: '準備 WhatsApp 查詢',
+  enquiryServices: ['成立香港公司', '年度合規及公司維護', 'BUD 專項基金', '跨境或科技落地', '暫未確定'],
+  enquiryTimings: ['希望盡快開始', '一個月內', '三個月內', '正在比較方案'],
+});
 
 ui['zh-Hant'] = traditionalUi;
 ui['zh-Hans'] = toSimplified(traditionalUi);
