@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { getContent, getExtendedContent, getUi, toSimplified } from '../content/site';
 import { Icon, LinkButton, consultationUrl } from '../components/SiteShell';
-import { Checklist, ConsultationPanel, FinalCta, ProcessList, SectionHeading, TestimonialSection } from '../components/Sections';
+import { Checklist, ConsultationPanel, FAQ, GoogleRatingSection, FinalCta, ProcessList, SectionHeading, TestimonialSection } from '../components/Sections';
 
 export function HomePage({ navigate, language }) {
   const content = getContent(language);
@@ -27,7 +27,7 @@ export function HomePage({ navigate, language }) {
   const process = language === 'en'
     ? [['01', 'Understand the situation', 'Clarify your background, current state, timing and the decision in front of you.'], ['02', 'Confirm the scope and quote', 'Set out services, documents, responsibilities and fees.'], ['03', 'Coordinate documents and filing', 'Work through information, signing, submission and important checkpoints.'], ['04', 'Handover and ongoing support', 'Finish the current task and organise the next compliance or growth step.']]
     : localize([['01', '初步了解', '釐清你的業務背景、現況、時程與真正要作的決定。'], ['02', '確認方案及報價', '把服務範圍、所需文件、各方責任及費用說明清楚。'], ['03', '文件與申請處理', '按已確認的步驟協調資料、簽署、提交及重要節點。'], ['04', '交付及持續支援', '完成目前工作後，整理後續合規或拓展的下一步。']]);
-  const faq = language === 'en' ? ['Should I set up a company before speaking to a bank?', 'Do mainland founders need to travel to Hong Kong?', 'Are government fees included in the quote?', 'Can you provide a registered address?', 'Is BUD approval guaranteed?', 'When will I hear back after an enquiry?'] : localize(['我應該先成立公司，還是先諮詢銀行開戶？', '內地人士是否需要親身到香港？', '服務報價是否包括政府費用？', 'WINFO 是否可以提供註冊地址？', 'BUD 申請是否保證獲批？', '提交查詢後多久會收到回覆？']);
+  const faq = copy.homeFaq;
 
   return <>
     <a className="skip-link" href="#main-content">{language === 'en' ? 'Skip to content' : localize('跳至主要內容')}</a>
@@ -47,8 +47,9 @@ export function HomePage({ navigate, language }) {
     <section className="finder-section"><div className="container finder-layout"><SectionHeading label={copy.serviceFinder} title={copy.finderTitle} text={copy.finderText} /><div className="finder"><div className="finder-options">{finder.map((item, index) => <button type="button" onClick={() => setSelected(index)} className={selected === index ? 'active' : ''} key={item.label}><span>0{index + 1}</span>{item.label}<Icon name="arrow" size={16} /></button>)}</div><div className="finder-result"><span>{copy.finderStart}</span><h3>{current.title}</h3><p>{current.text}</p><LinkButton to={current.to} navigate={navigate}>{copy.firstStep}</LinkButton></div></div></div></section>
     <section id="why-winfo" className="section why-section"><div className="container"><SectionHeading label={copy.whyWinfo} title={copy.whyTitle} /><div className="principles">{principles.map(([title, text], index) => <article key={title}><b>0{index + 1}</b><h3>{title}</h3><p>{text}</p></article>)}</div></div></section>
     <section id="process" className="section process-section"><div className="container process-layout"><SectionHeading label={copy.collaboration} title={copy.processTitle} /><ProcessList items={process} /></div></section>
-    <section className="section home-faq"><div className="container faq-layout"><SectionHeading label={copy.faq} title={copy.faqTitle} /><Checklist dark items={faq} /></div></section>
+    <FAQ items={faq} title={copy.homeFaqTitle} language={language} />
     <TestimonialSection language={language} testimonials={extended.testimonials} />
+    <GoogleRatingSection language={language} />
     <ConsultationPanel navigate={navigate} language={language} documentsTarget="/company-registration/hong-kong-resident#documents" />
     <FinalCta language={language} />
   </>;

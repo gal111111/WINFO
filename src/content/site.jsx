@@ -5,6 +5,26 @@ export const contact = {
   whatsapp: 'https://wa.me/85266515286',
 };
 
+export const pricingData = {
+  currency: 'HKD',
+  local: 5000,
+  mainland: 6500,
+  registeredAddress: 1500,
+};
+
+export const googleRating = {
+  status: 'preview',
+  rating: 4.9,
+  reviewCount: null,
+  businessName: 'WINFO Business Solutions Ltd',
+  profileUrl: '',
+  checkedAt: null,
+};
+
+export function formatPrice(value) {
+  return `HK$${value.toLocaleString('en-HK')}`;
+}
+
 import { Converter } from 'opencc-js';
 
 export const languages = [
@@ -146,6 +166,36 @@ Object.assign(traditionalUi, {
   enquiryTimings: ['希望盡快開始', '一個月內', '三個月內', '正在比較方案'],
 });
 
+Object.assign(ui.en, {
+  priceLocalLabel: 'Hong Kong founder setup', priceMainlandLabel: 'Mainland founder setup', priceAddressLabel: 'Registered address and mail handling',
+  priceBasic: 'Basic setup plan', priceAddress: 'Registered address and mail handling', priceAddressShort: 'Registered address and mail handling: +HK$1,500', priceEnquiry: 'Ask about this plan', priceDetails: 'Government charges, company-secretarial term and third-party fees will be set out in the formal quote.',
+  registeredAddressKicker: 'Company setup add-on', registeredAddressTitle: 'Registered address and mail handling', registeredAddressText: 'Need a Hong Kong registered address and mail-handling support? Add this optional service to your company setup plan.', registeredAddressItemOne: 'Hong Kong registered address service', registeredAddressItemTwo: 'Mail receipt and notification service', registeredAddressNote: 'Service term, accepted mail types, notification and collection arrangements are subject to the formal service terms. Ask us first about scanning, forwarding or courier arrangements.', registeredAddressCta: 'Ask about address and mail service', selectedSubtotal: 'Selected items subtotal', noFinalTotal: 'This is not a final payable total. Government charges and service terms are confirmed in the formal quote.',
+  googlePreviewKicker: 'Google reviews', googlePreviewTitle: 'A preview of our Google rating section.', googlePreviewText: 'This space is ready for WINFO\'s verified business profile. The live score, review count and link will be added only after the business listing is confirmed.', googlePreviewScoreNote: 'Design preview · not an actual Google rating', googlePreviewNoLink: 'No external review link is shown until a verified WINFO profile is available.',
+  testimonialsTitle: 'Hear what clients have to say.', testimonialsIntro: 'From company setup to ongoing support, see how clients describe working with WINFO.', exampleTestimonial: 'Illustrative testimonial',
+  homeFaqTitle: 'Ask the important questions before you begin.', homeFaq: [
+    ['Should I set up a company before speaking to a bank?', 'It depends on your business, ownership and the bank route. We can first review the information needed and explain what should be prepared before an account application.'],
+    ['Do mainland founders need to travel to Hong Kong?', 'The workable route depends on the case, documents and provider requirements. We assess the steps first and explain whether an in-person visit is needed.'],
+    ['Are government fees included in the quote?', 'The formal quote will show WINFO fees, government charges and third-party items separately where applicable.'],
+    ['Can you provide a registered address?', 'Yes, an optional registered-address and mail-handling service can be discussed separately from the basic setup plan.'],
+    ['Is BUD approval guaranteed?', 'No. Eligibility and approval are decided independently by the relevant authority under its latest rules.'],
+    ['When will I hear back after an enquiry?', 'We will confirm the next practical step after reviewing the general information in your enquiry.'],
+  ],
+});
+Object.assign(traditionalUi, {
+  priceLocalLabel: '香港人士註冊方案', priceMainlandLabel: '內地人士註冊香港公司方案', priceBasic: '基本成立方案', priceAddress: '註冊地址及郵件代收', priceAddressShort: '註冊地址及郵件代收：另加 HK$1,500', priceEnquiry: '查詢此方案', priceDetails: '政府費用、公司秘書服務年期及其他第三方費用，會在正式報價中逐項列明。',
+  registeredAddressKicker: '公司註冊配套', registeredAddressTitle: '註冊地址及郵件代收服務', registeredAddressText: '需要香港公司註冊地址及郵件代收支援？可在公司註冊方案以外，另選此項配套服務。', registeredAddressItemOne: '公司註冊地址服務', registeredAddressItemTwo: '郵件代收服務', registeredAddressNote: '服務期限、可接收郵件類型、通知及領取安排，以正式服務條款為準；掃描、轉寄及快遞如需安排，請先查詢。', registeredAddressCta: '查詢地址及郵件服務', selectedSubtotal: '所選項目小計', noFinalTotal: '這不是最終應付總額；政府費用及服務條款會在正式報價中確認。',
+  googlePreviewKicker: 'Google 評分', googlePreviewTitle: 'Google 評分區預覽', googlePreviewText: '此區展示正式評分區的版面效果。實際分數、評價數量及連結，會在 WINFO 商家資料核實後才加入。', googlePreviewScoreNote: '設計示意・並非實際 Google 評分', googlePreviewNoLink: '在核實 WINFO 商家資料前，不顯示外部評價連結。',
+  testimonialsTitle: '聽聽客戶怎樣說。', testimonialsIntro: '由成立公司到日常跟進，了解客戶與 WINFO 合作的實際體驗。', exampleTestimonial: '示例評語',
+  homeFaqTitle: '在開始前，把重要問題問清楚。', homeFaq: [
+    ['我應該先成立公司，還是先諮詢銀行開戶？', '要視乎你的業務、股權安排及開戶方向。我們可以先了解所需資料，再說明開戶前值得準備的內容。'],
+    ['內地人士是否需要親身到香港？', '要視乎個案、文件及服務供應商要求。我們會先評估可行流程，再說明是否需要親身處理。'],
+    ['服務報價是否包括政府費用？', '正式報價會按適用情況分別列明 WINFO 服務費、政府費用及第三方項目。'],
+    ['WINFO 是否可以提供註冊地址？', '可以另行查詢註冊地址及郵件代收配套，這項服務不會預設包括在基本成立方案內。'],
+    ['BUD 申請是否保證獲批？', '不保證。資助資格及批核結果由相關政府機構按最新規則及個別申請決定。'],
+    ['提交查詢後多久會收到回覆？', '我們會在查看查詢中的一般資料後，先確認最實際的下一步。'],
+  ],
+});
+
 ui['zh-Hant'] = traditionalUi;
 ui['zh-Hans'] = toSimplified(traditionalUi);
 ui['zh-Hans'].heroTitle = '在香港落地，\n把生意做得更远。';
@@ -160,9 +210,9 @@ export function getUi(language) { return ui[language] || ui.en; }
 const extendedTraditional = {
   ratingNote: '評價區塊目前為版面示例；公開前請以已取得授權的真實客戶回饋替換。',
   testimonials: [
-    { quote: '第一次開公司，最怕文件來回卻不知道下一步。顧問先把要準備的事分開，整個流程容易理解得多。', name: '香港創業者', context: '公司成立服務示例回饋' },
-    { quote: '跨境資料比較多，但每次都清楚知道要補甚麼、為甚麼需要，溝通沒有想像中複雜。', name: '跨境業務負責人', context: '跨境成立服務示例回饋' },
-    { quote: '先討論項目方向再開始準備資料，避免把時間放在不適合的項目上。', name: '中小企營運主管', context: 'BUD 服務示例回饋' },
+    { id: 'hk-founder', quote: '第一次開公司，最擔心不知道要準備甚麼。顧問把文件及步驟逐項說明，讓我清楚知道下一步。', name: '香港創業者（示例）', context: '香港人士公司註冊', avatarUrl: '', serviceType: 'local', status: 'preview' },
+    { id: 'mainland-founder', quote: '跨境文件比較多，但每次都知道需要補充甚麼，溝通和準備資料都有清楚方向。', name: '內地創業者（示例）', context: '內地人士公司註冊', avatarUrl: '', serviceType: 'mainland', status: 'preview' },
+    { id: 'bud-lead', quote: '先了解項目方向，再整理申請資料，讓我們更清楚如何安排準備工作。', name: '企業負責人（示例）', context: 'BUD 申請支援', avatarUrl: '', serviceType: 'bud', status: 'preview' },
   ],
   pages: {
     pricing: {
@@ -185,9 +235,9 @@ const extendedTraditional = {
 const extendedEnglish = {
   ratingNote: 'This testimonial block is a layout preview. Replace it with authorised client feedback before public launch.',
   testimonials: [
-    { quote: 'Setting up my first company felt much easier once the adviser separated the documents and decisions into clear steps.', name: 'Hong Kong founder', context: 'Illustrative company-setup feedback' },
-    { quote: 'There was a lot of cross-border information, but we always knew what was needed and why.', name: 'Cross-border business lead', context: 'Illustrative cross-border setup feedback' },
-    { quote: 'Starting with the project direction helped us avoid spending time on an unsuitable application.', name: 'SME operations lead', context: 'Illustrative BUD service feedback' },
+    { id: 'hk-founder', quote: 'Setting up my first company felt much easier once the adviser separated the documents and decisions into clear steps.', name: 'Hong Kong founder (example)', context: 'Hong Kong founder company setup', avatarUrl: '', serviceType: 'local', status: 'preview' },
+    { id: 'mainland-founder', quote: 'There was a lot of cross-border information, but we always knew what was needed and why.', name: 'Mainland founder (example)', context: 'Mainland founder company setup', avatarUrl: '', serviceType: 'mainland', status: 'preview' },
+    { id: 'bud-lead', quote: 'Starting with the project direction helped us avoid spending time on an unsuitable application.', name: 'Business lead (example)', context: 'BUD application support', avatarUrl: '', serviceType: 'bud', status: 'preview' },
   ],
   pages: {
     pricing: { label: 'Pricing', title: 'A clear scope comes before a trustworthy quote.', lead: 'Company setup, annual compliance and funding work vary widely. WINFO first understands your profile, company position and support needs, then provides a formal quote that identifies services, government charges and separate items.', cards: [['Company setup', 'For founders planning a Hong Kong company.', ['Initial name and structure discussion', 'Incorporation documents and filing coordination', 'Company secretarial and registered-address options']], ['Annual compliance', 'For established Hong Kong companies.', ['Annual filing and renewal reminders', 'Assessment of audit, bookkeeping and tax needs', 'Work arranged around actual transactions']], ['BUD Fund', 'For Hong Kong businesses with a defined expansion project.', ['Eligibility and project-direction review', 'Project, budget and document planning', 'Application coordination within the agreed scope']]], note: 'All fees, timing, third-party costs and exclusions are confirmed only in the accepted quotation and engagement document.' },

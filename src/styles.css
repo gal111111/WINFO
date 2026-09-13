@@ -44,3 +44,70 @@
 
 .process-status { width:8px; height:8px; margin-top:8px; display:block; border-radius:50%; background:var(--gold); box-shadow:0 0 0 5px rgba(210,173,108,.14); }
 .contact-inquiry-form .button { min-width:230px; }
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+.testimonial-intro { max-width:640px; margin:13px 0 0; color:var(--muted); font-size:15px; line-height:1.7; }
+.quote-mark { height:28px; display:block; color:var(--gold); font-family:Georgia,serif; font-size:42px; line-height:.9; }
+.testimonial-grid blockquote p { margin:13px 0 24px; }
+.testimonial-grid blockquote footer { display:flex; align-items:flex-end; justify-content:space-between; gap:14px; }
+.testimonial-person { display:flex; align-items:center; gap:11px; min-width:0; }
+.testimonial-person img,.avatar-fallback { width:48px; height:48px; flex:0 0 48px; border-radius:50%; object-fit:cover; }
+.avatar-fallback { display:grid; place-items:center; background:var(--pale); color:var(--navy); font-size:17px; font-weight:800; }
+.testimonial-grid blockquote footer small { flex:0 0 auto; color:var(--gold); font-size:10px; font-weight:800; line-height:1.3; text-align:right; }
+.price-hero-card { border-left-color:var(--blue)!important; }
+.price-hero-card strong { margin:15px 0 11px!important; font-size:48px!important; line-height:1!important; }
+.price-hero-card strong small { margin-right:4px; font-size:19px; font-weight:700; }
+.price-hero-card .button { margin-top:14px; align-self:flex-start; }
+.price-addon-link { margin-top:15px; }
+.field-hint { color:var(--blue); font-size:11px; }
+.registered-address-section { background:var(--pale); }
+.registered-address-layout { display:grid; grid-template-columns:1.1fr .9fr; gap:72px; align-items:center; }
+.address-visual { position:relative; padding-left:92px; }
+.address-visual h2 { max-width:600px; margin:13px 0 14px; color:var(--navy); font-size:clamp(30px,3.8vw,50px); line-height:1.16; }
+.address-visual>p { max-width:600px; margin:0; color:var(--muted); font-size:16px; line-height:1.75; }
+.address-icon { position:absolute; top:0; left:0; width:62px; height:62px; display:grid; place-items:center; border:1px solid #b8d9f7; border-radius:8px; background:#fff; color:var(--blue); font-size:23px; font-weight:800; box-shadow:inset 0 -3px 0 var(--gold); }
+.address-options { margin-top:24px; display:flex; flex-wrap:wrap; gap:9px; }
+.address-options span { padding:8px 11px; border:1px solid #bfd8ef; border-radius:4px; background:rgba(255,255,255,.7); color:var(--navy); font-size:12px; font-weight:700; }
+.address-price-card { padding:30px; border:1px solid #b9d5ee; border-top:3px solid var(--gold); border-radius:8px; background:#fff; box-shadow:0 12px 28px rgba(23,59,114,.08); }
+.address-price-card>span { color:var(--gold); font-size:11px; font-weight:800; letter-spacing:.07em; text-transform:uppercase; }
+.address-price-card>strong { display:block; margin:14px 0 12px; color:var(--navy); font-size:44px; line-height:1; }
+.address-price-card>p { margin:0; color:var(--muted); font-size:13px; line-height:1.65; }
+.address-choice { min-height:48px; margin:21px 0 0; display:flex; align-items:center; gap:10px; color:var(--navy); font-size:13px; font-weight:800; cursor:pointer; }
+.address-choice input { width:20px; height:20px; accent-color:var(--blue); }
+.subtotal { margin:17px 0 0; padding:15px 0; display:flex; align-items:end; justify-content:space-between; gap:16px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); color:var(--navy); }
+.subtotal span { font-size:12px; font-weight:800; }
+.subtotal strong { font-size:23px; line-height:1; }
+.address-price-card small { display:block; margin:13px 0 18px; color:var(--muted); font-size:11px; line-height:1.55; }
+.address-price-card .button { width:100%; }
+.google-rating-section { border-top:1px solid var(--line); background:#fff; }
+.google-rating-layout { display:grid; grid-template-columns:.72fr 1.28fr; gap:72px; align-items:center; padding:32px; border:1px solid #c5dff4; border-radius:8px; background:#f8fbff; }
+.google-score { min-height:214px; padding:30px; display:flex; flex-direction:column; justify-content:center; border-right:1px solid #c5dff4; }
+.google-wordmark { color:#4285f4; font-size:18px; font-weight:800; letter-spacing:0; }
+.google-score strong { margin:12px 0; color:var(--navy); font-size:64px; line-height:1; letter-spacing:0; }
+.star-row { display:flex; gap:4px; }
+.star-row svg { width:20px; height:20px; fill:var(--gold); }
+.google-rating-layout h2 { max-width:580px; margin:13px 0; color:var(--navy); font-size:clamp(29px,3.7vw,48px); line-height:1.15; }
+.google-rating-layout p { max-width:630px; margin:0; color:var(--muted); font-size:15px; line-height:1.75; }
+.google-preview-note { margin-top:17px; display:block; color:#916d31; font-size:12px; line-height:1.5; }
+.google-link-note { margin-top:14px!important; color:#7c8795!important; font-size:12px!important; }
+.pricing-hero { padding-bottom:74px; }
+.pricing-hero-copy { max-width:790px; margin-top:65px; }
+.pricing-hero-copy h1 { margin:15px 0 19px; color:var(--navy); font-size:clamp(43px,5.2vw,74px); line-height:1.1; }
+.pricing-hero-copy>p:not(.hero-kicker) { margin:0; color:var(--muted); font-size:17px; line-height:1.8; }
+.plan-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+.plan-card { min-height:430px; padding:31px; display:flex; flex-direction:column; border:1px solid #c6ddef; border-top:3px solid var(--blue); border-radius:8px; background:#fff; box-shadow:0 10px 25px rgba(23,59,114,.05); }
+.plan-card>span { color:var(--gold); font-size:12px; font-weight:800; letter-spacing:.06em; }
+.plan-card>strong { margin:18px 0 13px; color:var(--navy); font-size:52px; line-height:1; }
+.plan-card>strong small { margin-right:4px; font-size:19px; font-weight:700; }
+.plan-card>p { min-height:52px; margin:0; color:var(--muted); font-size:14px; line-height:1.65; }
+.plan-card .checklist { margin:25px 0; }
+.plan-card .button { margin-top:auto; align-self:flex-start; }
+.address-addon-card { margin-top:18px; padding:31px; display:grid; grid-template-columns:1.15fr .85fr; gap:52px; align-items:end; border:1px solid #c6ddef; border-top:3px solid var(--gold); border-radius:8px; background:#f8fbff; }
+.address-addon-card h2 { margin:13px 0; color:var(--navy); font-size:28px; line-height:1.25; }
+.address-addon-card p { max-width:650px; margin:0; color:var(--muted); font-size:14px; line-height:1.7; }
+.address-addon-card>div:last-child>strong { display:block; margin-bottom:12px; color:var(--navy); font-size:42px; line-height:1; }
+.address-addon-card .button { margin-top:22px; }
+.other-services-section { background:#f7fbff; }
+.other-services-grid { grid-template-columns:repeat(2,1fr); }
+.other-services-grid article { min-height:260px; }
+@media (max-width:900px) { .registered-address-layout,.google-rating-layout,.address-addon-card { grid-template-columns:1fr; gap:32px; }.google-score { min-height:0; padding:0 0 27px; border-right:0; border-bottom:1px solid #c5dff4; }.plan-card { min-height:0; }.other-services-grid { grid-template-columns:1fr; }.address-addon-card>div:last-child>strong { margin-top:4px; } }
+@media (max-width:600px) { .testimonial-intro { font-size:14px; }.testimonial-grid blockquote footer { align-items:flex-start; flex-direction:column; }.testimonial-grid blockquote footer small { text-align:left; }.testimonial-person img,.avatar-fallback { width:44px; height:44px; flex-basis:44px; }.price-hero-card strong { font-size:40px!important; }.registered-address-layout { gap:27px; }.address-visual { padding-left:0; }.address-icon { position:static; margin-bottom:20px; }.address-visual h2 { font-size:33px; }.address-price-card,.google-rating-layout,.plan-card,.address-addon-card { padding:24px; }.address-price-card>strong { font-size:39px; }.google-score strong { font-size:48px; }.pricing-hero-copy { margin-top:40px; }.pricing-hero-copy h1 { font-size:42px; }.pricing-hero-copy>p:not(.hero-kicker) { font-size:15px; line-height:1.7; }.plan-grid { grid-template-columns:1fr; }.plan-card>strong { font-size:45px; }.plan-card>p { min-height:0; }.address-addon-card h2 { font-size:25px; }.address-addon-card>div:last-child>strong { font-size:38px; } }
