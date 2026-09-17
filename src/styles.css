@@ -177,7 +177,7 @@ textarea.wizard-control { min-height:112px; padding-top:12px; resize:vertical; l
 .wizard-option.selected .wizard-choice-mark,.wizard-checkbox.selected .wizard-choice-mark { border:5px solid var(--blue); }
 .wizard-checkbox:not(.wizard-service) { padding-left:43px; padding-right:14px; }
 .wizard-checkbox:not(.wizard-service)::before { content:""; position:absolute; top:50%; left:15px; width:17px; height:17px; border:1px solid #9eb7cf; border-radius:3px; transform:translateY(-50%); background:#fff; }
-.wizard-checkbox:not(.wizard-service).selected::before { border-color:var(--blue); background:var(--blue); box-shadow:inset 0 0 0 4px #fff; }
+.wizard-checkbox:not(.wizard-service).selected::before { content:"\2713"; display:grid; place-items:center; border-color:var(--blue); background:var(--blue); color:#fff; font-size:12px; font-weight:900; line-height:1; }
 .wizard-later { max-width:430px; }
 .wizard-service-options { display:grid; gap:11px; }
 .wizard-service { min-height:66px; }
