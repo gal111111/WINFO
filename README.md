@@ -32,3 +32,5 @@ npm run preview  # Preview the production build
 ## Delivery foundations
 
 The repository includes a GitHub Actions workflow at `.github/workflows/build-and-deploy.yml`. It installs from the lockfile, runs the production build and publishes the `dist` artifact to GitHub Pages. Git history should be kept on the remote with reviewed commits so the previous stable deployment can be restored when needed.
+
+For the Cloudflare Pages setup, custom-domain handover, DNS protection and rollback steps, see [docs/08-上線準備與域名接管.md](docs/08-上線準備與域名接管.md).

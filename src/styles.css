@@ -111,3 +111,12 @@
 .other-services-grid article { min-height:260px; }
 @media (max-width:900px) { .registered-address-layout,.google-rating-layout,.address-addon-card { grid-template-columns:1fr; gap:32px; }.google-score { min-height:0; padding:0 0 27px; border-right:0; border-bottom:1px solid #c5dff4; }.plan-card { min-height:0; }.other-services-grid { grid-template-columns:1fr; }.address-addon-card>div:last-child>strong { margin-top:4px; } }
 @media (max-width:600px) { .testimonial-intro { font-size:14px; }.testimonial-grid blockquote footer { align-items:flex-start; flex-direction:column; }.testimonial-grid blockquote footer small { text-align:left; }.testimonial-person img,.avatar-fallback { width:44px; height:44px; flex-basis:44px; }.price-hero-card strong { font-size:40px!important; }.registered-address-layout { gap:27px; }.address-visual { padding-left:0; }.address-icon { position:static; margin-bottom:20px; }.address-visual h2 { font-size:33px; }.address-price-card,.google-rating-layout,.plan-card,.address-addon-card { padding:24px; }.address-price-card>strong { font-size:39px; }.google-score strong { font-size:48px; }.pricing-hero-copy { margin-top:40px; }.pricing-hero-copy h1 { font-size:42px; }.pricing-hero-copy>p:not(.hero-kicker) { font-size:15px; line-height:1.7; }.plan-grid { grid-template-columns:1fr; }.plan-card>strong { font-size:45px; }.plan-card>p { min-height:0; }.address-addon-card h2 { font-size:25px; }.address-addon-card>div:last-child>strong { font-size:38px; } }
+
+.included-grid.compact { grid-template-columns:repeat(2,1fr); }
+.content-hero-copy { max-width:760px; margin-top:65px; }
+.content-hero-copy h1 { max-width:720px; margin:15px 0 19px; color:var(--navy); font-size:clamp(43px,5.2vw,74px); line-height:1.1; }
+.content-hero-copy>p:not(.hero-kicker) { max-width:650px; margin-bottom:31px; color:var(--muted); font-size:17px; line-height:1.8; }
+.one-stop-note { display:block; margin:0 0 12px; color:var(--blue); font-size:13px; font-weight:800; }
+#registration-inquiry,#contact-enquiry { scroll-margin-top:130px; }
+@media (max-width:900px) { .included-grid.compact { grid-template-columns:1fr; }.content-hero-copy { margin-top:40px; } }
+@media (max-width:600px) { .content-hero-copy h1 { font-size:42px; }.content-hero-copy>p:not(.hero-kicker) { font-size:15px; line-height:1.7; } }

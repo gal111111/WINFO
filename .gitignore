@@ -4,6 +4,7 @@ dist/
 .env
 .env.*
 !.env.example
+.dev.vars
 playwright-report/
 test-results/
 .playwright-cli/

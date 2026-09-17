@@ -1,6 +1,6 @@
 export const contact = {
   phone: '+852 6651 5286',
-  email: 'enquiry@winfo.hk',
+  email: 'jeccw@email.com',
   address: '香港九龍觀塘敬業街 61-63 號利維大廈 1 樓 122 室',
   whatsapp: 'https://wa.me/85266515286',
 };
@@ -8,7 +8,7 @@ export const contact = {
 export const pricingData = {
   currency: 'HKD',
   local: 5000,
-  mainland: 6500,
+  mainland: 6900,
   registeredAddress: 1500,
 };
 
@@ -169,7 +169,7 @@ Object.assign(traditionalUi, {
 Object.assign(ui.en, {
   priceLocalLabel: 'Hong Kong founder setup', priceMainlandLabel: 'Mainland founder setup', priceAddressLabel: 'Registered address and mail handling',
   priceBasic: 'Basic setup plan', priceAddress: 'Registered address and mail handling', priceAddressShort: 'Registered address and mail handling: +HK$1,500', priceEnquiry: 'Ask about this plan', priceDetails: 'Government charges, company-secretarial term and third-party fees will be set out in the formal quote.',
-  registeredAddressKicker: 'Company setup add-on', registeredAddressTitle: 'Registered address and mail handling', registeredAddressText: 'Need a Hong Kong registered address and mail-handling support? Add this optional service to your company setup plan.', registeredAddressItemOne: 'Hong Kong registered address service', registeredAddressItemTwo: 'Mail receipt and notification service', registeredAddressNote: 'Service term, accepted mail types, notification and collection arrangements are subject to the formal service terms. Ask us first about scanning, forwarding or courier arrangements.', registeredAddressCta: 'Ask about address and mail service', selectedSubtotal: 'Selected items subtotal', noFinalTotal: 'This is not a final payable total. Government charges and service terms are confirmed in the formal quote.',
+  registeredAddressKicker: 'Company setup add-on', registeredAddressTitle: 'Registered address and mail handling', registeredAddressText: 'Need a Hong Kong registered address and mail-handling support? Add this optional service to your company setup plan.', registeredAddressItemOne: 'Hong Kong registered address service', registeredAddressItemTwo: 'Mail receipt and notification service', registeredAddressNote: 'Service term, accepted mail types, notification and collection arrangements are subject to the formal service terms. Ask us first about scanning, forwarding or courier arrangements.', registeredAddressCta: 'Ask about address and mail service', selectedSubtotal: 'Selected services total', noFinalTotal: 'This is not a final payable total. Government charges and service terms are confirmed in the formal quote.', oneStopService: 'One-stop service included',
   googlePreviewKicker: 'Google reviews', googlePreviewTitle: 'A preview of our Google rating section.', googlePreviewText: 'This space is ready for WINFO\'s verified business profile. The live score, review count and link will be added only after the business listing is confirmed.', googlePreviewScoreNote: 'Design preview · not an actual Google rating', googlePreviewNoLink: 'No external review link is shown until a verified WINFO profile is available.',
   testimonialsTitle: 'Hear what clients have to say.', testimonialsIntro: 'From company setup to ongoing support, see how clients describe working with WINFO.', exampleTestimonial: 'Illustrative testimonial',
   homeFaqTitle: 'Ask the important questions before you begin.', homeFaq: [
@@ -183,7 +183,7 @@ Object.assign(ui.en, {
 });
 Object.assign(traditionalUi, {
   priceLocalLabel: '香港人士註冊方案', priceMainlandLabel: '內地人士註冊香港公司方案', priceBasic: '基本成立方案', priceAddress: '註冊地址及郵件代收', priceAddressShort: '註冊地址及郵件代收：另加 HK$1,500', priceEnquiry: '查詢此方案', priceDetails: '政府費用、公司秘書服務年期及其他第三方費用，會在正式報價中逐項列明。',
-  registeredAddressKicker: '公司註冊配套', registeredAddressTitle: '註冊地址及郵件代收服務', registeredAddressText: '需要香港公司註冊地址及郵件代收支援？可在公司註冊方案以外，另選此項配套服務。', registeredAddressItemOne: '公司註冊地址服務', registeredAddressItemTwo: '郵件代收服務', registeredAddressNote: '服務期限、可接收郵件類型、通知及領取安排，以正式服務條款為準；掃描、轉寄及快遞如需安排，請先查詢。', registeredAddressCta: '查詢地址及郵件服務', selectedSubtotal: '所選項目小計', noFinalTotal: '這不是最終應付總額；政府費用及服務條款會在正式報價中確認。',
+  registeredAddressKicker: '公司註冊配套', registeredAddressTitle: '註冊地址及郵件代收服務', registeredAddressText: '需要香港公司註冊地址及郵件代收支援？可在公司註冊方案以外，另選此項配套服務。', registeredAddressItemOne: '公司註冊地址服務', registeredAddressItemTwo: '郵件代收服務', registeredAddressNote: '服務期限、可接收郵件類型、通知及領取安排，以正式服務條款為準；掃描、轉寄及快遞如需安排，請先查詢。', registeredAddressCta: '查詢地址及郵件服務', selectedSubtotal: '所選服務總計', noFinalTotal: '這不是最終應付總額；政府費用及服務條款會在正式報價中確認。', oneStopService: '提供一站式服務',
   googlePreviewKicker: 'Google 評分', googlePreviewTitle: 'Google 評分區預覽', googlePreviewText: '此區展示正式評分區的版面效果。實際分數、評價數量及連結，會在 WINFO 商家資料核實後才加入。', googlePreviewScoreNote: '設計示意・並非實際 Google 評分', googlePreviewNoLink: '在核實 WINFO 商家資料前，不顯示外部評價連結。',
   testimonialsTitle: '聽聽客戶怎樣說。', testimonialsIntro: '由成立公司到日常跟進，了解客戶與 WINFO 合作的實際體驗。', exampleTestimonial: '示例評語',
   homeFaqTitle: '在開始前，把重要問題問清楚。', homeFaq: [
@@ -194,6 +194,25 @@ Object.assign(traditionalUi, {
     ['BUD 申請是否保證獲批？', '不保證。資助資格及批核結果由相關政府機構按最新規則及個別申請決定。'],
     ['提交查詢後多久會收到回覆？', '我們會在查看查詢中的一般資料後，先確認最實際的下一步。'],
   ],
+});
+
+Object.assign(ui.en, {
+  heroTitle: 'Make the work clear. Move forward with confidence',
+  whyTitle: 'Make things clear to move forward steadily',
+  processTitle: 'Turn every concern into a more assured next step',
+  budHero: 'From market-expansion planning to a BUD application built for precise delivery',
+  selectedSubtotal: 'Selected services total',
+  oneStopService: 'One-stop service included',
+  legalPrivacy: ['WINFO collects contact and enquiry information only when you choose to send it through a stated channel', 'We use the information to answer enquiries, assess the requested service and manage the business relationship. We do not sell personal data', 'Information may be shared with professional advisers, service providers or authorities only where needed for the requested work, legal obligations or with appropriate authority', 'Do not send identity documents, bank statements or other sensitive material through a general website enquiry. We will confirm an appropriate collection method after the scope is agreed', 'You may ask about access to or correction of personal data by contacting jeccw@email.com. This draft must be reviewed and completed by WINFO’s legal adviser before public launch'],
+});
+Object.assign(traditionalUi, {
+  heroTitle: '把事情説清楚，才能穩步向前',
+  whyTitle: '把事情説清楚，才能穩步向前',
+  processTitle: '將你的每一次顧慮，轉化為踏實的每一步',
+  budHero: '從市場拓展藍圖，到精準落地的 BUD 申請架構',
+  selectedSubtotal: '所選服務總計',
+  oneStopService: '提供一站式服務',
+  legalPrivacy: ['WINFO 只會在你選擇透過已列明渠道聯絡我們時，收集聯絡及查詢資料', '我們會使用資料回覆查詢、評估所需服務及管理業務關係；我們不會出售個人資料', '只有在完成獲委託工作、履行法定責任或取得適當授權時，資料才可能提供予專業顧問、服務供應商或主管機構', '請勿透過一般網站查詢傳送身份證明、銀行月結單或其他敏感資料；確認服務範圍後，我們會提供合適的收集方法', '你可透過 jeccw@email.com 查詢查閱或更正個人資料。本草稿須在公開發布前交由 WINFO 法律顧問審閱及補充'],
 });
 
 ui['zh-Hant'] = traditionalUi;
@@ -250,6 +269,24 @@ const extendedEnglish = {
 };
 
 export function getExtendedContent(language) {
-  if (language === 'en') return extendedEnglish;
-  return language === 'zh-Hans' ? toSimplified(extendedTraditional) : extendedTraditional;
+  const source = language === 'en' ? extendedEnglish : language === 'zh-Hans' ? toSimplified(extendedTraditional) : extendedTraditional;
+  const isEnglish = language === 'en';
+  const pages = {
+    ...source.pages,
+    pricing: { ...source.pages.pricing, title: isEnglish ? 'Transparent pricing begins with a clear scope' : '收費透明，先把服務範圍說清楚' },
+    cases: {
+      ...source.pages.cases,
+      title: isEnglish ? 'Three common scenarios, each with a clear service path' : '三種常見情境，各有清楚的服務路徑',
+      lead: isEnglish ? 'These are illustrative service scenarios, not client success claims. They show how we organise the background, scope, expected handling output and practical value before an engagement begins' : '以下為服務情境示例，並非客戶成果或結果承諾。每個情境先整理背景、服務範圍、預計處理成果與客戶價值，才進入正式委託',
+      cards: isEnglish
+        ? [['Hong Kong startup', 'Background: a founder needs to settle the company name, ownership and first filing path', ['Service scope: structure discussion, documents and filing coordination', 'Handling output: a documented setup sequence and handover list', 'Client value: a clearer basis for the first operational decisions']], ['Mainland cross-border team', 'Background: a cross-border team needs to organise identity, business and KYC information before moving ahead', ['Service scope: information review, incorporation coordination and banking-readiness preparation', 'Handling output: a prioritised document list and next-step schedule', 'Client value: fewer unclear handoffs across the preparation process']], ['SME preparing market expansion', 'Background: an established business is considering a BUD-supported market expansion project', ['Service scope: initial direction, project logic, budget and evidence planning', 'Handling output: a structured view of project readiness and information gaps', 'Client value: a more grounded decision before committing resources']]]
+        : [['香港初創公司', '背景：創業者需要釐清公司名稱、股權與首輪提交安排', ['服務範圍：架構討論、文件整理及提交協調', '處理成果：一份可跟進的成立流程與交接清單', '客戶價值：為首階段營運決定建立清楚依據']], ['內地跨境團隊', '背景：跨境團隊需在推進前整理身份、業務與 KYC 資料', ['服務範圍：資料盤點、公司成立協調與開戶前準備', '處理成果：按優次整理的文件清單與下一步時間表', '客戶價值：減少準備過程中不清晰的反覆交接']], ['準備拓展市場的中小企', '背景：已有業務的企業正考慮以 BUD 支援市場拓展項目', ['服務範圍：初步方向、項目邏輯、預算及證明資料規劃', '處理成果：項目準備度與資料缺口的結構化整理', '客戶價值：在投入資源前作出更踏實的決定']]],
+    },
+    about: { ...source.pages.about, title: isEnglish ? 'For people building serious businesses, we untangle complexity and clear the way' : '為認真建設事業的人，理清繁瑣，鋪就坦途' },
+    maintenance: isEnglish
+      ? { label: 'Audit, tax and compliance', title: 'Stay ahead of annual obligations with a clearer operating rhythm', lead: 'Audit, tax and company-secretarial work should begin with a shared view of your records, filing position and upcoming deadlines. We help organise the information, define the work and keep important dates visible', cards: [['Review the position', 'Start with the company record, prior filings, transactions and upcoming deadlines'], ['Define the work', 'Separate secretarial, bookkeeping, audit and tax needs into a scope that can be acted on'], ['Keep the rhythm', 'Use agreed checkpoints and reminders to keep the next filing or review from becoming a last-minute issue']], note: 'Statutory responsibilities, deadlines and service scope depend on the company’s actual circumstances and relevant professional advice' }
+      : { label: '審計、報稅及公司秘書', title: '把年度責任放進清楚、可跟進的營運節奏', lead: '審計、報稅及公司秘書工作，先要對帳目、申報狀況與即將到期事項有共同理解。WINFO 協助整理資料、釐清工作範圍，讓重要時點保持清楚', cards: [['先盤點現況', '由公司記錄、過往申報、交易與即將到期事項開始整理'], ['再釐清工作', '把公司秘書、記帳、審計及報稅需要拆成可以執行的服務範圍'], ['維持處理節奏', '以已確認的節點與提醒，避免申報或檢視工作變成最後一刻的處理']], note: '法定責任、時限及服務範圍，須按公司實際情況及相關專業意見確認' },
+    contact: { ...source.pages.contact, cards: source.pages.contact.cards.map(([title, text]) => (title === 'Email' || title === '電郵' ? [title, contact.email] : [title, text])) },
+  };
+  return { ...source, pages };
 }

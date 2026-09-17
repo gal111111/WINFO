@@ -22,11 +22,11 @@ export function HomePage({ navigate, language }) {
       ];
   const current = finder[selected];
   const principles = language === 'en'
-    ? [['Clarify the scope first', 'Confirm scope, fees, timing and responsibilities before work begins.'], ['One person owns the next step', 'A dedicated adviser coordinates the moving parts and reduces unnecessary back-and-forth.'], ['Support beyond the filing', 'Keep incorporation, banking, finance and growth needs in view.']]
-    : localize([['先把範圍說清楚', '開始前確認服務、費用、時程與各方責任，讓每個決定有依據。'], ['每一步都有負責人', '由專責顧問統一協調，減少跨境溝通與文件來回。'], ['不止完成申請', '同時考慮成立後的合規、銀行、財務與下一階段增長需要。']]);
+    ? [['Confirm the need', 'Start with the business goal, practical constraints and information needed for a sound decision'], ['A dedicated lead', 'One responsible adviser keeps the work, milestones and communication moving in the same direction'], ['Start with the application, plan for what follows', 'Keep compliance, operations and the next stage of growth in view from the start']]
+    : localize([['確認需求', '先了解業務目標、實際限制與所需資料，再判斷最合適的安排'], ['專項負責人', '由專責顧問統一跟進工作、節點與溝通，讓每一步保持同一方向'], ['始於申請，著眼長遠', '由申請開始，同步整理合規、營運與下一階段拓展需要']]);
   const process = language === 'en'
-    ? [['01', 'Understand the situation', 'Clarify your background, current state, timing and the decision in front of you.'], ['02', 'Confirm the scope and quote', 'Set out services, documents, responsibilities and fees.'], ['03', 'Coordinate documents and filing', 'Work through information, signing, submission and important checkpoints.'], ['04', 'Handover and ongoing support', 'Finish the current task and organise the next compliance or growth step.']]
-    : localize([['01', '初步了解', '釐清你的業務背景、現況、時程與真正要作的決定。'], ['02', '確認方案及報價', '把服務範圍、所需文件、各方責任及費用說明清楚。'], ['03', '文件與申請處理', '按已確認的步驟協調資料、簽署、提交及重要節點。'], ['04', '交付及持續支援', '完成目前工作後，整理後續合規或拓展的下一步。']]);
+    ? [['01', 'Needs diagnosis', 'Analyse the business background, current position, timing and the decision that needs to be made'], ['02', 'Fee clarity', 'Set out the service scope, required documents, responsibilities and fees before work begins'], ['03', 'Documents and application handling', 'Coordinate information, signing, submission and important checkpoints in the agreed sequence'], ['04', 'Handover and ongoing support', 'Close the current work and organise the next compliance or growth step']]
+    : localize([['01', '需求診斷', '剖析業務背景、現況、時程與真正需要作出的決定'], ['02', '費用釐清', '在開始前說清服務範圍、所需文件、各方責任與費用'], ['03', '文件與申請處理', '按已確認的步驟協調資料、簽署、提交及重要節點'], ['04', '交付及持續支援', '完成目前工作後，整理後續合規或拓展的下一步']]);
   const faq = copy.homeFaq;
 
   return <>
