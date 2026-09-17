@@ -1,0 +1,77 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import * as wizardModel from './wizardModel.js';
+import {
+  initialWizardData,
+  restoreWizardDraft,
+  toEnquiryPayload,
+  validateWizardStep,
+} from './wizardModel.js';
+import { wizardCopy } from './wizardContent.js';
+
+test('checked wizard checkboxes expose the selected visual state', () => {
+  assert.equal(typeof wizardModel.wizardCheckboxClassName, 'function');
+  assert.match(wizardModel.wizardCheckboxClassName('wizard-consent', true), /\bselected\b/);
+  assert.doesNotMatch(wizardModel.wizardCheckboxClassName('wizard-consent', false), /\bselected\b/);
+});
+
+test('profile query preselects only a supported founder profile', () => {
+  assert.equal(initialWizardData('local').profile, 'local');
+  assert.equal(initialWizardData('mainland').profile, 'mainland');
+  assert.equal(initialWizardData('unknown').profile, 'undecided');
+});
+
+test('company names require a non-blank option or decide later', () => {
+  assert.deepEqual(validateWizardStep(0, initialWizardData()), ['companyNames']);
+  assert.deepEqual(validateWizardStep(0, { ...initialWizardData(), companyNames: ['  ', 'WINFO Labs', ''] }), []);
+  assert.deepEqual(validateWizardStep(0, { ...initialWizardData(), decideNameLater: true }), []);
+});
+
+test('founder, business and contact steps validate only their required fields', () => {
+  assert.deepEqual(validateWizardStep(1, { ...initialWizardData(), profile: '', directors: '', shareholders: '' }), ['profile', 'directors', 'shareholders']);
+  assert.deepEqual(validateWizardStep(2, initialWizardData()), ['business', 'timing', 'existingCompany']);
+  assert.deepEqual(validateWizardStep(3, initialWizardData()), []);
+  assert.deepEqual(validateWizardStep(4, { ...initialWizardData(), name: 'Ada', contact: 'ada@example.com', consent: true }), []);
+});
+
+test('saved drafts are merged safely while the query profile takes priority', () => {
+  const draft = JSON.stringify({ business: 'Consulting', profile: 'local', unexpected: 'ignored' });
+  const restored = restoreWizardDraft(draft, 'mainland');
+  assert.equal(restored.business, 'Consulting');
+  assert.equal(restored.profile, 'mainland');
+  assert.equal('unexpected' in restored, false);
+});
+
+test('submission maps wizard fields to the existing enquiry endpoint contract', () => {
+  const data = {
+    ...initialWizardData('local'),
+    companyNames: ['WINFO Labs', '', ''],
+    business: 'Consulting',
+    timing: 'within-month',
+    existingCompany: 'no',
+    needsAddress: true,
+    needsBanking: true,
+    name: 'Ada',
+    contact: 'ada@example.com',
+    consent: true,
+  };
+  const payload = toEnquiryPayload(data, 'en');
+  assert.equal(payload.type, 'company-registration');
+  assert.equal(payload.service, 'Guided company registration enquiry');
+  assert.equal(payload.profile, 'local');
+  assert.equal(payload.companyNames, 'WINFO Labs');
+  assert.equal(payload.needsAddress, 'Yes');
+  assert.match(payload.message, /Banking preparation: Yes/);
+});
+
+test('every supported language contains six complete wizard steps', () => {
+  for (const language of ['en', 'zh-Hant', 'zh-Hans']) {
+    const copy = wizardCopy[language];
+    assert.equal(copy.steps.length, 6);
+    assert.ok(copy.actions.continue);
+    assert.ok(copy.actions.submit);
+    assert.ok(copy.fields.consent);
+    assert.deepEqual(Object.keys(copy.profiles), ['local', 'mainland', 'undecided']);
+    assert.deepEqual(Object.keys(copy.timings), ['asap', 'within-month', 'within-three-months', 'researching']);
+  }
+});
