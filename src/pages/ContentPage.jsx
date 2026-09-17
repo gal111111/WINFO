@@ -47,7 +47,7 @@ function PricingPage({ navigate, language, page, copy }) {
       items: isEnglish
         ? ['Company setup information preparation', 'Document preparation and filing coordination', 'Clear next-step guidance']
         : ['整理公司成立所需資料', '協調文件準備及提交', '清楚說明下一步安排'],
-      to: '/company-registration/hong-kong-resident#registration-inquiry',
+      to: '/start/company-registration?profile=local',
     },
     {
       label: copy.priceMainlandLabel,
@@ -58,7 +58,7 @@ function PricingPage({ navigate, language, page, copy }) {
       items: isEnglish
         ? ['Cross-border document preparation guidance', 'Company setup and filing coordination', 'Clear document follow-up']
         : ['跨境文件準備方向', '協調公司成立及提交程序', '清楚跟進所需文件'],
-      to: '/company-registration/mainland-resident#registration-inquiry',
+      to: '/start/company-registration?profile=mainland',
     },
   ];
   const otherServices = isEnglish

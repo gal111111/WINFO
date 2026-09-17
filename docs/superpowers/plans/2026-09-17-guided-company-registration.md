@@ -225,14 +225,14 @@ git commit -m "feat: add guided company registration flow"
 - Modify: `src/components/Sections.jsx`
 - Modify: `src/styles.css`
 
-- [ ] **Step 1: Replace the incorporation hero actions**
+- [x] **Step 1: Replace the incorporation hero actions**
 
 ```jsx
 <LinkButton to={`/start/company-registration?profile=${kind}`} navigate={navigate}>{copy.startRegistration}</LinkButton>
 <a className="button button-secondary" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer">{copy.freeConsultation}</a>
 ```
 
-- [ ] **Step 2: Replace the long registration form with a short entry section**
+- [x] **Step 2: Replace the long registration form with a short entry section**
 
 ```jsx
 export function RegistrationStart({ navigate, language, kind }) {
@@ -243,7 +243,7 @@ export function RegistrationStart({ navigate, language, kind }) {
 
 Remove only the obsolete `RegistrationInquiry` implementation and its no-longer-used state/submission imports. Keep the general contact form unchanged.
 
-- [ ] **Step 3: Point pricing plan buttons at the wizard**
+- [x] **Step 3: Point pricing plan buttons at the wizard**
 
 ```js
 to: '/start/company-registration?profile=local'
@@ -252,7 +252,7 @@ to: '/start/company-registration?profile=mainland'
 
 Do not alter displayed prices, plan descriptions or the registered-address add-on.
 
-- [ ] **Step 4: Add isolated desktop and mobile wizard styles**
+- [x] **Step 4: Add isolated desktop and mobile wizard styles**
 
 ```css
 .registration-wizard { min-height:100vh; background:#f7fbff; color:var(--ink); }
@@ -269,13 +269,13 @@ Do not alter displayed prices, plan descriptions or the registered-address add-o
 
 Use WINFO blue `#3080FF`, navy `#173B72`, white and pale blue only; keep animation subtle and respect the existing reduced-motion rule.
 
-- [ ] **Step 5: Run regression checks**
+- [x] **Step 5: Run regression checks**
 
 Run: `npm test && npm run build`
 
 Expected: tests pass and production build completes without warnings that block output.
 
-- [ ] **Step 6: Commit the scoped integration**
+- [x] **Step 6: Commit the scoped integration**
 
 ```bash
 git add src/pages/IncorporationPage.jsx src/pages/ContentPage.jsx src/components/Sections.jsx src/styles.css
