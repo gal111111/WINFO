@@ -287,25 +287,25 @@ git commit -m "feat: connect registration entry points to guided flow"
 **Files:**
 - Modify only if a failure is found: files already listed in Tasks 1–3
 
-- [ ] **Step 1: Verify desktop in all three languages**
+- [x] **Step 1: Verify desktop in all three languages**
 
 Open `/start/company-registration?profile=local`, switch English → 繁體 → 简体, complete all six steps, go back to edit data, refresh to confirm draft restoration, and submit against the configured local endpoint. Confirm truthful success or failure messaging.
 
-- [ ] **Step 2: Verify mobile flow**
+- [x] **Step 2: Verify mobile flow**
 
 At 390 × 844, confirm there is no horizontal overflow; progress, form controls and sticky Continue remain usable; the summary can be opened; WhatsApp is not obscured; and the privacy link is reachable.
 
-- [ ] **Step 3: Verify scoped entry points**
+- [x] **Step 3: Verify scoped entry points**
 
 Confirm both company-registration service pages and both pricing-plan buttons open the wizard with the correct `profile`. Confirm the free consultation action opens WhatsApp and the former long form no longer appears.
 
-- [ ] **Step 4: Audit the diff against the freeze list**
+- [x] **Step 4: Audit the diff against the freeze list**
 
 Run: `git diff --name-only 240cae2..HEAD`
 
 Expected: only the plan, wizard feature files, route, company-registration page, pricing entry links, replacement component, package script and isolated styles appear. No navigation, footer, testimonials, ratings, pricing values, legal pages, cookie code or unrelated homepage module changes.
 
-- [ ] **Step 5: Final verification**
+- [x] **Step 5: Final verification**
 
 Run: `npm test && npm run build && git status --short`
 
