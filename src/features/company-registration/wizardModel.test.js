@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import * as wizardModel from './wizardModel.js';
 import {
   initialWizardData,
   restoreWizardDraft,
@@ -7,6 +8,12 @@ import {
   validateWizardStep,
 } from './wizardModel.js';
 import { wizardCopy } from './wizardContent.js';
+
+test('checked wizard checkboxes expose the selected visual state', () => {
+  assert.equal(typeof wizardModel.wizardCheckboxClassName, 'function');
+  assert.match(wizardModel.wizardCheckboxClassName('wizard-consent', true), /\bselected\b/);
+  assert.doesNotMatch(wizardModel.wizardCheckboxClassName('wizard-consent', false), /\bselected\b/);
+});
 
 test('profile query preselects only a supported founder profile', () => {
   assert.equal(initialWizardData('local').profile, 'local');

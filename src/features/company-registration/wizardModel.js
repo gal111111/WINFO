@@ -3,6 +3,12 @@ export const DRAFT_KEY = 'winfo-company-registration-draft';
 
 const PROFILE_VALUES = new Set(['local', 'mainland', 'undecided']);
 
+export function wizardCheckboxClassName(variant, selected, hasError = false) {
+  return ['wizard-checkbox', variant, selected && 'selected', hasError && 'has-error']
+    .filter(Boolean)
+    .join(' ');
+}
+
 export function initialWizardData(profile = 'undecided') {
   return {
     companyNames: ['', '', ''],

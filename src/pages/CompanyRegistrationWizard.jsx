@@ -9,6 +9,7 @@ import {
   restoreWizardDraft,
   toEnquiryPayload,
   validateWizardStep,
+  wizardCheckboxClassName,
 } from '../features/company-registration/wizardModel';
 
 function WizardHeader({ language, setLanguage, navigate, copy }) {
@@ -71,7 +72,7 @@ function StepFields({ step, data, update, updateName, errors, copy, setStep }) {
       <label className={hasError('contact') ? 'has-error' : ''}>{copy.fields.contact} <small>{copy.required}</small><input className="wizard-control" value={data.contact} onChange={(event) => update('contact', event.target.value)} autoComplete="email" /></label>
     </div>
     <label>{copy.fields.message} <small>{copy.optional}</small><textarea className="wizard-control" rows="4" value={data.message} onChange={(event) => update('message', event.target.value)} placeholder={copy.fields.messagePlaceholder} /></label>
-    <label className={`wizard-checkbox wizard-consent ${hasError('consent') ? 'has-error' : ''}`}><input type="checkbox" checked={data.consent} onChange={(event) => update('consent', event.target.checked)} /><span>{copy.fields.consent} <a href="/privacy-policy" target="_blank" rel="noreferrer">{copy.fields.privacy}</a></span></label>
+    <label className={wizardCheckboxClassName('wizard-consent', data.consent, hasError('consent'))}><input type="checkbox" checked={data.consent} onChange={(event) => update('consent', event.target.checked)} /><span>{copy.fields.consent} <a href="/privacy-policy" target="_blank" rel="noreferrer">{copy.fields.privacy}</a></span></label>
     <label className="honeypot" aria-hidden="true">Website<input tabIndex="-1" autoComplete="off" value={data.website} onChange={(event) => update('website', event.target.value)} /></label>
     <ErrorMessage visible={hasError('name') || hasError('contact') || hasError('consent')} copy={copy} />
   </>;
