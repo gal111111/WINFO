@@ -6,6 +6,7 @@ import {
   toEnquiryPayload,
   validateWizardStep,
 } from './wizardModel.js';
+import { wizardCopy } from './wizardContent.js';
 
 test('profile query preselects only a supported founder profile', () => {
   assert.equal(initialWizardData('local').profile, 'local');
@@ -54,4 +55,16 @@ test('submission maps wizard fields to the existing enquiry endpoint contract', 
   assert.equal(payload.companyNames, 'WINFO Labs');
   assert.equal(payload.needsAddress, 'Yes');
   assert.match(payload.message, /Banking preparation: Yes/);
+});
+
+test('every supported language contains six complete wizard steps', () => {
+  for (const language of ['en', 'zh-Hant', 'zh-Hans']) {
+    const copy = wizardCopy[language];
+    assert.equal(copy.steps.length, 6);
+    assert.ok(copy.actions.continue);
+    assert.ok(copy.actions.submit);
+    assert.ok(copy.fields.consent);
+    assert.deepEqual(Object.keys(copy.profiles), ['local', 'mainland', 'undecided']);
+    assert.deepEqual(Object.keys(copy.timings), ['asap', 'within-month', 'within-three-months', 'researching']);
+  }
 });

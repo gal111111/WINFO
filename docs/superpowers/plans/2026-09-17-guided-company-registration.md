@@ -114,7 +114,7 @@ git commit -m "test: define company registration wizard model"
 - Create: `src/pages/CompanyRegistrationWizard.jsx`
 - Modify: `src/main.jsx`
 
-- [ ] **Step 1: Add complete English, Traditional Chinese and Simplified Chinese copy**
+- [x] **Step 1: Add complete English, Traditional Chinese and Simplified Chinese copy**
 
 ```js
 export const wizardCopy = {
@@ -144,7 +144,7 @@ export const wizardCopy = {
 
 The same file also defines the exact field labels, timing and yes/no choices, validation message, summary labels, privacy-consent sentence, adviser note and WhatsApp/email fallback text used by the six steps. English, Traditional Chinese and Simplified Chinese are authored separately so Chinese phrasing is not generated at runtime.
 
-- [ ] **Step 2: Build the wizard page around the pure model**
+- [x] **Step 2: Build the wizard page around the pure model**
 
 ```jsx
 export function CompanyRegistrationWizard({ navigate, language, setLanguage }) {
@@ -185,7 +185,7 @@ export function CompanyRegistrationWizard({ navigate, language, setLanguage }) {
 
 In the same file, define `WizardHeader`, `Progress`, `StepFields`, `WizardActions`, `WizardSummary` and `SubmissionMessage` before the exported component. `StepFields` returns the semantic labels, three company-name fields, decide-later checkbox, founder radio cards, number selects, business inputs, service checkboxes, contact fields, honeypot, privacy-policy link and review/edit buttons for the active step. A `useEffect` writes the non-sensitive `data` object to `sessionStorage`; `submit` clears it after success.
 
-- [ ] **Step 3: Register the standalone route and query-safe navigation**
+- [x] **Step 3: Register the standalone route and query-safe navigation**
 
 ```jsx
 const routes = {
@@ -204,13 +204,13 @@ if (route?.standalone) {
 
 Add focused-page metadata for `registrationStart`.
 
-- [ ] **Step 4: Run model tests and production build**
+- [x] **Step 4: Run model tests and production build**
 
 Run: `npm test && npm run build`
 
 Expected: all model tests pass and Vite produces `dist/` without errors.
 
-- [ ] **Step 5: Commit the page**
+- [x] **Step 5: Commit the page**
 
 ```bash
 git add src/features/company-registration/wizardContent.js src/pages/CompanyRegistrationWizard.jsx src/main.jsx
