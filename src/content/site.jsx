@@ -14,7 +14,7 @@ export const pricingData = {
 
 export const googleRating = {
   status: 'preview',
-  rating: 4.9,
+  rating: 4.6,
   reviewCount: null,
   businessName: 'WINFO Business Solutions Ltd',
   profileUrl: '',
@@ -145,25 +145,27 @@ Object.assign(traditionalUi, { pricingNav: '價格方案', casesNav: '案例方�
 
 Object.assign(ui.en, {
   enquiryTitle: 'Start with a short enquiry.',
-  enquiryText: 'Share a few general details and we will prepare a WhatsApp message for you to review. Do not include identity documents, bank records or confidential information.',
+  enquiryText: 'Share a few general details and WINFO will receive your enquiry. We will review it and contact you through the details you provide. Do not include identity documents, bank records or confidential information.',
   enquiryService: 'What would you like to discuss?',
   enquiryTiming: 'When would you like to start?',
   enquiryMessage: 'Anything else we should know?',
   enquiryMessagePlaceholder: 'A short description is enough for the first conversation.',
-  enquirySubmit: 'Prepare WhatsApp message',
+  enquirySubmit: 'Send enquiry',
   enquiryServices: ['Company setup', 'Annual compliance', 'BUD Fund', 'Cross-border or technology landing', 'Not sure yet'],
   enquiryTimings: ['As soon as possible', 'Within one month', 'Within three months', 'I am researching options'],
+  contactEmail: contact.email, enquirySending: 'Sending enquiry', enquiryConsent: 'I agree that WINFO may use these details to respond to my enquiry, as set out in the', enquirySuccess: 'Thank you. Your enquiry has been sent to WINFO. We will review the general information and get back to you.', enquiryFailure: 'We could not send the form at the moment. Please use WhatsApp or email so that we do not miss your enquiry.', enquiryFallback: 'Prefer an immediate reply?', enquiryFallbackOr: 'or email',
 });
 Object.assign(traditionalUi, {
   enquiryTitle: '先用幾句話，說明你現在的需要。',
-  enquiryText: '填寫一般資料後，我們會先為你準備 WhatsApp 查詢內容供你確認。請勿填寫身份證明、銀行紀錄或其他保密資料。',
+  enquiryText: '填寫一般資料後，查詢會直接送達 WINFO。我們會先查看內容，再按你提供的聯絡方式與你跟進。請勿填寫身份證明、銀行紀錄或其他保密資料。',
   enquiryService: '想先了解哪一項服務？',
   enquiryTiming: '希望何時開始？',
   enquiryMessage: '還有甚麼想讓我們先知道？',
   enquiryMessagePlaceholder: '第一次聯絡，只需簡單說明即可。',
-  enquirySubmit: '準備 WhatsApp 查詢',
+  enquirySubmit: '送出查詢',
   enquiryServices: ['成立香港公司', '年度合規及公司維護', 'BUD 專項基金', '跨境或科技落地', '暫未確定'],
   enquiryTimings: ['希望盡快開始', '一個月內', '三個月內', '正在比較方案'],
+  contactEmail: contact.email, enquirySending: '正在送出查詢', enquiryConsent: '我同意 WINFO 按照', enquirySuccess: '多謝你的查詢，資料已送達 WINFO。我們會先查看一般資料，再與你聯絡。', enquiryFailure: '表格暫時未能送出。為免遺漏你的查詢，請改用 WhatsApp 或電郵聯絡我們。', enquiryFallback: '想即時聯絡？', enquiryFallbackOr: '或電郵至',
 });
 
 Object.assign(ui.en, {
@@ -203,6 +205,7 @@ Object.assign(ui.en, {
   budHero: 'From market-expansion planning to a BUD application built for precise delivery',
   selectedSubtotal: 'Selected services total',
   oneStopService: 'One-stop service included',
+  registrationIntro: 'Share only general, non-sensitive details. Your enquiry will be sent to WINFO for review and follow-up.', submitInquiry: 'Send registration enquiry',
   legalPrivacy: ['WINFO collects contact and enquiry information only when you choose to send it through a stated channel', 'We use the information to answer enquiries, assess the requested service and manage the business relationship. We do not sell personal data', 'Information may be shared with professional advisers, service providers or authorities only where needed for the requested work, legal obligations or with appropriate authority', 'Do not send identity documents, bank statements or other sensitive material through a general website enquiry. We will confirm an appropriate collection method after the scope is agreed', 'You may ask about access to or correction of personal data by contacting jeccw@email.com. This draft must be reviewed and completed by WINFO’s legal adviser before public launch'],
 });
 Object.assign(traditionalUi, {
@@ -212,6 +215,7 @@ Object.assign(traditionalUi, {
   budHero: '從市場拓展藍圖，到精準落地的 BUD 申請架構',
   selectedSubtotal: '所選服務總計',
   oneStopService: '提供一站式服務',
+  registrationIntro: '只需填寫一般、非敏感資料；查詢會直接送達 WINFO，再由我們跟進。', submitInquiry: '送出成立公司查詢',
   legalPrivacy: ['WINFO 只會在你選擇透過已列明渠道聯絡我們時，收集聯絡及查詢資料', '我們會使用資料回覆查詢、評估所需服務及管理業務關係；我們不會出售個人資料', '只有在完成獲委託工作、履行法定責任或取得適當授權時，資料才可能提供予專業顧問、服務供應商或主管機構', '請勿透過一般網站查詢傳送身份證明、銀行月結單或其他敏感資料；確認服務範圍後，我們會提供合適的收集方法', '你可透過 jeccw@email.com 查詢查閱或更正個人資料。本草稿須在公開發布前交由 WINFO 法律顧問審閱及補充'],
 });
 
