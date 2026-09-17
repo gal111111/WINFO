@@ -17,7 +17,7 @@
 - Create: `src/features/company-registration/wizardModel.test.js`
 - Modify: `package.json`
 
-- [ ] **Step 1: Write failing model tests**
+- [x] **Step 1: Write failing model tests**
 
 ```js
 import test from 'node:test';
@@ -47,7 +47,7 @@ test('submission maps wizard fields to the existing endpoint contract', () => {
 });
 ```
 
-- [ ] **Step 2: Add and run the test command to verify failure**
+- [x] **Step 2: Add and run the test command to verify failure**
 
 ```json
 "test": "node --test src/**/*.test.js"
@@ -57,7 +57,7 @@ Run: `npm test`
 
 Expected: FAIL because `wizardModel.js` does not exist.
 
-- [ ] **Step 3: Implement the pure model**
+- [x] **Step 3: Implement the pure model**
 
 ```js
 export const WIZARD_STEPS = 6;
@@ -94,13 +94,13 @@ export function toEnquiryPayload(data, language) {
 }
 ```
 
-- [ ] **Step 4: Run tests**
+- [x] **Step 4: Run tests**
 
 Run: `npm test`
 
 Expected: 4 tests pass.
 
-- [ ] **Step 5: Commit the model**
+- [x] **Step 5: Commit the model**
 
 ```bash
 git add package.json src/features/company-registration/wizardModel.js src/features/company-registration/wizardModel.test.js
