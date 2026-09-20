@@ -1,10 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { formatPrice, getExtendedContent, getUi, googleRating, pricingData } from '../content/site';
 import { Icon, LinkButton, consultationUrl } from './SiteShell';
 import { submitEnquiry } from '../lib/enquiry';
 
+export function Reveal({ children, className = '', delay = 0, as: Tag = 'div', ...rest }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return undefined;
+    if (typeof IntersectionObserver === 'undefined' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) { node.classList.add('is-visible'); return undefined; }
+    const observer = new IntersectionObserver((entries) => { entries.forEach((entry) => { if (entry.isIntersecting) { node.classList.add('is-visible'); observer.unobserve(node); } }); }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+  return <Tag ref={ref} className={`reveal ${className}`.trim()} style={{ '--reveal-delay': `${delay}ms` }} {...rest}>{children}</Tag>;
+}
+
 export function Breadcrumb({ current, navigate, language }) { const copy = getUi(language); return <div className="breadcrumb"><button type="button" onClick={() => navigate('/')}>{copy.home}</button><span>/</span><span>{current}</span></div>; }
-export function SectionHeading({ label, title, text, light = false }) { return <div className={`section-heading ${light ? 'light' : ''}`}><span className="section-label">{label}</span><h2>{title}</h2>{text && <p>{text}</p>}</div>; }
+export function SectionHeading({ label, title, text, light = false }) { return <Reveal className={`section-heading ${light ? 'light' : ''}`}><span className="section-label">{label}</span><h2>{title}</h2>{text && <p>{text}</p>}</Reveal>; }
 export function FAQ({ items, title, language }) { const [open, setOpen] = useState(0); const copy = getUi(language); return <section className="section faq-band"><div className="container faq-layout"><SectionHeading label={copy.faq} title={title || copy.faqTitle} /><div className="faq-list">{items.map(([question, answer], index) => <article key={question} className={open === index ? 'faq-item open' : 'faq-item'}><button type="button" onClick={() => setOpen(open === index ? -1 : index)} aria-expanded={open === index}><span>{question}</span><Icon name="chevron" size={20} /></button><div className="faq-answer"><p>{answer}</p></div></article>)}</div></div></section>; }
 export function FinalCta({ title, text, topic, language }) { const copy = getUi(language); return <section className="final-cta"><div className="container final-cta-inner"><div><h2>{title || copy.setUpTitle}</h2><p>{text || copy.setUpText}</p></div><a className="button button-light" href={consultationUrl(topic || copy.initialConsultation, language)} target="_blank" rel="noreferrer">{copy.whatsappEnquiry} <Icon name="arrow" size={16} /></a></div></section>; }
 export function ProcessList({ items, compact = false }) { return <ol className={`process-list ${compact ? 'compact' : ''}`}>{items.map(([number, title, text]) => <li key={number}><span>{number}</span><div><h3>{title}</h3><p>{text}</p></div><span className="process-status" aria-hidden="true" /></li>)}</ol>; }
@@ -13,8 +26,16 @@ export function ConsultationPanel({ title, text, topic, navigate, language, docu
 
 export function TestimonialSection({ language, testimonials, compact = false, serviceType }) {
   const copy = getUi(language);
+  const trackRef = useRef(null);
   const visible = (testimonials || []).filter((item) => item.status !== 'hidden' && (!serviceType || item.serviceType === serviceType));
-  return <section className={`section testimonial-section ${compact ? 'testimonial-compact' : ''}`}><div className="container"><div className="testimonial-heading"><div><span className="section-label">{copy.testimonialLabel}</span><h2>{copy.testimonialsTitle || copy.testimonialHeading}</h2><p className="testimonial-intro">{copy.testimonialsIntro}</p></div></div><div className="testimonial-grid">{visible.map((item) => <blockquote key={item.id || item.name}><span className="quote-mark" aria-hidden="true">“</span><p>{item.quote}</p><footer><div className="testimonial-person">{item.avatarUrl ? <img src={item.avatarUrl} alt="" /> : <span className="avatar-fallback" aria-hidden="true">{item.name.slice(0, 1)}</span>}<div><strong>{item.name}</strong><span>{item.context}</span></div></div><small>{copy.exampleTestimonial}</small></footer></blockquote>)}</div>{visible.length === 0 && <p className="testimonial-note">{copy.noTestimonials || ''}</p>}<p className="testimonial-note">{getExtendedContent(language).ratingNote}</p></div></section>;
+  const scroll = (direction) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const card = track.querySelector('.testimonial-card');
+    const step = (card ? card.offsetWidth : 320) + 18;
+    track.scrollBy({ left: direction * step, behavior: 'smooth' });
+  };
+  return <section className={`section testimonial-section ${compact ? 'testimonial-compact' : ''}`}><div className="container"><div className="testimonial-heading"><div><span className="section-label">{copy.testimonialLabel}</span><h2>{copy.testimonialsTitle || copy.testimonialHeading}</h2><p className="testimonial-intro">{copy.testimonialsIntro}</p></div>{visible.length > 1 && <div className="carousel-controls"><button type="button" className="is-prev" aria-label={copy.carouselPrev} onClick={() => scroll(-1)}><Icon name="arrow" size={18} /></button><button type="button" aria-label={copy.carouselNext} onClick={() => scroll(1)}><Icon name="arrow" size={18} /></button></div>}</div><div className="testimonial-track" ref={trackRef}>{visible.map((item) => <blockquote className="testimonial-card" key={item.id || item.name}><span className="quote-mark" aria-hidden="true">“</span><p>{item.quote}</p><footer><div className="testimonial-person">{item.avatarUrl ? <img src={item.avatarUrl} alt="" /> : <span className="avatar-fallback" aria-hidden="true">{item.name.slice(0, 1)}</span>}<div><strong>{item.name}</strong><span>{item.context}</span></div></div><small>{copy.exampleTestimonial}</small></footer></blockquote>)}</div>{visible.length === 0 && <p className="testimonial-note">{copy.noTestimonials || ''}</p>}<p className="testimonial-note">{getExtendedContent(language).ratingNote}</p></div></section>;
 }
 
 export function GoogleRatingSection({ language }) {

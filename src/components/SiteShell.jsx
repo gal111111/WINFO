@@ -10,7 +10,8 @@ export function Icon({ name, size = 20 }) {
 }
 
 export function consultationUrl(topic = 'initial consultation', language = 'en') {
-  const greeting = language === 'en' ? `Hello, I would like to learn about WINFO's ${topic}.` : `你好，我想了解 WINFO 的${topic}。`;
+  const localizedTopic = language === 'zh-Hans' ? toSimplified(topic) : topic;
+  const greeting = language === 'en' ? `Hello, I would like to learn about WINFO's ${topic}.` : `你好，我想了解 WINFO 的${localizedTopic}`;
   return `${contact.whatsapp}?text=${encodeURIComponent(greeting)}`;
 }
 
@@ -26,18 +27,36 @@ function LanguageSwitch({ language, setLanguage }) {
 export function Header({ navigate, language, setLanguage }) {
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [condensed, setCondensed] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const headerRef = useRef(null);
   const content = getContent(language);
   const copy = getUi(language);
   const go = (to) => { setOpen(false); setMobileOpen(false); navigate(to); };
   const closeSoon = () => window.setTimeout(() => { if (!headerRef.current?.matches(':hover') && !headerRef.current?.matches(':focus-within')) setOpen(false); }, 120);
   useEffect(() => {
+    let last = window.scrollY;
+    let frame = 0;
+    const update = () => {
+      const y = window.scrollY;
+      setCondensed(y > 12);
+      if (y < 120) setHidden(false);
+      else if (y > last + 6) setHidden(true);
+      else if (y < last - 6) setHidden(false);
+      last = y;
+      frame = 0;
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { window.removeEventListener('scroll', onScroll); if (frame) cancelAnimationFrame(frame); };
+  }, []);
+  useEffect(() => {
     const onKey = (event) => { if (event.key === 'Escape') { setOpen(false); setMobileOpen(false); } };
     const onClick = (event) => { if (!headerRef.current?.contains(event.target)) setOpen(false); };
     window.addEventListener('keydown', onKey); document.addEventListener('pointerdown', onClick);
     return () => { window.removeEventListener('keydown', onKey); document.removeEventListener('pointerdown', onClick); };
   }, []);
-  return <header className="site-header" ref={headerRef} onMouseLeave={closeSoon}>
+  return <header className={`site-header${condensed ? ' is-scrolled' : ''}${hidden && !open && !mobileOpen ? ' is-hidden' : ''}`} ref={headerRef} onMouseLeave={closeSoon}>
     <div className="nav-wrap">
       <button type="button" className="brand" onClick={() => go('/')} aria-label="WINFO home"><img src="/WINFO-blue.png" alt="WINFO Business Solutions Ltd" /></button>
       <nav className="desktop-nav" aria-label="Primary navigation">
@@ -77,8 +96,32 @@ function CookieNotice({ language, visible, setVisible }) {
   return <aside className="cookie-notice" aria-label={copy.cookieTitle}><strong>{copy.cookieTitle}</strong><p>{copy.cookieText}</p><div><button type="button" className="button" onClick={() => save('essential')}>{copy.cookieAccept}</button><button type="button" onClick={() => save('rejected')}>{copy.cookieReject}</button></div></aside>;
 }
 
+function AdvisorWidget({ language }) {
+  const copy = getUi(language);
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => {
+    const onDown = (event) => { if (!ref.current?.contains(event.target)) setOpen(false); };
+    const onKey = (event) => { if (event.key === 'Escape') setOpen(false); };
+    document.addEventListener('pointerdown', onDown);
+    window.addEventListener('keydown', onKey);
+    return () => { document.removeEventListener('pointerdown', onDown); window.removeEventListener('keydown', onKey); };
+  }, []);
+  return <div className={`advisor${open ? ' open' : ''}`} ref={ref}>
+    <div className="advisor-panel" role="dialog" aria-label={copy.advisorTitle}>
+      <strong>{copy.advisorTitle}</strong>
+      <p>{copy.advisorText}</p>
+      <a className="button" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer">{copy.whatsappEnquiry} <Icon name="arrow" size={15} /></a>
+    </div>
+    <button type="button" className="advisor-fab" aria-expanded={open} aria-label={copy.advisorTitle} onClick={() => setOpen(!open)}>
+      <span className="advisor-avatar" aria-hidden="true">W<i /></span>
+      {copy.whatsappEnquiry}
+    </button>
+  </div>;
+}
+
 export function SiteShell({ children, navigate, path, language, setLanguage }) {
   const copy = getUi(language);
   const [cookieVisible, setCookieVisible] = useState(() => !localStorage.getItem('winfo-cookie-choice'));
-  return <><Header navigate={navigate} path={path} language={language} setLanguage={setLanguage} />{children}<Footer navigate={navigate} language={language} openCookieSettings={() => setCookieVisible(true)} /><a className="whatsapp-float" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer"><Icon name="chat" size={19} /> {copy.whatsappEnquiry}</a><CookieNotice language={language} visible={cookieVisible} setVisible={setCookieVisible} /></>;
+  return <><Header navigate={navigate} path={path} language={language} setLanguage={setLanguage} />{children}<Footer navigate={navigate} language={language} openCookieSettings={() => setCookieVisible(true)} /><AdvisorWidget language={language} /><CookieNotice language={language} visible={cookieVisible} setVisible={setCookieVisible} /></>;
 }
