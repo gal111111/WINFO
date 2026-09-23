@@ -7,7 +7,7 @@ const zh = (language, value) => (language === 'zh-Hans' ? toSimplified(value) : 
 const crumbs = {
   pricing: { en: 'Pricing', zh: '價格方案' },
   cases: { en: 'Engagement scenarios', zh: '案例方向' },
-  about: { en: 'About WINFO', zh: '認識 WINFO' },
+  about: { en: 'About WINFO', zh: '關於 WINFO' },
   contact: { en: 'Contact', zh: '聯絡我們' },
   maintenance: { en: 'Compliance and operations', zh: '合規與營運' },
   crossBorder: { en: 'Cross-border and technology landing', zh: '跨境與科技落地' },

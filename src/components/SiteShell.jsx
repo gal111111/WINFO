@@ -5,6 +5,7 @@ export function Icon({ name, size = 20 }) {
   const paths = {
     arrow: <path d="M4 12h15m-6-6 6 6-6 6" />, menu: <path d="M4 7h16M4 12h16M4 17h16" />, close: <path d="m6 6 12 12M18 6 6 18" />,
     chevron: <path d="m7 10 5 5 5-5" />, check: <path d="m5 12 4.2 4L19 6.5" />, chat: <path d="M20 11.5a7.5 7.5 0 0 1-10.8 6.7L4 20l1.9-4.7A7.5 7.5 0 1 1 20 11.5Z" />,
+    arrowCircle: <><circle cx="12" cy="12" r="9" /><path d="M8.4 12h7.2m-3.3-3.3L15.6 12l-3.3 3.3" /></>,
   };
   return <svg className="icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>;
 }
@@ -68,7 +69,7 @@ export function Header({ navigate, language, setLanguage }) {
         <button type="button" onClick={() => go('/contact')}>{copy.contactNav}</button>
       </nav>
       <LanguageSwitch language={language} setLanguage={setLanguage} />
-      <a className="button header-cta" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer">{copy.freeConsultation} <Icon name="arrow" size={15} /></a>
+      <a className="button header-cta" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer">{copy.freeConsultation} <Icon name="arrowCircle" size={18} /></a>
       <button type="button" className="menu-toggle" onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? copy.closeMenu : copy.menu} aria-expanded={mobileOpen}><Icon name={mobileOpen ? 'close' : 'menu'} /></button>
     </div>
     {open && <MegaMenu groups={content.serviceGroups} go={go} />}
@@ -80,7 +81,7 @@ function MegaMenu({ groups, go }) { return <div className="mega-menu" role="dial
 
 function MobileMenu({ groups, copy, language, setLanguage, go }) {
   const [serviceOpen, setServiceOpen] = useState(true);
-  return <div className="mobile-menu"><div className="mobile-menu-head"><LanguageSwitch language={language} setLanguage={setLanguage} /></div><button type="button" className="mobile-services" onClick={() => setServiceOpen(!serviceOpen)} aria-expanded={serviceOpen}>{copy.services} <Icon name="chevron" size={16} /></button>{serviceOpen && groups.map((group) => <div key={group.title} className="mobile-group"><span>{group.title}</span>{group.items.map((item) => <button type="button" onClick={() => go(item.to)} key={item.title}>{item.title}<Icon name="arrow" size={15} /></button>)}</div>)}<button type="button" onClick={() => go('/#process')}>{copy.ourApproach}</button><button type="button" onClick={() => go('/pricing')}>{copy.pricingNav}</button><button type="button" onClick={() => go('/cases')}>{copy.casesNav}</button><button type="button" onClick={() => go('/about')}>{copy.aboutNav}</button><button type="button" onClick={() => go('/contact')}>{copy.contactNav}</button><a className="button" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer">{copy.freeConsultation} <Icon name="arrow" size={15} /></a></div>;
+  return <div className="mobile-menu"><div className="mobile-menu-head"><LanguageSwitch language={language} setLanguage={setLanguage} /></div><button type="button" className="mobile-services" onClick={() => setServiceOpen(!serviceOpen)} aria-expanded={serviceOpen}>{copy.services} <Icon name="chevron" size={16} /></button>{serviceOpen && groups.map((group) => <div key={group.title} className="mobile-group"><span>{group.title}</span>{group.items.map((item) => <button type="button" onClick={() => go(item.to)} key={item.title}>{item.title}<Icon name="arrow" size={15} /></button>)}</div>)}<button type="button" onClick={() => go('/#process')}>{copy.ourApproach}</button><button type="button" onClick={() => go('/pricing')}>{copy.pricingNav}</button><button type="button" onClick={() => go('/cases')}>{copy.casesNav}</button><button type="button" onClick={() => go('/about')}>{copy.aboutNav}</button><button type="button" onClick={() => go('/contact')}>{copy.contactNav}</button><a className="button" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer">{copy.freeConsultation} <Icon name="arrowCircle" size={18} /></a></div>;
 }
 
 export function Footer({ navigate, language, openCookieSettings }) {
