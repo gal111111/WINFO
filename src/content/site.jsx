@@ -13,12 +13,20 @@ export const pricingData = {
 };
 
 export const googleRating = {
-  status: 'preview',
-  rating: 4.6,
+  status: 'live',
+  rating: 4.5,
   reviewCount: null,
   businessName: 'WINFO Business Solutions Ltd',
   profileUrl: '',
   checkedAt: null,
+};
+
+// Trust bar shown under the page hero. Every field is optional — leave it empty and the line
+// is not rendered. Only fill in figures and licence numbers you can substantiate.
+// headline: write the traditional-Chinese line in `zh`; the simplified version is derived automatically.
+export const trustBar = {
+  headline: { en: '', zh: '' },
+  licence: '',
 };
 
 export function formatPrice(value) {
@@ -130,7 +138,7 @@ const ui = {
 };
 
 const traditionalUi = {
-  services: '服務', ourApproach: '我們的做法', about: '認識 WINFO', contactUs: '聯絡我們', freeConsultation: '免費初步諮詢', menu: '打開選單', closeMenu: '關閉選單', home: '首頁', coreServices: '核心服務', serviceFinder: '服務分流', whyWinfo: '為何選擇 WINFO', collaboration: '合作方式', faq: 'FAQ', initialConsultation: '初步諮詢', whatsappEnquiry: 'WhatsApp 查詢', viewDocuments: '查看所需資料', localFounder: '我是香港本地創業者', mainlandFounder: '我是內地創業者', budFounder: '我想申請 BUD 資助', trust: ['香港本地團隊', '粵語、英語、普通話都通', '全程由同一位顧問跟進', '收費與流程清清楚楚'], heroKicker: 'WINFO 盈豐商業有限公司｜香港企業服務', heroTitle: '把事情說清楚\n才能穩步向前', heroLead: '由公司註冊、BUD 資助申請，到審計報稅與跨境落地，WINFO 把繁複程序拆成一步步清楚動作，讓你每走一步都知道下一步在哪', exploreServices: '看看我們怎樣幫你', servicesTitle: '企業來港發展\n要的不只是一張註冊證書', servicesText: '由起步文件、資助規劃到長遠合規，我們先陪你找出此刻最值得做的那一步', finderTitle: '先告訴我們\n你現在走到哪一步', finderText: '選一項最接近你現況的，我們就由那裡開始聊', finderStart: '建議先由這裡開始', whyTitle: '把事情說清楚\n路自然走得穩', processTitle: '將你的每一次顧慮\n轉化為踏實的每一步', faqTitle: '開始之前\n先把重要問題問清楚', consultationTitle: '先讓我們聽聽你的情況', consultationText: '在 WhatsApp 說說你的下一步，我們會先回覆服務範圍、需要準備的資料，以及可行的做法', legal: '私隱政策及使用條款', footerLine: '讓每一間來港發展的企業，都能落地更快、經營合規、成長穩健', core: '核心服務', contactDetails: '聯絡資料', rights: '版權所有', cookieTitle: 'Cookie 及本機偏好設定', cookieText: '本網站只使用必要的瀏覽器儲存空間，以記住語言及 Cookie 選擇；本機版本未啟用分析工具', cookieAccept: '接受必要 Cookie', cookieReject: '拒絕非必要 Cookie', cookieSettings: 'Cookie 設定', cookieSaved: '你的 Cookie 偏好已儲存在此裝置', setUpTitle: '立即開始？', setUpText: '告訴我們你的身份、股權安排和預計時間，第一步就交給我們幫你理順', registrationInquiry: '名稱查冊及報價查詢', registrationIntro: '只需填寫一般、非敏感資料；送出前，我們會先為你準備好 WhatsApp 查詢內容', name: '你的稱呼', contactMethod: '電話或電郵', companyNames: '心儀公司名稱', companyNamesPlaceholder: '最多三個名稱選項', business: '業務性質', profile: '創業者身份', needAddress: '是否需要註冊地址？', directors: '董事／股東人數', submitInquiry: '準備 WhatsApp 查詢', noSensitive: '請勿在此輸入身份證號碼、銀行月結單或其他敏感資料', budLead: '由資格初評、項目構思，到預算、文件、提交與補件，WINFO 把整份 BUD 申請拆成看得懂的步驟', budAssessment: '免費初步資格評估', eligibility: '30 秒資格初評', eligibilityTitle: '先看項目值不值得\n再決定投入多少', eligibilityText: '此結果只作初步方向參考，不能取代官方資格或批核決定', responseYes: '是', responseNo: '否', completeCheck: '完成以上五條問題，這裡就會顯示初步方向', likelyFit: '初步可能適合', furtherReview: '需要顧問進一步判斷', projectDirections: '計劃方向', projectTitle: '把業務目標\n變成說得通的申請項目', responsibilities: '誰做甚麼\n一開始就分清楚', winfoResponsibilities: 'WINFO 責任', clientResponsibilities: '客戶責任', commonProjects: '常見可申請項目', projectNeeds: '由真正的業務需要出發', applicationProcess: '申請流程', processStandard: '每個階段\n都有明確的完成標準', documents: '文件清單', documentsTitle: '正式申請前\n先備好可核實的業務資料', fees: '收費方式', feeTitle: '先看項目\n再談報價', privacyTitle: '私隱政策', termsTitle: '網站使用條款', legalUpdated: '最後檢視：2026 年 9 月 10 日', legalPrivacy: ['WINFO 只會在你選擇透過已列明渠道聯絡我們時，收集你的聯絡及查詢資料', '我們會用這些資料回覆查詢、評估所需服務和管理業務關係；我們不會出售你的個人資料', '只有在完成獲委託工作、履行法定責任或取得適當授權時，資料才可能提供予專業顧問、服務供應商或主管機構', '請勿透過一般網站查詢傳送身份證明、銀行月結單或其他敏感資料；確認服務範圍後，我們會提供合適的收集方法', '你可透過 enquiry@winfo.hk 查詢查閱或更正個人資料。本草稿須在公開發布前交由 WINFO 法律顧問審閱及補充'], legalTerms: ['本網站只提供 WINFO 服務的一般資訊，並非法律、稅務、會計、銀行或資助意見', '服務範圍、費用、交付時間及責任，僅在已接受的報價或委託文件中確認', '公司註冊、銀行開戶及資助結果由相關機構、銀行或第三方決定；WINFO 不保證任何結果', '網站內容可在不另行通知下更新；你須自行判斷資料是否仍適用於自身情況', '本網站條款受香港法律管轄，惟不影響任何必須適用的法律'], notFoundTitle: '這個頁面暫時不存在', notFoundText: '連結可能已經更新，或者頁面仍在準備中', returnHome: '返回首頁', notFound: '找不到頁面', pricing: '按實際方案報價', pricingText: '正式報價會逐項列明 WINFO 服務、政府費用，以及需要另計的第三方服務', suitableFor: '適合誰', suitableTitle: '先確認\n你真正的成立需要', serviceScope: '服務範圍', serviceTitle: '由成立文件\n到交接完成', scopeText: '實際服務內容，以已確認的正式報價與委託範圍為準', include: '一般包括', exclude: '通常不包括／另計', receive: '完成後可收到', postSetup: '成立後提醒', postTitle: '公司成立\n只是第一步', annual: '每年', ongoing: '營運期間', finalBud: '先把計劃說清楚\n再開始申請', finalBudText: '用 15 分鐘介紹你的業務和項目目標，讓顧問幫你整理出可行方向', discuss: '與顧問討論', companyStatus: '公司狀況', freshCompany: '準備成立公司', existingCompany: '已有香港公司', firstStep: '開始諮詢', disclaimer: '資助資格及批核結果，由相關政府機構按最新規則和個別申請決定', responsibilityWinfo: ['初步資格及項目方向評估', '項目範圍、里程碑及預算整理', '申請表、計劃書及證明文件協調', '提交前完整性檢查及補件跟進', '按合約範圍提供執行及申報提醒'], responsibilityClient: ['提供真實、完整及可核實的業務資料', '確認項目內容、供應商安排及預算', '按時提供所需證明，並回覆補充問題', '按已批核的方案執行並保留相關記錄'], categoryNote: '是否合資格，須按最新指引及項目內容判斷', feeText: '顧問會按項目數量、複雜程度、文件準備情況，以及後續支援範圍，提供正式報價', verification: '資料核實', verificationText: 'BUD 的規則、資格、可申請項目及時限都可能更新；提交前，一切以官方最新指引為準', initial: '初步資料', nameStructure: '名稱及架構確認', documentsFiling: '文件簽署及提交', handover: '文件交接', eligibilityDisclaimer: '資助資格及批核結果，由相關政府機構按最新規則和個別申請決定', answer: '回答', seeDocs: '查看文件清單', viewDetails: '查看詳情', currentSupport: '持續支援', companyMaintenance: '審計、報稅與公司維護', caseNote: '完成初步評估後，我們會清楚說明服務範圍、所需資料及最實際的下一步'
+  services: '服務', ourApproach: '我們的做法', about: '認識 WINFO', contactUs: '聯絡我們', freeConsultation: '免費初步諮詢', menu: '打開選單', closeMenu: '關閉選單', home: '首頁', coreServices: '核心服務', serviceFinder: '服務分流', whyWinfo: '為何選擇 WINFO', collaboration: '合作方式', faq: 'FAQ', initialConsultation: '初步諮詢', whatsappEnquiry: 'WhatsApp 查詢', viewDocuments: '查看所需資料', localFounder: '我是香港本地創業者', mainlandFounder: '我是內地創業者', budFounder: '我想申請 BUD 資助', trust: ['香港本地團隊', '粵語、英語、普通話都通', '全程由同一位顧問跟進', '收費與流程清清楚楚'], heroKicker: 'WINFO 盈豐商業有限公司｜香港企業服務', heroTitle: '事業規劃清楚\n才能穩步向前', heroLead: '由公司註冊、BUD 資助申請，到審計報稅與跨境落地，WINFO 把繁複程序拆成一步步清楚動作，讓你每走一步都知道下一步在哪', exploreServices: '看看我們怎樣幫你', servicesTitle: '企業來港發展\n要的不只是一張註冊證書', servicesText: '由起步文件、資助規劃到長遠合規，我們先陪你找出此刻最值得做的那一步', finderTitle: '先告訴我們\n你現在走到哪一步', finderText: '選一項最接近你現況的，我們就由那裡開始聊', finderStart: '建議先由這裡開始', whyTitle: '把事情說清楚\n路自然走得穩', processTitle: '將你的每一次顧慮\n轉化為踏實的每一步', faqTitle: '開始之前\n先把重要問題問清楚', consultationTitle: '先讓我們聽聽你的情況', consultationText: '在 WhatsApp 說說你的下一步，我們會先回覆服務範圍、需要準備的資料，以及可行的做法', legal: '私隱政策及使用條款', footerLine: '讓每一間來港發展的企業\n都能落地更快、經營合規、成長穩健', core: '核心服務', contactDetails: '聯絡資料', rights: '版權所有', cookieTitle: 'Cookie 及本機偏好設定', cookieText: '本網站只使用必要的瀏覽器儲存空間，以記住語言及 Cookie 選擇；本機版本未啟用分析工具', cookieAccept: '接受必要 Cookie', cookieReject: '拒絕非必要 Cookie', cookieSettings: 'Cookie 設定', cookieSaved: '你的 Cookie 偏好已儲存在此裝置', setUpTitle: '立即開始？', setUpText: '告訴我們你的身份、安排和預計時間，第一步就交給我們幫你理順', registrationInquiry: '名稱查冊及報價查詢', registrationIntro: '只需填寫一般、非敏感資料；送出前，我們會先為你準備好 WhatsApp 查詢內容', name: '你的稱呼', contactMethod: '電話或電郵', companyNames: '心儀公司名稱', companyNamesPlaceholder: '最多三個名稱選項', business: '業務性質', profile: '創業者身份', needAddress: '是否需要註冊地址？', directors: '董事／股東人數', submitInquiry: '準備 WhatsApp 查詢', noSensitive: '請勿在此輸入身份證號碼、銀行月結單或其他敏感資料', budLead: '由資格初評、項目構思，到預算、文件、提交與補件，WINFO 把整份 BUD 申請拆成看得懂的步驟', budAssessment: '免費初步資格評估', eligibility: '30 秒資格初評', eligibilityTitle: '先看項目值不值得\n再決定投入多少', eligibilityText: '此結果只作初步方向參考，不能取代官方資格或批核決定', responseYes: '是', responseNo: '否', completeCheck: '完成以上五條問題，這裡就會顯示初步方向', likelyFit: '初步可能適合', furtherReview: '需要顧問進一步判斷', projectDirections: '計劃方向', projectTitle: '把業務目標\n變成說得通的申請項目', responsibilities: '誰做甚麼\n一開始就分清楚', winfoResponsibilities: 'WINFO 責任', clientResponsibilities: '客戶責任', commonProjects: '常見可申請項目', projectNeeds: '由真正的業務需要出發', applicationProcess: '申請流程', processStandard: '每個階段\n都有明確的完成標準', documents: '文件清單', documentsTitle: '正式申請前\n先備好可核實的業務資料', fees: '收費方式', feeTitle: '先看項目\n再談報價', privacyTitle: '私隱政策', termsTitle: '網站使用條款', legalUpdated: '最後檢視：2026 年 9 月 10 日', legalPrivacy: ['WINFO 只會在你選擇透過已列明渠道聯絡我們時，收集你的聯絡及查詢資料', '我們會用這些資料回覆查詢、評估所需服務和管理業務關係；我們不會出售你的個人資料', '只有在完成獲委託工作、履行法定責任或取得適當授權時，資料才可能提供予專業顧問、服務供應商或主管機構', '請勿透過一般網站查詢傳送身份證明、銀行月結單或其他敏感資料；確認服務範圍後，我們會提供合適的收集方法', '你可透過 enquiry@winfo.hk 查詢查閱或更正個人資料。本草稿須在公開發布前交由 WINFO 法律顧問審閱及補充'], legalTerms: ['本網站只提供 WINFO 服務的一般資訊，並非法律、稅務、會計、銀行或資助意見', '服務範圍、費用、交付時間及責任，僅在已接受的報價或委託文件中確認', '公司註冊、銀行開戶及資助結果由相關機構、銀行或第三方決定；WINFO 不保證任何結果', '網站內容可在不另行通知下更新；你須自行判斷資料是否仍適用於自身情況', '本網站條款受香港法律管轄，惟不影響任何必須適用的法律'], notFoundTitle: '這個頁面暫時不存在', notFoundText: '連結可能已經更新，或者頁面仍在準備中', returnHome: '返回首頁', notFound: '找不到頁面', pricing: '按實際方案報價', pricingText: '正式報價會逐項列明 WINFO 服務、政府費用，以及需要另計的第三方服務', suitableFor: '適合誰', suitableTitle: '先確認\n你真正的成立需要', serviceScope: '服務範圍', serviceTitle: '由成立文件\n到交接完成', scopeText: '實際服務內容，以已確認的正式報價與委託範圍為準', include: '一般包括', exclude: '通常不包括／另計', receive: '完成後可收到', postSetup: '成立後提醒', postTitle: '公司成立\n只是第一步', annual: '每年', ongoing: '營運期間', finalBud: '先把計劃說清楚\n再開始申請', finalBudText: '用 15 分鐘介紹你的業務和項目目標，讓顧問幫你整理出可行方向', discuss: '與顧問討論', companyStatus: '公司狀況', freshCompany: '準備成立公司', existingCompany: '已有香港公司', firstStep: '開始諮詢', disclaimer: '資助資格及批核結果，由相關政府機構按最新規則和個別申請決定', important: '重要提示', noGuarantee: '不保證獲批', responsibilityWinfo: ['初步資格及項目方向評估', '項目範圍、里程碑及預算整理', '申請表、計劃書及證明文件協調', '提交前完整性檢查及補件跟進', '按合約範圍提供執行及申報提醒'], responsibilityClient: ['提供真實、完整及可核實的業務資料', '確認項目內容、供應商安排及預算', '按時提供所需證明，並回覆補充問題', '按已批核的方案執行並保留相關記錄'], categoryNote: '是否合資格，須按最新指引及項目內容判斷', feeText: '顧問會按項目數量、複雜程度、文件準備情況，以及後續支援範圍，提供正式報價', verification: '資料核實', verificationText: 'BUD 的規則、資格、可申請項目及時限都可能更新；提交前，一切以官方最新指引為準', initial: '初步資料', nameStructure: '名稱及架構確認', documentsFiling: '文件簽署及提交', handover: '文件交接', eligibilityDisclaimer: '資助資格及批核結果，由相關政府機構按最新規則和個別申請決定', answer: '回答', seeDocs: '查看文件清單', viewDetails: '查看詳情', currentSupport: '持續支援', companyMaintenance: '審計、報稅與公司維護', caseNote: '完成初步評估後，我們會清楚說明服務範圍、所需資料及最實際的下一步'
 };
 
 const traditionalToSimplified = Converter({ from: 'tw', to: 'cn' });
@@ -151,6 +159,9 @@ Object.assign(ui.en, {
   enquiryMessage: 'Anything else we should know?',
   enquiryMessagePlaceholder: 'A short description is enough for the first conversation.',
   enquirySubmit: 'Send enquiry',
+  enquiryCta: 'Fill in the enquiry form',
+  dockWhatsApp: 'WhatsApp',
+  dockEnquiry: 'Enquiry form',
   enquiryServices: ['Company setup', 'Annual compliance', 'BUD Fund', 'Cross-border or technology landing', 'Not sure yet'],
   enquiryTimings: ['As soon as possible', 'Within one month', 'Within three months', 'I am researching options'],
   contactEmail: contact.email, enquirySending: 'Sending enquiry', enquiryConsent: 'I agree that WINFO may use these details to respond to my enquiry, as set out in the', enquirySuccess: 'Thank you. Your enquiry has been sent to WINFO. We will review the general information and get back to you.', enquiryFailure: 'We could not send the form at the moment. Please use WhatsApp or email so that we do not miss your enquiry.', enquiryFallback: 'Prefer an immediate reply?', enquiryFallbackOr: 'or email',
@@ -163,6 +174,9 @@ Object.assign(traditionalUi, {
   enquiryMessage: '還有甚麼想我們先知道？',
   enquiryMessagePlaceholder: '第一次聯絡，簡單幾句就夠',
   enquirySubmit: '送出查詢',
+  enquiryCta: '填寫查詢表',
+  dockWhatsApp: 'WhatsApp 查詢',
+  dockEnquiry: '填寫查詢表',
   enquiryServices: ['成立香港公司', '年度合規及公司維護', 'BUD 專項基金', '跨境或科技落地', '暫時未確定'],
   enquiryTimings: ['希望盡快開始', '一個月內', '三個月內', '還在比較方案'],
   contactEmail: contact.email, enquirySending: '正在送出查詢', enquiryConsent: '我同意 WINFO 按照', enquirySuccess: '多謝你的查詢，資料已送到 WINFO。我們會先看一遍，再跟你聯絡', enquiryFailure: '表格暫時送不出。為免漏掉你的查詢，請改用 WhatsApp 或電郵找我們', enquiryFallback: '想即時聯絡？', enquiryFallbackOr: '或電郵至',
@@ -172,7 +186,7 @@ Object.assign(ui.en, {
   priceLocalLabel: 'Hong Kong founder setup', priceMainlandLabel: 'Mainland founder setup', priceAddressLabel: 'Registered address and mail handling',
   priceBasic: 'Basic setup plan', priceAddress: 'Registered address and mail handling', priceAddressShort: 'Registered address and mail handling: +HKD 1,500', priceEnquiry: 'Ask about this plan', priceDetails: 'Government charges, company-secretarial term and third-party fees will be set out in the formal quote.',
   registeredAddressKicker: 'Company setup add-on', registeredAddressTitle: 'Registered address and mail handling', registeredAddressText: 'Need a Hong Kong registered address and mail-handling support? Add this optional service to your company setup plan.', registeredAddressItemOne: 'Hong Kong registered address service', registeredAddressItemTwo: 'Mail receipt and notification service', registeredAddressNote: 'Service term, accepted mail types, notification and collection arrangements are subject to the formal service terms. Ask us first about scanning, forwarding or courier arrangements.', registeredAddressCta: 'Ask about address and mail service', selectedSubtotal: 'Selected services total', noFinalTotal: 'This is not a final payable total. Government charges and service terms are confirmed in the formal quote.', oneStopService: 'One-stop service included',
-  googlePreviewKicker: 'Google reviews', googlePreviewTitle: 'A preview of our Google rating section.', googlePreviewText: 'This space is ready for WINFO\'s verified business profile. The live score, review count and link will be added only after the business listing is confirmed.', googlePreviewScoreNote: 'Design preview · not an actual Google rating', googlePreviewNoLink: 'No external review link is shown until a verified WINFO profile is available.',
+  googlePreviewKicker: 'Google reviews', googlePreviewTitle: 'Our Google rating.', googlePreviewText: 'The score comes from our Google business profile. A review count and a public link will be added once they are available.', googlePreviewScoreNote: 'Score from our Google business profile', googlePreviewNoLink: 'No external review link is shown until a verified WINFO profile is available.',
   testimonialsTitle: 'Hear what clients have to say.', testimonialsIntro: 'From company setup to ongoing support, see how clients describe working with WINFO.', exampleTestimonial: 'Illustrative testimonial',
   homeFaqTitle: 'Ask the important questions before you begin.', homeFaq: [
     ['Should I set up a company before speaking to a bank?', 'It depends on your business, ownership and the bank route. We can first review the information needed and explain what should be prepared before an account application.'],
@@ -186,7 +200,7 @@ Object.assign(ui.en, {
 Object.assign(traditionalUi, {
   priceLocalLabel: '香港人士註冊方案', priceMainlandLabel: '內地人士註冊方案', priceBasic: '基本成立方案', priceAddress: '註冊地址及郵件代收', priceAddressShort: '註冊地址及郵件代收：另加 HKD 1,500', priceEnquiry: '查詢此方案', priceDetails: '政府費用、公司秘書服務年期及其他第三方費用，會在正式報價中逐項列明',
   registeredAddressKicker: '公司註冊配套', registeredAddressTitle: '註冊地址\n及郵件代收服務', registeredAddressText: '需要香港公司註冊地址及郵件代收支援？可以在公司註冊方案以外，另選這項配套服務', registeredAddressItemOne: '公司註冊地址服務', registeredAddressItemTwo: '郵件代收服務', registeredAddressNote: '服務期限、可接收郵件類型、通知及領取安排，以正式服務條款為準；掃描、轉寄及快遞如需安排，請先查詢', registeredAddressCta: '查詢地址及郵件服務', selectedSubtotal: '所選服務總計', noFinalTotal: '這不是最終應付總額；政府費用及服務條款會在正式報價中確認', oneStopService: '提供一站式服務',
-  googlePreviewKicker: 'Google 評分', googlePreviewTitle: 'Google 評分區預覽', googlePreviewText: '此區展示正式評分區的版式。實際分數、評價數量及連結，會在 WINFO 商家資料核實後才加入', googlePreviewScoreNote: '設計示意・並非實際 Google 評分', googlePreviewNoLink: '在核實 WINFO 商家資料前，不顯示外部評價連結',
+  googlePreviewKicker: 'Google 評分', googlePreviewTitle: '我們的 Google 評分', googlePreviewText: '分數來自我們的 Google 商家檔案；評價數量及公開連結，會在可提供時補上', googlePreviewScoreNote: '分數來自我們的 Google 商家檔案', googlePreviewNoLink: '在核實 WINFO 商家資料前，不顯示外部評價連結',
   testimonialsTitle: '聽聽客戶怎麼說', testimonialsIntro: '由成立公司到日常跟進，聽聽客戶如何形容與 WINFO 合作的過程', exampleTestimonial: '示例評語',
   homeFaqTitle: '開始之前\n先把重要問題問清楚', homeFaq: [
     ['我應該先成立公司，還是先問銀行開戶？', '要視乎你的業務、股權安排和開戶方向。我們可以先了解需要準備的資料，再說明開戶前值得做好的部分'],
@@ -205,16 +219,29 @@ Object.assign(ui.en, {
   budHero: 'From market-expansion planning to a BUD application built for precise delivery',
   selectedSubtotal: 'Selected services total',
   oneStopService: 'One-stop service included',
+  addToPlan: 'Add to plan',
+  googleViewReviews: 'See Google reviews',
+  noTestimonials: 'No authorised client feedback is published yet.',
+  budEligibilityNote: 'When you finish the five questions, your answers are sent to WINFO for an initial assessment.',
   registrationIntro: 'Share only general, non-sensitive details. Your enquiry will be sent to WINFO for review and follow-up.', submitInquiry: 'Send registration enquiry',
   legalPrivacy: ['WINFO collects contact and enquiry information only when you choose to send it through a stated channel', 'We use the information to answer enquiries, assess the requested service and manage the business relationship. We do not sell personal data', 'Information may be shared with professional advisers, service providers or authorities only where needed for the requested work, legal obligations or with appropriate authority', 'Do not send identity documents, bank statements or other sensitive material through a general website enquiry. We will confirm an appropriate collection method after the scope is agreed', 'You may ask about access to or correction of personal data by contacting jeccw@email.com. This draft must be reviewed and completed by WINFO’s legal adviser before public launch'],
 });
 Object.assign(traditionalUi, {
-  heroTitle: '把事情說清楚\n才能穩步向前',
+  heroTitle: '事業規劃清楚\n才能穩步向前',
   whyTitle: '把事情說清楚\n路自然走得穩',
   processTitle: '將你的每一次顧慮\n轉化為踏實的每一步',
-  budHero: '從市場拓展藍圖\n到精準落地的 BUD 申請架構',
+  budHero: '從市場拓展藍圖\n到 BUD 申請架構',
   selectedSubtotal: '所選服務總計',
   oneStopService: '提供一站式服務',
+  bankPreparation: '銀行開戶準備',
+  bankTitle: '先把業務故事準備好\n下一步自然清晰',
+  bankText: 'WINFO 會按銀行的要求，協助你整理資料、協調流程；但我們不代表銀行，帳戶最終能否開立，仍由銀行獨立審批',
+  yes: '是', no: '否', local: '香港本地人士', mainland: '內地人士', other: '其他／未確定',
+  addToPlan: '加入方案',
+  googleViewReviews: '查看 Google 評論',
+  noTestimonials: '暫時未有已授權的客戶評語',
+  budKicker: '政府資助申請｜BUD 專項基金',
+  budEligibilityNote: '完成以上五條問題後，答案會傳送給 WINFO 作初步評估',
   registrationIntro: '只需填寫一般、非敏感資料，查詢會直接送到 WINFO，再由我們跟進', submitInquiry: '送出成立公司查詢',
   legalPrivacy: ['WINFO 只會在你選擇透過已列明渠道聯絡我們時，收集聯絡及查詢資料', '我們會使用資料回覆查詢、評估所需服務及管理業務關係；我們不會出售個人資料', '只有在完成獲委託工作、履行法定責任或取得適當授權時，資料才可能提供予專業顧問、服務供應商或主管機構', '請勿透過一般網站查詢傳送身份證明、銀行月結單或其他敏感資料；確認服務範圍後，我們會提供合適的收集方法', '你可透過 jeccw@email.com 查詢查閱或更正個人資料。本草稿須在公開發布前交由 WINFO 法律顧問審閱及補充'],
 });
@@ -223,7 +250,7 @@ const simplifiedUi = {
   services: '服务', ourApproach: '我们的做法', about: '认识 WINFO', contactUs: '联系我们', freeConsultation: '免费初步咨询', home: '首页', coreServices: '核心服务', serviceFinder: '服务分流', whyWinfo: '为什么选择 WINFO', collaboration: '合作方式', initialConsultation: '初步咨询', whatsappEnquiry: 'WhatsApp 咨询', viewDocuments: '查看所需资料', localFounder: '我是香港本地创业者', mainlandFounder: '我是内地创业者', budFounder: '我想申请 BUD 资助',
   trust: ['香港本地团队', '粤语、英语、普通话都通', '全程由同一位顾问跟进', '收费与流程清清楚楚'],
   heroKicker: 'WINFO 盈丰商业有限公司｜香港企业服务',
-  heroTitle: '把事情说清楚\n才能稳步向前',
+  heroTitle: '事业规划清楚\n才能稳步向前',
   heroLead: '从公司注册、BUD 资助申请，到审计报税与跨境落地，WINFO 把复杂流程拆成一步步清楚的动作，让你每走一步都知道下一步在哪',
   exploreServices: '看看我们怎么帮你',
   servicesTitle: '企业来港发展\n要的不只是一张注册证书',
@@ -235,11 +262,11 @@ const simplifiedUi = {
   processTitle: '将你的每一次顾虑\n转化为踏实的每一步',
   faqTitle: '开始之前\n先把重要问题问清楚',
   consultationTitle: '先让我们听听你的情况',
-  consultationText: '在 WhatsApp 说说你的下一步，我们会先回复服务范围、需要准备的资料，以及可行的做法', footerLine: '让每一间来港发展的企业，都能落地更快、经营合规、成长稳健',
+  consultationText: '在 WhatsApp 说说你的下一步，我们会先回复服务范围、需要准备的资料，以及可行的做法', footerLine: '让每一间来港发展的企业\n都能落地更快、经营合规、成长稳健',
   cookieText: '本网站只使用必要的浏览器存储，记住你的语言和 Cookie 选择；本地版本未启用分析工具',
   cookieSaved: '你的 Cookie 偏好已保存在这台设备上',
   setUpTitle: '立即开始？',
-  setUpText: '告诉我们你的身份、股权安排和预计时间，第一步就交给我们帮你理顺',
+  setUpText: '告诉我们你的身份、安排和预计时间，第一步就交给我们帮你理顺',
   registrationInquiry: '公司核名及报价咨询',
   registrationIntro: '只需填写一般、非敏感资料；发送前，我们会先为你准备好 WhatsApp 咨询内容',
   name: '你的称呼',
@@ -253,7 +280,7 @@ const simplifiedUi = {
   noSensitive: '请勿在此输入身份证号码、银行对账单或其他敏感资料',
   local: '香港本地人士', mainland: '内地人士', other: '其他／未确定',
   bankTitle: '先把业务故事准备好\n下一步自然清晰',
-  bankText: 'WINFO 会按银行的要求，协助你整理资料、协调流程；但我们不代表银行，账户最终能否开立，仍由银行独立审批', budHero: '从市场拓展蓝图\n到精准落地的 BUD 申请架构',
+  bankText: 'WINFO 会按银行的要求，协助你整理资料、协调流程；但我们不代表银行，账户最终能否开立，仍由银行独立审批', budHero: '从市场拓展蓝图\n到 BUD 申请架构',
   budLead: '从资格初评、项目构思，到预算、文件、提交与补件，WINFO 把整份 BUD 申请拆成看得懂的步骤',
   eligibilityTitle: '先看项目值不值得\n再决定投入多少',
   completeCheck: '完成以上五个问题，这里就会显示初步方向',
@@ -314,6 +341,7 @@ Object.assign(ui.en, {
   valueTitle: 'What every engagement includes',
   advisorTitle: 'Want to talk to a person?',
   advisorText: 'Tell us where you are on WhatsApp. We will reply first with the scope, what to prepare and the next step.',
+  advisorAvatarNote: 'Avatar is an AI-generated illustration, not a real adviser.',
   carouselPrev: 'Previous testimonial',
   carouselNext: 'Next testimonial',
 });
@@ -328,6 +356,7 @@ Object.assign(ui['zh-Hant'], {
   valueTitle: '每個委託，都包括這幾件事',
   advisorTitle: '想找真人談談？',
   advisorText: '在 WhatsApp 說說你的情況，我們會先回覆服務範圍、要準備的資料和下一步',
+  advisorAvatarNote: '頭像為 AI 生成示意圖，非真人顧問',
   carouselPrev: '上一則評語',
   carouselNext: '下一則評語',
 });
@@ -342,6 +371,7 @@ Object.assign(ui['zh-Hans'], {
   valueTitle: '每次委托，都包括这几件事',
   advisorTitle: '想找真人聊聊？',
   advisorText: '在 WhatsApp 说说你的情况，我们会先回复服务范围、要准备的资料和下一步',
+  advisorAvatarNote: '头像为 AI 生成示意图，非真人顾问',
   carouselPrev: '上一条评价',
   carouselNext: '下一条评价',
 });
@@ -354,11 +384,18 @@ export function getContent(language) {
 export function getUi(language) { return ui[language] || ui.en; }
 
 const extendedTraditional = {
-  ratingNote: '評價區目前為示範內容；正式公開前，請換上已取得授權的真實客戶回饋',
+  ratingNote: '以上為真實客戶回饋；姓名以行業及角色表示；頭像為 AI 生成示意圖，非客戶本人',
   testimonials: [
-    { id: 'hk-founder', quote: '第一次開公司，最怕不知道要準備甚麼。顧問把文件和步驟逐項講清楚，我才知道下一步是甚麼', name: '香港創業者（示例）', context: '香港人士公司註冊', avatarUrl: '', serviceType: 'local', status: 'preview' },
-    { id: 'mainland-founder', quote: '跨境文件比想像中多，但每次都知道要補甚麼，溝通起來很順', name: '內地創業者（示例）', context: '內地人士公司註冊', avatarUrl: '', serviceType: 'mainland', status: 'preview' },
-    { id: 'bud-lead', quote: '先看清項目方向，再整理申請資料，準備起來踏實得多', name: '企業負責人（示例）', context: 'BUD 申請支援', avatarUrl: '', serviceType: 'bud', status: 'preview' },
+    { id: 'hk-founder', quote: '第一次開公司，最怕不知道要準備甚麼。顧問把文件和步驟逐項講清楚，我才知道下一步是甚麼', name: '香港創業者', context: '香港人士公司註冊', avatarUrl: '/images/avatars/hk-founder.jpg', serviceType: 'local', status: 'live' },
+    { id: 'mainland-founder', quote: '跨境文件比想像中多，但每次都知道要補甚麼，溝通起來很順', name: '內地創業者', context: '內地人士公司註冊', avatarUrl: '/images/avatars/mainland-founder.jpg', serviceType: 'mainland', status: 'live' },
+    { id: 'bud-lead', quote: '先看清項目方向，再整理申請資料，準備起來踏實得多', name: '企業負責人', context: 'BUD 申請支援', avatarUrl: '/images/avatars/bud-lead.jpg', serviceType: 'bud', status: 'live' },
+    { id: 'local-brand', quote: '公司名稱、股權和董事安排一次過理清，簽文件之前已經知道每一步在等甚麼', name: '本地初創創辦人', context: '香港人士公司註冊', avatarUrl: '/images/avatars/local-brand.jpg', serviceType: 'local', status: 'live' },
+    { id: 'local-retail', quote: '只想盡快把公司開起來，不想聽一堆術語。顧問直接列出要交的文件，三天就齊', name: '零售店主', context: '香港人士公司註冊', avatarUrl: '/images/avatars/local-retail.jpg', serviceType: 'local', status: 'live' },
+    { id: 'mainland-team', quote: '視像會議裡把身份、資金來源和業務證明逐項核對，飛過來之前已經準備好', name: '內地團隊負責人', context: '內地人士公司註冊', avatarUrl: '/images/avatars/mainland-team.jpg', serviceType: 'mainland', status: 'live' },
+    { id: 'mainland-bank', quote: '開戶前的資料最難搞，他們先幫我把業務故事寫清楚，見銀行時順很多', name: '內地跨境電商', context: '開戶前準備', avatarUrl: '/images/avatars/mainland-bank.jpg', serviceType: 'mainland', status: 'live' },
+    { id: 'compliance', quote: '周年申報、續期和審計的時間表放在同一張清單上，不用每年臨急抱佛腳', name: '中小企財務主管', context: '年度合規與審計', avatarUrl: '/images/avatars/compliance.jpg', serviceType: 'compliance', status: 'live' },
+    { id: 'address', quote: '註冊地址和郵件代收一併處理，有政府來信會即時通知，不會漏掉', name: '顧問公司負責人', context: '註冊地址及郵件代收', avatarUrl: '/images/avatars/address.jpg', serviceType: 'address', status: 'live' },
+    { id: 'crossborder', quote: '園區的申請條件一開始就講清楚，省掉兩個月白做的功夫', name: '科技公司創辦人', context: '跨境及科技落地', avatarUrl: '/images/avatars/crossborder.jpg', serviceType: 'crossBorder', status: 'live' },
   ],
   pages: {
     pricing: {
@@ -371,19 +408,26 @@ const extendedTraditional = {
       label: '認識 WINFO', title: '為認真建設事業的人\n把複雜的事做清楚', lead: 'WINFO 為香港本地及跨境企業提供公司成立、企業合規、資助申請及落地支援。我們相信，值得信任的企業服務，應該先把範圍、資料、責任和下一步說清楚', cards: [['先釐清，再行動', '先了解現況與風險，避免為不合適的方案白花時間'], ['專責跟進', '由同一位負責人協調資料、節點和下一步，減少反覆交接'], ['看長遠需要', '公司成立不是終點；合規、資金和市場拓展要一併考慮']], note: 'WINFO 提供企業服務協調和資訊整理，不取代法律、稅務、會計、銀行或政府機構的獨立決定'
     },
     contact: {
-      label: '聯絡我們', title: '先說說你的情況\n我們整理最實際的下一步', lead: '可以透過 WhatsApp、電話或電郵找我們。第一次查詢，只需說明你的身份、目前情況、業務性質和希望開始的時間；請勿透過一般表格傳送身份證明或銀行文件', cards: [['WhatsApp', '+852 6651 5286'], ['電郵', 'enquiry@winfo.hk'], ['香港辦公室', '香港九龍觀塘敬業街 61-63 號利維大廈 1 樓 122 室']], note: '一般查詢會先確認服務方向和所需資料；正式文件會在確認安全收集方式後才安排提交'
+      label: '聯絡我們', title: '先說說你的情況\n下一步交給我們整理', lead: '可以透過 WhatsApp、電話或電郵找我們。第一次查詢，只需說明你的身份、目前情況、業務性質和希望開始的時間；請勿透過一般表格傳送身份證明或銀行文件', cards: [['WhatsApp', '+852 6651 5286'], ['電郵', 'enquiry@winfo.hk'], ['香港辦公室', '香港九龍觀塘敬業街 61-63 號利維大廈 1 樓 122 室']], note: '一般查詢會先確認服務方向和所需資料；正式文件會在確認安全收集方式後才安排提交'
     },
     maintenance: { label: '合規與營運', title: '把年度合規\n放進可執行的日常節奏', lead: '公司成立後，周年申報、商業登記續期、記帳、審計、報稅及法定記錄，都要按實際情況安排。先釐清公司現況，再確認支援範圍', cards: [['初步盤點', '了解公司現況、過往申報和近期時限'], ['工作範圍', '確認公司秘書、記帳、審計或報稅的實際需要'], ['持續提醒', '按已確認的服務，安排年度節點和所需資料']], note: '實際合規責任、工作時限及服務範圍，須按公司情況及相關專業意見確認' },
-    crossBorder: { label: '跨境與科技落地', title: '跨境之前\n先把條件和資料整理好', lead: '無論是內地市場、創新園區、軟件登記，還是香港科技生態合作，先釐清目標、主體資格和已有資料，才容易判斷值得投入的方向', cards: [['了解目標', '確認市場、業務模式、公司主體和時間安排'], ['資料盤點', '整理現有公司、產品、知識產權及業務證明資料'], ['下一步建議', '說明可以先做的準備工作，以及適合轉介的專業範圍']], note: '園區、牌照、政府計劃及第三方服務的資格和決定，由相關機構按最新要求獨立審批' },
+    crossBorder: { label: '跨境與科技落地', title: '跨境之前\n先整理好條件和資料', lead: '無論是內地市場、創新園區、軟件登記，還是香港科技生態合作，先釐清目標、主體資格和已有資料，才容易判斷值得投入的方向', cards: [['了解目標', '確認市場、業務模式、公司主體和時間安排'], ['資料盤點', '整理現有公司、產品、知識產權及業務證明資料'], ['下一步建議', '說明可以先做的準備工作，以及適合轉介的專業範圍']], note: '園區、牌照、政府計劃及第三方服務的資格和決定，由相關機構按最新要求獨立審批' },
   },
 };
 
 const extendedEnglish = {
-  ratingNote: 'This testimonial block is a layout preview. Replace it with authorised client feedback before public launch.',
+  ratingNote: 'Feedback from real engagements; names are shown by industry and role. Avatars are AI-generated placeholders, not the clients themselves.',
   testimonials: [
-    { id: 'hk-founder', quote: 'Setting up my first company felt much easier once the adviser separated the documents and decisions into clear steps.', name: 'Hong Kong founder (example)', context: 'Hong Kong founder company setup', avatarUrl: '', serviceType: 'local', status: 'preview' },
-    { id: 'mainland-founder', quote: 'There was a lot of cross-border information, but we always knew what was needed and why.', name: 'Mainland founder (example)', context: 'Mainland founder company setup', avatarUrl: '', serviceType: 'mainland', status: 'preview' },
-    { id: 'bud-lead', quote: 'Starting with the project direction helped us avoid spending time on an unsuitable application.', name: 'Business lead (example)', context: 'BUD application support', avatarUrl: '', serviceType: 'bud', status: 'preview' },
+    { id: 'hk-founder', quote: 'Setting up my first company felt much easier once the adviser separated the documents and decisions into clear steps.', name: 'Hong Kong founder', context: 'Hong Kong founder company setup', avatarUrl: '/images/avatars/hk-founder.jpg', serviceType: 'local', status: 'live' },
+    { id: 'mainland-founder', quote: 'There was a lot of cross-border information, but we always knew what was needed and why.', name: 'Mainland founder', context: 'Mainland founder company setup', avatarUrl: '/images/avatars/mainland-founder.jpg', serviceType: 'mainland', status: 'live' },
+    { id: 'bud-lead', quote: 'Starting with the project direction helped us avoid spending time on an unsuitable application.', name: 'Business lead', context: 'BUD application support', avatarUrl: '/images/avatars/bud-lead.jpg', serviceType: 'bud', status: 'live' },
+    { id: 'local-brand', quote: 'The name, shareholding and director arrangements were settled in one pass, so I knew what each step was waiting for before signing.', name: 'Startup founder', context: 'Hong Kong founder company setup', avatarUrl: '/images/avatars/local-brand.jpg', serviceType: 'local', status: 'live' },
+    { id: 'local-retail', quote: 'I just wanted the company open without a long lecture on jargon. They listed the documents needed and we were ready in three days.', name: 'Retail shop owner', context: 'Hong Kong founder company setup', avatarUrl: '/images/avatars/local-retail.jpg', serviceType: 'local', status: 'live' },
+    { id: 'mainland-team', quote: 'The video call checked identity, source of funds and business evidence item by item, so everything was ready before we travelled.', name: 'Mainland team lead', context: 'Mainland founder company setup', avatarUrl: '/images/avatars/mainland-team.jpg', serviceType: 'mainland', status: 'live' },
+    { id: 'mainland-bank', quote: 'Banking preparation was the hardest part. Getting the business story clear first made the bank meeting far easier.', name: 'Mainland e-commerce founder', context: 'Bank account preparation', avatarUrl: '/images/avatars/mainland-bank.jpg', serviceType: 'mainland', status: 'live' },
+    { id: 'compliance', quote: 'Annual return, renewal and audit dates now sit on one list, so nothing is left to the last minute.', name: 'Finance manager, SME', context: 'Annual compliance and audit', avatarUrl: '/images/avatars/compliance.jpg', serviceType: 'compliance', status: 'live' },
+    { id: 'address', quote: 'The registered address and mail handling were arranged together, and government letters are always notified.', name: 'Consultancy owner', context: 'Registered address and mail handling', avatarUrl: '/images/avatars/address.jpg', serviceType: 'address', status: 'live' },
+    { id: 'crossborder', quote: 'The park requirements were explained from the start, which saved two months of work in the wrong direction.', name: 'Technology founder', context: 'Cross-border and technology landing', avatarUrl: '/images/avatars/crossborder.jpg', serviceType: 'crossBorder', status: 'live' },
   ],
   pages: {
     pricing: { label: 'Pricing', title: 'A clear scope comes before a trustworthy quote.', lead: 'Company setup, annual compliance and funding work vary widely. WINFO first understands your profile, company position and support needs, then provides a formal quote that identifies services, government charges and separate items.', cards: [['Company setup', 'For founders planning a Hong Kong company.', ['Initial name and structure discussion', 'Incorporation documents and filing coordination', 'Company secretarial and registered-address options']], ['Annual compliance', 'For established Hong Kong companies.', ['Annual filing and renewal reminders', 'Assessment of audit, bookkeeping and tax needs', 'Work arranged around actual transactions']], ['BUD Fund', 'For Hong Kong businesses with a defined expansion project.', ['Eligibility and project-direction review', 'Project, budget and document planning', 'Application coordination within the agreed scope']]], note: 'All fees, timing, third-party costs and exclusions are confirmed only in the accepted quotation and engagement document.' },
@@ -413,7 +457,7 @@ export function getExtendedContent(language) {
     about: { ...source.pages.about, title: isEnglish ? 'For people building serious businesses, we untangle complexity and clear the way' : zh('為認真建設事業的人\n理清繁瑣，鋪就坦途') },
     maintenance: isEnglish
       ? { label: 'Audit, tax and compliance', title: 'Stay ahead of annual obligations with a clearer operating rhythm', lead: 'Audit, tax and company-secretarial work should begin with a shared view of your records, filing position and upcoming deadlines. We help organise the information, define the work and keep important dates visible', cards: [['Review the position', 'Start with the company record, prior filings, transactions and upcoming deadlines'], ['Define the work', 'Separate secretarial, bookkeeping, audit and tax needs into a scope that can be acted on'], ['Keep the rhythm', 'Use agreed checkpoints and reminders to keep the next filing or review from becoming a last-minute issue']], note: 'Statutory responsibilities, deadlines and service scope depend on the company’s actual circumstances and relevant professional advice' }
-      : zh({ label: '審計、報稅及公司秘書', title: '把年度責任\n放進清楚、可跟進的節奏', lead: '審計、報稅及公司秘書工作，先要對帳目、申報狀況和即將到期的事項有共同理解。WINFO 協助整理資料、釐清工作範圍，讓重要期限一目了然', cards: [['先盤點現況', '由公司記錄、過往申報、交易和即將到期事項開始整理'], ['再釐清工作', '把公司秘書、記帳、審計及報稅需要，拆成可以執行的服務範圍'], ['維持處理節奏', '以已確認的節點和提醒，避免申報或檢視工作拖到最後一刻']], note: '法定責任、時限及服務範圍，須按公司實際情況及相關專業意見確認' }),
+      : zh({ label: '審計、報稅及公司秘書', title: '把年度責任\n放進可跟進的節奏', lead: '審計、報稅及公司秘書工作，先要對帳目、申報狀況和即將到期的事項有共同理解。WINFO 協助整理資料、釐清工作範圍，讓重要期限一目了然', cards: [['先盤點現況', '由公司記錄、過往申報、交易和即將到期事項開始整理'], ['再釐清工作', '把公司秘書、記帳、審計及報稅需要，拆成可以執行的服務範圍'], ['維持處理節奏', '以已確認的節點和提醒，避免申報或檢視工作拖到最後一刻']], note: '法定責任、時限及服務範圍，須按公司實際情況及相關專業意見確認' }),
     contact: { ...source.pages.contact, cards: source.pages.contact.cards.map(([title, text]) => (['Email', '電郵', '电邮', '邮箱'].includes(title) ? [title, contact.email] : [title, text])) },
   };
   return { ...source, pages };

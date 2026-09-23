@@ -1,6 +1,6 @@
 import { contact, formatPrice, getExtendedContent, getUi, pricingData, toSimplified } from '../content/site';
 import { Icon, LinkButton, consultationUrl } from '../components/SiteShell';
-import { Breadcrumb, Checklist, ConsultationPanel, ContactInquiry, FinalCta, SectionHeading, TestimonialSection } from '../components/Sections';
+import { Breadcrumb, Checklist, ConsultationPanel, ContactInquiry, FinalCta, HeroMedia, SectionHeading, TestimonialSection } from '../components/Sections';
 
 const zh = (language, value) => (language === 'zh-Hans' ? toSimplified(value) : value);
 
@@ -13,6 +13,8 @@ const crumbs = {
   crossBorder: { en: 'Cross-border and technology landing', zh: '跨境與科技落地' },
 };
 
+const HERO_IMAGES = { about: '/about-office.jpg', cases: '/about-office.jpg', crossBorder: '/cross-border.jpg', maintenance: '/compliance-desk.jpg', contact: '/address-mail.jpg' };
+
 export function ContentPage({ kind, navigate, language }) {
   const copy = getUi(language);
   const extended = getExtendedContent(language);
@@ -20,11 +22,12 @@ export function ContentPage({ kind, navigate, language }) {
   const isPricing = kind === 'pricing';
   const isContact = kind === 'contact';
   const crumb = language === 'en' ? crumbs[kind].en : crumbs[kind].zh;
+  const heroImage = HERO_IMAGES[kind];
 
   if (isPricing) return <PricingPage navigate={navigate} language={language} page={page} copy={copy} />;
 
   return <>
-    <section className="detail-hero content-hero"><div className="container">
+    <section className={`detail-hero content-hero${heroImage ? ' has-media' : ''}`}>{heroImage && <HeroMedia image={heroImage} />}<div className="container">
       <Breadcrumb current={crumb} navigate={navigate} language={language} />
       <div className="content-hero-copy"><p className="hero-kicker">{page.label}</p><h1>{page.title}</h1><p>{page.lead}</p><div className="hero-actions"><a className="button" href={consultationUrl(page.label, language)} target="_blank" rel="noreferrer">{copy.freeConsultation} <Icon name="arrow" size={16} /></a></div></div>
     </div></section>
@@ -32,7 +35,7 @@ export function ContentPage({ kind, navigate, language }) {
       <div className={`content-card-grid ${isPricing ? 'pricing-grid' : ''}`}>{page.cards.map(([title, text, items]) => <article key={title}><span>{page.label}</span><h2>{title}</h2><p>{text}</p>{items && <Checklist dark items={items} />}{isContact && title === 'WhatsApp' && <a className="inline-link" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer">{copy.whatsappEnquiry} <Icon name="arrow" size={15} /></a>}{isContact && (title === 'Email' || title === '電郵' || title === '电邮' || title === '邮箱') && <a className="inline-link" href={`mailto:${contact.email}`}>{contact.email} <Icon name="arrow" size={15} /></a>}{isContact && (title === 'Hong Kong office' || title === '香港辦公室' || title === '香港办公室') && <a className="inline-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(text)}`} target="_blank" rel="noreferrer">{language === 'en' ? 'Open in Maps' : zh(language, '在地圖中查看')} <Icon name="arrow" size={15} /></a>}</article>)}</div>
       <p className="page-note">{page.note}</p></div></section>
     <TestimonialSection language={language} testimonials={extended.testimonials} compact />
-    {isContact ? <><ContactInquiry language={language} /><ContactActions language={language} /></> : <ConsultationPanel language={language} navigate={navigate} topic={page.label} documentsTarget="/contact#contact-enquiry" />}
+    {isContact ? <><ContactInquiry language={language} /><ContactActions language={language} /></> : <ConsultationPanel language={language} navigate={navigate} topic={page.label} documentsTarget="/contact#contact-enquiry" documentsLabel={copy.enquiryCta} />}
     <FinalCta language={language} topic={page.label} />
   </>;
 }
@@ -74,11 +77,11 @@ function PricingPage({ navigate, language, page, copy }) {
     </div></section>
     <section className="section pricing-plans"><div className="container">
       <SectionHeading label={page.label} title={isEnglish ? 'A clear plan, a clear price' : zh(language, '方案清楚\n收費清晰明確')} text={copy.priceDetails} />
-      <div className="plan-grid">{plans.map((plan) => <article className="plan-card" key={plan.to}><span>{plan.label}</span><strong><small>HKD </small>{plan.price.toLocaleString('en-HK')}</strong><p>{plan.description}</p><Checklist dark items={plan.items} /><LinkButton to={plan.to} navigate={navigate} className="button">{copy.priceEnquiry} <Icon name="arrow" size={16} /></LinkButton></article>)}</div>
-      <article className="address-addon-card"><div><span className="section-label">{copy.registeredAddressKicker}</span><h2>{copy.registeredAddressTitle}</h2><p>{copy.registeredAddressText}</p><div className="address-options"><span>{copy.registeredAddressItemOne}</span><span>{copy.registeredAddressItemTwo}</span></div></div><div><strong>{formatPrice(pricingData.registeredAddress)}</strong><p>{copy.registeredAddressNote}</p><LinkButton to="/company-registration/hong-kong-resident#registered-address" navigate={navigate} className="button button-secondary">{copy.registeredAddressCta} <Icon name="arrow" size={16} /></LinkButton></div></article>
+      <div className="plan-grid">{plans.map((plan) => <article className="plan-card" key={plan.to}><span>{plan.label}</span><strong><small>HKD </small>{plan.price.toLocaleString('en-HK')}</strong><p>{plan.description}</p><Checklist dark items={plan.items} /><LinkButton to={plan.to} navigate={navigate} className="button">{copy.priceEnquiry}</LinkButton></article>)}</div>
+      <article className="address-addon-card"><div><span className="section-label">{copy.registeredAddressKicker}</span><h2>{copy.registeredAddressTitle}</h2><p>{copy.registeredAddressText}</p><div className="address-options"><span>{copy.registeredAddressItemOne}</span><span>{copy.registeredAddressItemTwo}</span></div></div><div><strong>{formatPrice(pricingData.registeredAddress)}</strong><p>{copy.registeredAddressNote}</p><LinkButton to="/company-registration/hong-kong-resident#registered-address" navigate={navigate} className="button button-secondary">{copy.registeredAddressCta}</LinkButton></div></article>
     </div></section>
-    <section className="section other-services-section"><div className="container"><SectionHeading label={isEnglish ? 'Other business services' : zh(language, '其他企業服務')} title={isEnglish ? 'Support beyond company setup.' : zh(language, '公司成立之外\n我們也可以繼續支援')} text={isEnglish ? 'These services are scoped and quoted separately, so there is no confusion with the company setup plans above.' : zh(language, '以下服務會按實際範圍另行報價，不會與上述公司註冊方案混為一談')} /><div className="content-card-grid other-services-grid">{otherServices.map(([title, text, to]) => <article key={to}><span>{isEnglish ? 'By scope' : '按項目範圍'}</span><h2>{title}</h2><p>{text}</p><LinkButton to={to} navigate={navigate} className="inline-link">{isEnglish ? 'Explore the service' : '了解服務詳情'} <Icon name="arrow" size={15} /></LinkButton></article>)}</div></div></section>
-    <ConsultationPanel language={language} navigate={navigate} topic={page.label} documentsTarget="/contact#contact-enquiry" />
+    <section className="section other-services-section"><div className="container"><SectionHeading label={isEnglish ? 'Other business services' : zh(language, '其他企業服務')} title={isEnglish ? 'Support beyond company setup.' : zh(language, '公司成立之外\n我們也可以繼續支援')} text={isEnglish ? 'These services are scoped and quoted separately, so there is no confusion with the company setup plans above.' : zh(language, '以下服務會按實際範圍另行報價，不會與上述公司註冊方案混為一談')} /><div className="content-card-grid other-services-grid">{otherServices.map(([title, text, to]) => <article key={to}><span>{isEnglish ? 'By scope' : '按項目範圍'}</span><h2>{title}</h2><p>{text}</p><LinkButton to={to} navigate={navigate} className="inline-link">{isEnglish ? 'Explore the service' : '了解服務詳情'}</LinkButton></article>)}</div></div></section>
+    <ConsultationPanel language={language} navigate={navigate} topic={page.label} documentsTarget="/contact#contact-enquiry" documentsLabel={copy.enquiryCta} />
     <FinalCta language={language} topic={page.label} />
   </>;
 }

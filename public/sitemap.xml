@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://winfo.hk/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://winfo.hk/company-registration/hong-kong-resident</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://winfo.hk/company-registration/mainland-resident</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://winfo.hk/bud-fund</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://winfo.hk/pricing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://winfo.hk/services/compliance</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://winfo.hk/services/cross-border</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://winfo.hk/cases</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://winfo.hk/about</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://winfo.hk/contact</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://winfo.hk/privacy-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://winfo.hk/terms-of-use</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+</urlset>

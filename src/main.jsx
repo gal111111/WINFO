@@ -7,6 +7,7 @@ import { BudFundPage } from './pages/BudFundPage';
 import { LegalPage } from './pages/LegalPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { ContentPage } from './pages/ContentPage';
+import { CompanyRegistrationWizard } from './pages/CompanyRegistrationWizard';
 import { getUi, toSimplified } from './content/site';
 import './styles.css';
 
@@ -14,6 +15,7 @@ const routes = {
   '/': { component: HomePage, key: 'home' },
   '/company-registration/hong-kong-resident': { component: IncorporationPage, kind: 'local', key: 'local' },
   '/company-registration/mainland-resident': { component: IncorporationPage, kind: 'mainland', key: 'mainland' },
+  '/start/company-registration': { component: CompanyRegistrationWizard, key: 'registrationStart', standalone: true },
   '/bud-fund': { component: BudFundPage, key: 'bud' },
   '/pricing': { component: ContentPage, kind: 'pricing', key: 'pricing' },
   '/cases': { component: ContentPage, kind: 'cases', key: 'cases' },
@@ -29,6 +31,7 @@ const metadata = {
   home: ['WINFO | Hong Kong Business Solutions', 'Company setup, BUD Fund applications and practical business support for Hong Kong and cross-border founders.'],
   local: ['Set up a Hong Kong company | WINFO', 'A clear company incorporation process for Hong Kong founders.'],
   mainland: ['Hong Kong company setup for mainland founders | WINFO', 'Cross-border incorporation preparation, company secretarial and banking readiness.'],
+  registrationStart: ['Start a Hong Kong company enquiry | WINFO', 'Share the general details WINFO needs to review your Hong Kong company registration enquiry.'],
   bud: ['BUD Fund application support | WINFO', 'Initial BUD Fund assessment, project planning, document preparation and coordination.'],
   pricing: ['Pricing | WINFO', 'WINFO service scope and pricing framework.'],
   cases: ['Engagement scenarios | WINFO', 'Illustrative WINFO business service scenarios.'],
@@ -49,7 +52,7 @@ function useRoute() {
     if (!nextPath && anchor) { document.querySelector(`#${anchor}`)?.scrollIntoView({ behavior: 'smooth' }); return; }
     const targetPath = nextPath || '/';
     window.history.pushState({}, '', anchor ? `${targetPath}#${anchor}` : targetPath);
-    setPath(targetPath);
+    setPath(targetPath.split('?')[0]);
     requestAnimationFrame(() => anchor ? document.querySelector(`#${anchor}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }) : window.scrollTo({ top: 0, behavior: 'auto' }));
   };
   useEffect(() => {
@@ -79,7 +82,8 @@ function App() {
   }, [language, path]);
   useEffect(() => { const [title, description] = metadata[route?.key] || [copy.notFound, copy.notFoundText]; document.title = title; document.querySelector('meta[name="description"]')?.setAttribute('content', description); document.querySelector('link[rel="canonical"]')?.setAttribute('href', `${window.location.origin}${window.location.pathname}`); }, [path, route, copy]);
   const Page = route?.component || NotFoundPage;
-  return <SiteShell key={language} navigate={navigate} path={path} language={language} setLanguage={setLanguage}><main id="main-content" tabIndex="-1"><Page navigate={navigate} kind={route?.kind} language={language} /></main></SiteShell>;
+  if (route?.standalone) return <Page navigate={navigate} language={language} setLanguage={setLanguage} />;
+  return <SiteShell key={language} navigate={navigate} path={path} language={language} setLanguage={setLanguage}><main id="main-content" tabIndex="-1"><Page navigate={navigate} kind={route?.kind} language={language} setLanguage={setLanguage} /></main></SiteShell>;
 }
 
 export default App;

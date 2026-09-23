@@ -111,17 +111,26 @@ function AdvisorWidget({ language }) {
     <div className="advisor-panel" role="dialog" aria-label={copy.advisorTitle}>
       <strong>{copy.advisorTitle}</strong>
       <p>{copy.advisorText}</p>
+      <small className="advisor-note">{copy.advisorAvatarNote}</small>
       <a className="button" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer">{copy.whatsappEnquiry} <Icon name="arrow" size={15} /></a>
     </div>
     <button type="button" className="advisor-fab" aria-expanded={open} aria-label={copy.advisorTitle} onClick={() => setOpen(!open)}>
-      <span className="advisor-avatar" aria-hidden="true">W<i /></span>
+      <span className="advisor-avatar" aria-hidden="true"><img src="/images/avatars/advisor-clean.jpg" alt="" /></span>
       {copy.whatsappEnquiry}
     </button>
+  </div>;
+}
+
+function StickyConsultBar({ navigate, language }) {
+  const copy = getUi(language);
+  return <div className="sticky-consult">
+    <a className="button" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer"><Icon name="chat" size={15} />{copy.dockWhatsApp}</a>
+    <button type="button" className="button button-secondary" onClick={() => navigate('/contact#contact-enquiry')}>{copy.dockEnquiry}</button>
   </div>;
 }
 
 export function SiteShell({ children, navigate, path, language, setLanguage }) {
   const copy = getUi(language);
   const [cookieVisible, setCookieVisible] = useState(() => !localStorage.getItem('winfo-cookie-choice'));
-  return <><Header navigate={navigate} path={path} language={language} setLanguage={setLanguage} />{children}<Footer navigate={navigate} language={language} openCookieSettings={() => setCookieVisible(true)} /><AdvisorWidget language={language} /><CookieNotice language={language} visible={cookieVisible} setVisible={setCookieVisible} /></>;
+  return <><Header navigate={navigate} path={path} language={language} setLanguage={setLanguage} />{children}<Footer navigate={navigate} language={language} openCookieSettings={() => setCookieVisible(true)} /><StickyConsultBar navigate={navigate} language={language} /><AdvisorWidget language={language} /><CookieNotice language={language} visible={cookieVisible} setVisible={setCookieVisible} /></>;
 }

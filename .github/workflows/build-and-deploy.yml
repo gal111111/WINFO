@@ -7,13 +7,15 @@ on:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,18 +27,25 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
-      # The enquiry form posts to the Cloudflare Pages Function in functions/api/enquiry.js,
-      # so the endpoint must be baked in at build time.
+      # The enquiry form posts to Formspree, so the endpoint is baked in at build time.
       - name: Build
         run: npm run build
         env:
-          VITE_ENQUIRY_ENDPOINT: /api/enquiry
-      # Requires CLOUDFLARE_API_TOKEN (Cloudflare Pages: Edit) and CLOUDFLARE_ACCOUNT_ID
-      # in the repository secrets. Runtime secrets such as RESEND_API_KEY stay in the
-      # Cloudflare Pages project settings, not in this repository.
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
+          VITE_ENQUIRY_ENDPOINT: https://formspree.io/f/mnpnvgdp
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=winfo-website
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

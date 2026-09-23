@@ -13,6 +13,8 @@ export async function submitEnquiry(payload) {
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     body: JSON.stringify({
       ...payload,
+      _subject: `WINFO ${clean(payload.type, 60) || 'website'} enquiry`,
+      _gotcha: clean(payload.website, 200),
       name: clean(payload.name, 120), contact: clean(payload.contact, 180),
       service: clean(payload.service, 140), timing: clean(payload.timing, 100),
       message: clean(payload.message), companyNames: clean(payload.companyNames, 280),
