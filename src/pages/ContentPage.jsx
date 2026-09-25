@@ -35,7 +35,7 @@ export function ContentPage({ kind, navigate, language }) {
       <div className={`content-card-grid ${isPricing ? 'pricing-grid' : ''}`}>{page.cards.map(([title, text, items]) => <article key={title}><span>{page.label}</span><h2>{title}</h2><p>{text}</p>{items && <Checklist dark items={items} />}{isContact && title === 'WhatsApp' && <a className="inline-link" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer">{copy.whatsappEnquiry} <Icon name="arrow" size={15} /></a>}{isContact && (title === 'Email' || title === '電郵' || title === '电邮' || title === '邮箱') && <a className="inline-link" href={`mailto:${contact.email}`}>{contact.email} <Icon name="arrow" size={15} /></a>}{isContact && (title === 'Hong Kong office' || title === '香港辦公室' || title === '香港办公室') && <a className="inline-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(text)}`} target="_blank" rel="noreferrer">{language === 'en' ? 'Open in Maps' : zh(language, '在地圖中查看')} <Icon name="arrow" size={15} /></a>}</article>)}</div>
       <p className="page-note">{page.note}</p></div></section>
     <TestimonialSection language={language} testimonials={extended.testimonials} compact />
-    {isContact ? <><ContactInquiry language={language} /><ContactActions language={language} /></> : <ConsultationPanel language={language} navigate={navigate} topic={page.label} documentsTarget="/contact#contact-enquiry" documentsLabel={copy.enquiryCta} />}
+    {isContact ? <><ContactActions language={language} navigate={navigate} /><ContactInquiry language={language} /></> : <ConsultationPanel language={language} navigate={navigate} topic={page.label} documentsTarget="/contact#contact-enquiry" documentsLabel={copy.enquiryCta} />}
     <FinalCta language={language} topic={page.label} />
   </>;
 }
@@ -86,7 +86,31 @@ function PricingPage({ navigate, language, page, copy }) {
   </>;
 }
 
-function ContactActions({ language }) {
+function ContactActions({ language, navigate }) {
   const copy = getUi(language);
-  return <section className="section contact-actions-band"><div className="container contact-actions-inner"><div><span className="section-label">{copy.initialConsultation}</span><h2>{language === 'en' ? 'A short first message is enough to begin' : zh(language, '第一句訊息 · 就足夠讓我們開始了解')}</h2><p>{language === 'en' ? 'Tell us whether you are setting up, operating, applying for funding or preparing to expand' : zh(language, '告訴我們：你是準備成立公司、處理營運合規、申請資助，還是計劃跨境拓展')}</p></div><div className="contact-action-links"><a className="button" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer">{copy.whatsappEnquiry} <Icon name="arrow" size={16} /></a><a className="button button-secondary" href={`mailto:${contact.email}`}>{contact.email} <Icon name="arrow" size={16} /></a></div></div></section>;
+  const isEn = language === 'en';
+  const options = [
+    {
+      key: 'whatsapp',
+      kicker: isEn ? 'Fastest route' : zh(language, '即時對話'),
+      title: copy.whatsappEnquiry,
+      text: isEn ? 'Tell us where you are on WhatsApp. We reply first with the service scope, what to prepare and the next step.' : zh(language, '在 WhatsApp 說說你的情況，我們會先回覆服務範圍、需要準備的資料和下一步'),
+      cta: isEn ? 'Chat on WhatsApp' : zh(language, '在 WhatsApp 對話'),
+      external: true,
+      meta: contact.phone,
+    },
+    {
+      key: 'form',
+      kicker: isEn ? 'In your own time' : zh(language, '先整理資料'),
+      title: isEn ? 'Fill in the enquiry form' : zh(language, '填寫查詢表'),
+      text: isEn ? 'Share a few general details. We review them and reply through the contact method you provide.' : zh(language, '只需填寫一般資料，我們看過後會按你提供的聯絡方式回覆'),
+      cta: isEn ? 'Go to the form' : zh(language, '填寫查詢表'),
+      external: false,
+      meta: isEn ? 'Do not include identity documents or bank records.' : zh(language, '請勿填寫身份證明或銀行文件'),
+    },
+  ];
+  return <section className="section contact-choice" id="contact-choice"><div className="container">
+    <SectionHeading label={isEn ? 'How to reach us' : zh(language, '聯絡方式')} title={isEn ? 'Talk now, or write it down first?' : zh(language, '想即時對話\n還是先整理好資料？')} text={isEn ? 'Both routes work. WhatsApp suits a quick question; the form suits sharing your background and timing in your own time.' : zh(language, '兩種都可以：WhatsApp 適合想盡快問清楚；查詢表適合先寫下背景和時間安排')} />
+    <div className="choice-grid">{options.map((option) => <article className={`choice-card choice-${option.key}`} key={option.key}><span className="choice-kicker">{option.kicker}</span><h3>{option.title}</h3><p>{option.text}</p>{option.external ? <a className="button" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer">{option.cta} <Icon name="arrow" size={16} /></a> : <LinkButton to="/contact#contact-enquiry" navigate={navigate} className="button button-secondary">{option.cta}</LinkButton>}<small>{option.meta}</small></article>)}</div>
+  </div></section>;
 }
