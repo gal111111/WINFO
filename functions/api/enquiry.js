@@ -59,7 +59,7 @@ export async function onRequestPost({ request, env }) {
   };
   if (!ALLOWED_TYPES.has(data.type)) return json({ ok: false, error: 'unsupported_type' }, 400);
   if (data.type === 'bud-eligibility') {
-    if (!data.answers) return json({ ok: false, error: 'missing_required_fields' }, 400);
+    if (!data.answers || !data.name || !data.contact) return json({ ok: false, error: 'missing_required_fields' }, 400);
   } else if (!data.name || !data.contact || !data.service || !body.consent) {
     return json({ ok: false, error: 'missing_required_fields' }, 400);
   }
