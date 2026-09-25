@@ -115,7 +115,7 @@ function AdvisorWidget({ language }) {
       <small className="advisor-note">{copy.advisorAvatarNote}</small>
       <a className="button" href={consultationUrl(copy.initialConsultation, language)} target="_blank" rel="noreferrer">{copy.whatsappEnquiry} <Icon name="arrow" size={15} /></a>
     </div>
-    <button type="button" className="advisor-fab" aria-expanded={open} aria-label={copy.advisorTitle} onClick={() => setOpen(!open)}>
+    <button type="button" className="advisor-fab" aria-expanded={open} aria-label={copy.whatsappEnquiry} onClick={() => setOpen(!open)}>
       <span className="advisor-avatar" aria-hidden="true"><img src="/images/avatars/advisor-clean.jpg" alt="" /></span>
       {copy.whatsappEnquiry}
     </button>

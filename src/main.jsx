@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { SiteShell } from './components/SiteShell';
 import { HomePage } from './pages/HomePage';
-import { IncorporationPage } from './pages/IncorporationPage';
-import { BudFundPage } from './pages/BudFundPage';
-import { LegalPage } from './pages/LegalPage';
-import { NotFoundPage } from './pages/NotFoundPage';
-import { ContentPage } from './pages/ContentPage';
-import { CompanyRegistrationWizard } from './pages/CompanyRegistrationWizard';
 import { getUi, toSimplified } from './content/site';
 import './styles.css';
+
+const IncorporationPage = lazy(() => import('./pages/IncorporationPage'));
+const BudFundPage = lazy(() => import('./pages/BudFundPage'));
+const LegalPage = lazy(() => import('./pages/LegalPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const ContentPage = lazy(() => import('./pages/ContentPage'));
+const CompanyRegistrationWizard = lazy(() => import('./pages/CompanyRegistrationWizard'));
 
 const routes = {
   '/': { component: HomePage, key: 'home' },
@@ -82,8 +83,9 @@ function App() {
   }, [language, path]);
   useEffect(() => { const [title, description] = metadata[route?.key] || [copy.notFound, copy.notFoundText]; document.title = title; document.querySelector('meta[name="description"]')?.setAttribute('content', description); document.querySelector('link[rel="canonical"]')?.setAttribute('href', `${window.location.origin}${window.location.pathname}`); }, [path, route, copy]);
   const Page = route?.component || NotFoundPage;
-  if (route?.standalone) return <Page navigate={navigate} language={language} setLanguage={setLanguage} />;
-  return <SiteShell key={language} navigate={navigate} path={path} language={language} setLanguage={setLanguage}><main id="main-content" tabIndex="-1"><Page navigate={navigate} kind={route?.kind} language={language} setLanguage={setLanguage} /></main></SiteShell>;
+  const fallback = <div style={{ minHeight: '60vh' }} />;
+  if (route?.standalone) return <Suspense fallback={fallback}><Page navigate={navigate} language={language} setLanguage={setLanguage} /></Suspense>;
+  return <SiteShell key={language} navigate={navigate} path={path} language={language} setLanguage={setLanguage}><main id="main-content" tabIndex="-1"><Suspense fallback={fallback}><Page navigate={navigate} kind={route?.kind} language={language} setLanguage={setLanguage} /></Suspense></main></SiteShell>;
 }
 
 export default App;
