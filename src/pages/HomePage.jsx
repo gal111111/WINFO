@@ -84,7 +84,7 @@ export function HomePage({ navigate, language }) {
     <GoogleRatingSection language={language} />
     <section className="section inquiry-section"><div className="container inquiry-layout inquiry-single"><div><SectionHeading label={copy.initialConsultation} title={copy.enquiryTitle} text={copy.enquiryText} /><LinkButton to="/contact#contact-enquiry" navigate={navigate} className="inquiry-start">{copy.enquiryCta}</LinkButton></div></div></section>
     <FAQ items={faq} title={copy.homeFaqTitle} language={language} />
-    <ConsultationPanel navigate={navigate} language={language} documentsTarget="/company-registration/hong-kong-resident#documents" />
+    <ConsultationPanel navigate={navigate} language={language} label={copy.homeCtaLabel} title={copy.homeCtaTitle} text={copy.homeCtaText} whatsappLabel={copy.homeCtaWhatsapp} documentsLabel={copy.homeCtaDocuments} documentsTarget="/company-registration/hong-kong-resident#documents" />
     <FinalCta language={language} />
   </>;
 }
