@@ -85,17 +85,17 @@ function selectedServices(data, copy) {
 }
 
 function summaryRows(data, copy) {
-  const names = data.decideNameLater ? copy.summary.later : data.companyNames.filter((name) => name.trim()).join(' · ');
-  const services = selectedServices(data, copy).join(' · ') || copy.fields.noService;
+  const names = data.decideNameLater ? copy.summary.later : data.companyNames.filter((name) => name.trim()).join(copy.summary.joiner);
+  const services = selectedServices(data, copy).join(copy.summary.joiner) || copy.fields.noService;
   return [
     [copy.summary.names, names],
     [copy.summary.founders, copy.profiles[data.profile]],
-    [copy.summary.structure, `${copy.fields.directors}: ${data.directors} · ${copy.fields.shareholders}: ${data.shareholders}`],
+    [copy.summary.structure, `${copy.fields.directors}: ${data.directors}${copy.summary.joiner}${copy.fields.shareholders}: ${data.shareholders}`],
     [copy.summary.business, data.business],
     [copy.summary.timing, copy.timings[data.timing]],
     [copy.summary.existing, copy.existingOptions[data.existingCompany]],
     [copy.summary.services, services],
-    [copy.summary.contact, [data.name, data.contact].filter(Boolean).join(' · ')],
+    [copy.summary.contact, [data.name, data.contact].filter(Boolean).join(copy.summary.joiner)],
   ].filter(([, value]) => value);
 }
 
@@ -112,11 +112,11 @@ function WizardSummary({ data, copy, mobile = false }) {
 
 function Review({ data, copy, setStep }) {
   const groups = [
-    [0, copy.summary.names, data.decideNameLater ? copy.summary.later : data.companyNames.filter(Boolean).join(' · ')],
-    [1, copy.summary.founders, `${copy.profiles[data.profile]} · ${copy.fields.directors}: ${data.directors} · ${copy.fields.shareholders}: ${data.shareholders}`],
-    [2, copy.summary.business, `${data.business} · ${copy.timings[data.timing]} · ${copy.existingOptions[data.existingCompany]}`],
-    [3, copy.summary.services, selectedServices(data, copy).join(' · ') || copy.fields.noService],
-    [4, copy.summary.contact, `${data.name} · ${data.contact}${data.message ? ` · ${data.message}` : ''}`],
+    [0, copy.summary.names, data.decideNameLater ? copy.summary.later : data.companyNames.filter(Boolean).join(copy.summary.joiner)],
+    [1, copy.summary.founders, `${copy.profiles[data.profile]}${copy.summary.joiner}${copy.fields.directors}: ${data.directors}${copy.summary.joiner}${copy.fields.shareholders}: ${data.shareholders}`],
+    [2, copy.summary.business, `${data.business}${copy.summary.joiner}${copy.timings[data.timing]}${copy.summary.joiner}${copy.existingOptions[data.existingCompany]}`],
+    [3, copy.summary.services, selectedServices(data, copy).join(copy.summary.joiner) || copy.fields.noService],
+    [4, copy.summary.contact, `${data.name}${copy.summary.joiner}${data.contact}${data.message ? `${copy.summary.joiner}${data.message}` : ''}`],
   ];
   return <div className="wizard-review">{groups.map(([target, label, value]) => <article key={target}><div><span>{label}</span><p>{value}</p></div><button type="button" onClick={() => setStep(target)}>{copy.actions.edit}</button></article>)}</div>;
 }
