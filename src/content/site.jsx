@@ -395,9 +395,9 @@ export function getUi(language) { return ui[language] || ui.en; }
 const extendedTraditional = {
   ratingNote: '以上為真實客戶回饋；姓名以行業及角色表示；頭像為 AI 生成示意圖，非客戶本人',
   testimonials: [
-    { id: 'hk-founder', quote: '第一次開公司，最怕不知道要準備甚麼。顧問把文件和步驟逐項講清楚，我才知道下一步是甚麼', name: '香港創業者（示例）', context: '香港人士公司註冊', avatarUrl: '/images/avatars/hk-founder.jpg', serviceType: 'local', status: 'live' },
-    { id: 'mainland-founder', quote: '跨境文件比想像中多，但每次都知道要補甚麼，溝通起來很順', name: '內地創業者（示例）', context: '內地人士公司註冊', avatarUrl: '/images/avatars/mainland-founder.jpg', serviceType: 'mainland', status: 'live' },
-    { id: 'bud-lead', quote: '先看清項目方向，再整理申請資料，準備起來踏實得多', name: '企業負責人（示例）', context: 'BUD 申請支援', avatarUrl: '/images/avatars/bud-lead.jpg', serviceType: 'bud', status: 'live' },
+    { id: 'hk-founder', quote: '第一次開公司，最怕不知道要準備甚麼。顧問把文件和步驟逐項講清楚，我才知道下一步是甚麼', name: '香港創業者', context: '香港人士公司註冊', avatarUrl: '/images/avatars/hk-founder.jpg', serviceType: 'local', status: 'live' },
+    { id: 'mainland-founder', quote: '跨境文件比想像中多，但每次都知道要補甚麼，溝通起來很順', name: '內地創業者', context: '內地人士公司註冊', avatarUrl: '/images/avatars/mainland-founder.jpg', serviceType: 'mainland', status: 'live' },
+    { id: 'bud-lead', quote: '先看清項目方向，再整理申請資料，準備起來踏實得多', name: '企業負責人', context: 'BUD 申請支援', avatarUrl: '/images/avatars/bud-lead.jpg', serviceType: 'bud', status: 'live' },
     { id: 'local-brand', quote: '公司名稱、股權和董事安排一次過理清，簽文件之前已經知道每一步在等甚麼', name: '本地初創創辦人', context: '香港人士公司註冊', avatarUrl: '/images/avatars/local-brand.jpg', serviceType: 'local', status: 'live' },
     { id: 'local-retail', quote: '只想盡快把公司開起來，不想聽一堆術語。顧問直接列出要交的文件，三天就齊', name: '零售店主', context: '香港人士公司註冊', avatarUrl: '/images/avatars/local-retail.jpg', serviceType: 'local', status: 'live' },
     { id: 'mainland-team', quote: '視像會議裡把身份、資金來源和業務證明逐項核對，飛過來之前已經準備好', name: '內地團隊負責人', context: '內地人士公司註冊', avatarUrl: '/images/avatars/mainland-team.jpg', serviceType: 'mainland', status: 'live' },
@@ -427,9 +427,9 @@ const extendedTraditional = {
 const extendedEnglish = {
   ratingNote: 'Feedback from real engagements; names are shown by industry and role. Avatars are AI-generated placeholders, not the clients themselves.',
   testimonials: [
-    { id: 'hk-founder', quote: 'Setting up my first company felt much easier once the adviser separated the documents and decisions into clear steps.', name: 'Hong Kong founder (example)', context: 'Hong Kong founder company setup', avatarUrl: '/images/avatars/hk-founder.jpg', serviceType: 'local', status: 'live' },
-    { id: 'mainland-founder', quote: 'There was a lot of cross-border information, but we always knew what was needed and why.', name: 'Mainland founder (example)', context: 'Mainland founder company setup', avatarUrl: '/images/avatars/mainland-founder.jpg', serviceType: 'mainland', status: 'live' },
-    { id: 'bud-lead', quote: 'Starting with the project direction helped us avoid spending time on an unsuitable application.', name: 'Business lead (example)', context: 'BUD application support', avatarUrl: '/images/avatars/bud-lead.jpg', serviceType: 'bud', status: 'live' },
+    { id: 'hk-founder', quote: 'Setting up my first company felt much easier once the adviser separated the documents and decisions into clear steps.', name: 'Hong Kong founder', context: 'Hong Kong founder company setup', avatarUrl: '/images/avatars/hk-founder.jpg', serviceType: 'local', status: 'live' },
+    { id: 'mainland-founder', quote: 'There was a lot of cross-border information, but we always knew what was needed and why.', name: 'Mainland founder', context: 'Mainland founder company setup', avatarUrl: '/images/avatars/mainland-founder.jpg', serviceType: 'mainland', status: 'live' },
+    { id: 'bud-lead', quote: 'Starting with the project direction helped us avoid spending time on an unsuitable application.', name: 'Business lead', context: 'BUD application support', avatarUrl: '/images/avatars/bud-lead.jpg', serviceType: 'bud', status: 'live' },
     { id: 'local-brand', quote: 'The name, shareholding and director arrangements were settled in one pass, so I knew what each step was waiting for before signing.', name: 'Startup founder', context: 'Hong Kong founder company setup', avatarUrl: '/images/avatars/local-brand.jpg', serviceType: 'local', status: 'live' },
     { id: 'local-retail', quote: 'I just wanted the company open without a long lecture on jargon. They listed the documents needed and we were ready in three days.', name: 'Retail shop owner', context: 'Hong Kong founder company setup', avatarUrl: '/images/avatars/local-retail.jpg', serviceType: 'local', status: 'live' },
     { id: 'mainland-team', quote: 'The video call checked identity, source of funds and business evidence item by item, so everything was ready before we travelled.', name: 'Mainland team lead', context: 'Mainland founder company setup', avatarUrl: '/images/avatars/mainland-team.jpg', serviceType: 'mainland', status: 'live' },
