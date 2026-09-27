@@ -48,13 +48,13 @@ const traditional = {
       { title: '香港本地人士註冊公司', description: '由公司名稱、法定文件，到成立後的文件交接', to: '/company-registration/hong-kong-resident' },
       { title: '內地人士註冊香港公司', description: '跨境文件整理，以及開戶前準備', to: '/company-registration/mainland-resident' },
     ] },
-    { title: '資助與拓展', items: [
-      { title: 'BUD 專項基金', description: '由初評、計劃書、文件到申請協調', to: '/bud-fund' },
-      { title: '內地創新園', description: '先評估園區與跨境發展方向', to: '/services/cross-border' },
-    ] },
     { title: '合規與營運', items: [
       { title: '審計、報稅及公司秘書', description: '為全年的合規工作排好節奏', to: '/services/compliance' },
       { title: '上市維護', description: '按企業需要，安排持續支援', to: '/services/compliance' },
+    ] },
+    { title: '資助與拓展', items: [
+      { title: 'BUD 專項基金', description: '由初評、計劃書、文件到申請協調', to: '/bud-fund' },
+      { title: '內地創新園', description: '先評估園區與跨境發展方向', to: '/services/cross-border' },
     ] },
     { title: '科技與跨境落地', items: [
       { title: '內地軟件註冊', description: '為跨境業務做好準備', to: '/services/cross-border' },
@@ -95,8 +95,8 @@ const traditional = {
 const english = {
   serviceGroups: [
     { title: 'Start in Hong Kong', items: [{ title: 'Company setup for HK residents', description: 'Name, statutory documents and handover.', to: '/company-registration/hong-kong-resident' }, { title: 'Company setup for mainland founders', description: 'Cross-border documents and banking readiness.', to: '/company-registration/mainland-resident' }] },
-    { title: 'Funding and Growth', items: [{ title: 'BUD Fund', description: 'Initial review, proposal, documents and coordination.', to: '/bud-fund' }, { title: 'Mainland innovation parks', description: 'An initial review of park and expansion options.', to: '/services/cross-border' }] },
     { title: 'Compliance and Operations', items: [{ title: 'Audit, tax and company secretarial', description: 'Put annual compliance on a clear schedule.', to: '/services/compliance' }, { title: 'Listed-company support', description: 'Ongoing support tailored to your needs.', to: '/services/compliance' }] },
+    { title: 'Funding and Growth', items: [{ title: 'BUD Fund', description: 'Initial review, proposal, documents and coordination.', to: '/bud-fund' }, { title: 'Mainland innovation parks', description: 'An initial review of park and expansion options.', to: '/services/cross-border' }] },
     { title: 'Technology and Cross-border', items: [{ title: 'Mainland software registration', description: 'Practical preparation for cross-border business.', to: '/services/cross-border' }, { title: 'Hong Kong incubation parks', description: 'Clarify application and landing requirements.', to: '/services/cross-border' }] },
   ],
   homeServices: [
