@@ -36,7 +36,7 @@ export const wizardCopy = {
   },
   'zh-Hant': {
     eyebrow: '香港公司成立',
-    pageTitle: '由這裡開始，整理你的公司註冊需要',
+    pageTitle: '由這裡開始\n整理你的公司註冊需要',
     pageIntro: '用幾分鐘回答幾個重點問題，WINFO 會先了解你的情況，再與你確認最實際的下一步。',
     steps: [
       { title: '你心目中的公司名稱是甚麼？', text: '可按心水次序填寫最多三個名稱；最終能否使用，仍須以正式查冊結果為準。' },
@@ -71,7 +71,7 @@ export const wizardCopy = {
   },
   'zh-Hans': {
     eyebrow: '香港公司成立',
-    pageTitle: '从这里开始，梳理你的公司注册需求',
+    pageTitle: '从这里开始\n梳理你的公司注册需求',
     pageIntro: '用几分钟回答几个重点问题，WINFO 会先了解你的情况，再与你确认最实际的下一步。',
     steps: [
       { title: '你心目中的公司名称是什么？', text: '可按心仪顺序填写最多三个名称；最终能否使用，仍须以正式查册结果为准。' },

@@ -25,7 +25,7 @@ export function HomePage({ navigate, language }) {
   const current = finder[selected];
   const principles = language === 'en'
     ? [['Confirm the need', 'Start with the business goal, practical constraints and information needed for a sound decision'], ['A dedicated lead', 'One responsible adviser keeps the work, milestones and communication moving in the same direction'], ['Start with the application, plan for what follows', 'Keep compliance, operations and the next stage of growth in view from the start']]
-    : localize([['確認需求', '先了解業務目標、實際限制與所需資料，再判斷最合適的安排'], ['專項負責人', '由專責顧問統一跟進工作、節點與溝通，讓每一步保持同一方向'], ['始於申請，著眼長遠', '由申請開始，同步整理合規、營運與下一階段拓展需要']]);
+    : localize([['確認需求', '先了解業務目標、實際限制與所需資料，再判斷最合適的安排'], ['專項負責人', '由專責顧問統一跟進工作、節點與溝通，讓每一步保持同一方向'], ['始於申請\n著眼長遠', '由申請開始，同步整理合規、營運與下一階段拓展需要']]);
   const process = language === 'en'
     ? [['01', 'Needs diagnosis', 'Analyse the business background, current position, timing and the decision that needs to be made'], ['02', 'Fee clarity', 'Set out the service scope, required documents, responsibilities and fees before work begins'], ['03', 'Documents and application handling', 'Coordinate information, signing, submission and important checkpoints in the agreed sequence'], ['04', 'Handover and ongoing support', 'Close the current work and organise the next compliance or growth step']]
     : localize([['01', '需求診斷', '剖析業務背景、現況、時間表，以及真正需要作出的決定'], ['02', '費用釐清', '在開始前說清服務範圍、所需文件、各方責任和費用'], ['03', '文件與申請處理', '按已確認的步驟協調資料、簽署、提交及重要節點'], ['04', '交付及持續支援', '完成目前工作後，整理後續合規或拓展的下一步']]);

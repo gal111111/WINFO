@@ -29,6 +29,6 @@ export function IncorporationPage({ navigate, kind = 'local', language }) {
     <TestimonialSection language={language} testimonials={extended.testimonials} compact serviceType={isMainland ? 'mainland' : 'local'} />
     <ConsultationPanel navigate={navigate} language={language} topic={page.primary} title={language === 'en' ? 'Want to confirm your setup route?' : '想先確認你的公司成立方案？'} />
     <RegisteredAddressSection language={language} kind={kind} checked={needsAddress} setChecked={setNeedsAddress} />
-    <FinalCta language={language} title={language === 'en' ? 'Ready to start your Hong Kong business?' : '準備好，開始你的香港業務？'} text={language === 'en' ? 'Tell us your profile, ownership structure and intended start date. We will organise the most practical first step.' : '先說明你的身份、公司架構和希望開始的時間，我們會整理最合適的第一步'} topic={page.primary} />
+    <FinalCta language={language} title={language === 'en' ? 'Ready to start your Hong Kong business?' : '準備好\n開始你的香港業務？'} text={language === 'en' ? 'Tell us your profile, ownership structure and intended start date. We will organise the most practical first step.' : '先說明你的身份、公司架構和希望開始的時間，我們會整理最合適的第一步'} topic={page.primary} />
   </>;
 }
