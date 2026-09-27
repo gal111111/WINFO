@@ -29,6 +29,6 @@ export function IncorporationPage({ navigate, kind = 'local', language }) {
     <TestimonialSection language={language} testimonials={extended.testimonials} compact serviceType={isMainland ? 'mainland' : 'local'} />
     <ConsultationPanel navigate={navigate} language={language} topic={page.primary} title={language === 'en' ? 'Want to confirm your setup route?' : '想先確認你的公司成立方案？'} />
     <RegisteredAddressSection language={language} kind={kind} checked={needsAddress} setChecked={setNeedsAddress} />
-    <FinalCta language={language} title={language === 'en' ? 'Ready to start your Hong Kong business?' : '準備好\n開始你的香港業務？'} text={language === 'en' ? 'Tell us your profile, ownership structure and intended start date. We will organise the most practical first step.' : '先說明你的身份、公司架構和希望開始的時間，我們會整理最合適的第一步'} topic={page.primary} />
+    <FinalCta language={language} title={language === 'en' ? 'Start your Hong Kong business with precision\nand seize the market opportunity' : '精準啟動香港業務\n把握市場先機'} text={language === 'en' ? 'Briefly outline your business concept and intended timeline. The WINFO team will quickly clarify the regulatory process, organise the required documents, and help you take the critical first step with confidence.' : '簡述您的企業構想與推進日程，WINFO 團隊將迅速為您釐清法規流程、梳理必備文件，助您穩步邁出關鍵第一步。'} topic={page.primary} />
   </>;
 }
