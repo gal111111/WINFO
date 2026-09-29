@@ -382,6 +382,10 @@ body { -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
 
   .category-grid article, .timeline article, .responsibility-grid article, .steps li { transition:background .28s var(--ease); }
   .category-grid article:hover, .timeline article:hover, .responsibility-grid article:hover, .steps li:hover { background:#f7fbff; }
+  .process-section .steps h3, .process-section .steps p, .process-section .steps li > span { transition:color .28s var(--ease); }
+  .process-section .steps li:hover h3 { color:var(--navy); }
+  .process-section .steps li:hover p { color:#435167; }
+  .process-section .steps li:hover > span { color:rgba(23,59,114,.22); }
 
   .finder-options button { transition:background .22s var(--ease), color .22s var(--ease); }
   .finder-options button:hover { background:#f4f9ff; color:var(--navy); }
