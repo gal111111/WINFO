@@ -13,12 +13,12 @@ export function HomePage({ navigate, language }) {
   const [selected, setSelected] = useState(0);
   const finder = language === 'en'
     ? [
-        { label: 'I am setting up a Hong Kong company', title: 'Start with company setup', text: 'Choose the route for a Hong Kong or mainland founder and clarify the required documents.', to: '/company-registration/hong-kong-resident' },
+        { label: 'I am setting up a Hong Kong company', title: 'Hong Kong company setup and compliance planning', text: 'Share your shareholder structure, equity allocation and expected operating timeline. WINFO advisers will map out the statutory framework and complete the incorporation and related filings efficiently.', to: '/company-registration/hong-kong-resident' },
         { label: 'I need compliance or funding support', title: 'Put annual compliance in order', text: 'Review your current company status, BUD direction and the next information to prepare.', to: '/services/compliance' },
         { label: 'I am preparing to expand cross-border', title: 'Clarify your landing conditions', text: 'Discuss your market, business model and existing company before choosing the next move.', to: '/services/cross-border' },
       ]
     : [
-        { label: copy.companyStatus, title: copy.freshCompany, text: copy.setUpText, to: '/company-registration/hong-kong-resident' },
+        { label: copy.companyStatus, title: copy.freshCompany, text: localize('提供您的股東結構、股權配置及預計營運時間表，WINFO 專業顧問將為您梳理法定架構，高效完成公司註冊與相關備案。'), to: '/company-registration/hong-kong-resident' },
         { label: copy.existingCompany, title: copy.currentSupport, text: copy.caseNote, to: '/services/compliance' },
         { label: copy.mainlandFounder, title: copy.mainland, text: copy.setUpText, to: '/services/cross-border' },
       ];
