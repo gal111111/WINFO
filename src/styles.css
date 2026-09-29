@@ -185,6 +185,9 @@ body { -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
 /* Hero — poster, not document */
 .home-hero { min-height:clamp(600px,86svh,820px); display:flex; align-items:center; }
 .hero-overlay { background:linear-gradient(90deg,rgba(9,32,66,.94) 0%,rgba(9,32,66,.72) 46%,rgba(9,32,66,.28) 100%); }
+/* Narrow screens: copy runs full width, so switch to a vertical scrim (never below 80% opacity) to keep text off the photo detail */
+@media (max-width:900px) { .hero-overlay { background:linear-gradient(180deg,rgba(9,32,66,.9) 0%,rgba(9,32,66,.8) 45%,rgba(9,32,66,.94) 100%); } }
+@media (max-width:600px) { .hero-image { background-position:center 30%; } }
 .hero-content { padding:clamp(84px,10vh,128px) 0 clamp(96px,12vh,150px); }
 .hero-kicker { letter-spacing:.16em; text-transform:uppercase; }
 .hero-content h1 { font-size:clamp(42px,5.4vw,76px); line-height:1.06; letter-spacing:-.02em; max-width:16ch; }
