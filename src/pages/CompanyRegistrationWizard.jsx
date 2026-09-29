@@ -14,7 +14,7 @@ import {
 
 function WizardHeader({ language, setLanguage, navigate, copy }) {
   return <header className="wizard-header"><div className="wizard-shell wizard-header-inner">
-    <button type="button" className="wizard-brand" onClick={() => navigate('/')} aria-label="WINFO home"><img src="/WINFO-blue.png" alt="WINFO Business Solutions Ltd" /></button>
+    <button type="button" className="wizard-brand" onClick={() => navigate('/')} aria-label="WINFO home"><img src="/logo.png" alt="WINFO Business Solutions Ltd" /></button>
     <div className="wizard-header-actions">
       <div className="wizard-language" aria-label="Language selector">{languages.map(({ code, label }) => <button type="button" className={language === code ? 'active' : ''} onClick={() => setLanguage(code)} aria-pressed={language === code} key={code}>{label}</button>)}</div>
       <button type="button" className="wizard-exit" onClick={() => navigate('/')}>{copy.actions.exit}</button>
