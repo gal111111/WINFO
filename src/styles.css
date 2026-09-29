@@ -34,6 +34,11 @@
 .inquiry-form input:focus,.inquiry-form select:focus,.inquiry-form textarea:focus { outline:2px solid rgba(37,99,235,.38); border-color:var(--blue); }
 .contact-inquiry-form label:nth-child(3),.contact-inquiry-form label:nth-child(4) { grid-column:auto; }.contact-inquiry-form label:nth-child(5) { grid-column:1 / -1; }
 .inquiry-form .button { justify-self:start; margin-top:6px; }
+.inquiry-form em.req { margin-left:3px; color:#b93d3d; font-style:normal; }
+.inquiry-form em.opt { margin-left:3px; color:var(--muted); font-size:11px; font-weight:600; font-style:normal; }
+.form-success { padding:30px; display:grid; gap:18px; align-content:start; border:1px solid var(--line); border-radius:var(--radius); background:#fff; }
+.form-success strong { color:var(--navy); font-size:15px; line-height:1.75; }
+.form-success-actions { display:flex; flex-wrap:wrap; gap:12px; }
 .footer-bottom>div { display:flex; gap:16px; }
 .cookie-notice { position:fixed; z-index:50; left:22px; bottom:22px; width:min(390px,calc(100% - 44px)); padding:20px; border:1px solid var(--line); border-radius:var(--radius); background:#fff; box-shadow:0 18px 46px rgba(23,59,114,.2); }
 .cookie-notice strong { color:var(--navy); font-size:15px; }.cookie-notice p { margin:9px 0 14px; color:var(--muted); font-size:12px; line-height:1.6; }.cookie-notice div { display:flex; flex-wrap:wrap; align-items:center; gap:11px; }.cookie-notice .button { min-height:40px; padding:0 13px; }.cookie-notice button:not(.button) { border:0; padding:8px 0; background:none; color:var(--navy); font-size:12px; font-weight:700; }
