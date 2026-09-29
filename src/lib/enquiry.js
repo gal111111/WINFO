@@ -44,7 +44,7 @@ export async function submitEnquiry(payload) {
 
   const body = Object.fromEntries(Object.entries(fields).filter(([, value]) => value !== ''));
   body.type = type;
-  body._subject = clean([`【WINFO ${typeLabel}】`, service, name, contact].filter(Boolean).join('｜'), 200);
+  body._subject = clean(`【WINFO ${typeLabel}】${[service, name, contact].filter(Boolean).join('｜')}`, 200);
   /* So the recipient can reply straight to the visitor when an email was given. */
   if (EMAIL_PATTERN.test(contact)) {
     body.email = contact;
