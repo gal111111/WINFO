@@ -222,7 +222,7 @@ Object.assign(traditionalUi, {
 });
 
 Object.assign(ui.en, {
-  heroTitle: 'Make the work clear. Move forward with confidence',
+  heroTitle: 'Plan clearly.\nMove confidently.',
   whyTitle: 'Make things clear to move forward steadily',
   processTitle: 'Turn every concern into a more assured next step',
   budHero: 'From market-expansion planning to a BUD application built for precise delivery',
