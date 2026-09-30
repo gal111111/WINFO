@@ -176,9 +176,8 @@ body { -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
 
 /* Header */
 .nav-wrap { height:76px; }
-.site-header { transition:transform .38s var(--ease), box-shadow .3s var(--ease); }
+.site-header { transition:box-shadow .3s var(--ease); }
 .site-header.is-scrolled { box-shadow:0 8px 30px rgba(15,42,82,.09); }
-.site-header.is-hidden { transform:translateY(-104%); }
 .header-cta { min-height:44px; }
 .mega-menu { top:76px; border-radius:0 0 var(--radius) var(--radius); box-shadow:var(--shadow-md); }
 

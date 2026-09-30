@@ -29,24 +29,14 @@ export function Header({ navigate, language, setLanguage }) {
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [condensed, setCondensed] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const headerRef = useRef(null);
   const content = getContent(language);
   const copy = getUi(language);
   const go = (to) => { setOpen(false); setMobileOpen(false); navigate(to); };
   const closeSoon = () => window.setTimeout(() => { if (!headerRef.current?.matches(':hover') && !headerRef.current?.matches(':focus-within')) setOpen(false); }, 120);
   useEffect(() => {
-    let last = window.scrollY;
     let frame = 0;
-    const update = () => {
-      const y = window.scrollY;
-      setCondensed(y > 12);
-      if (y < 120) setHidden(false);
-      else if (y > last + 6) setHidden(true);
-      else if (y < last - 6) setHidden(false);
-      last = y;
-      frame = 0;
-    };
+    const update = () => { setCondensed(window.scrollY > 12); frame = 0; };
     const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => { window.removeEventListener('scroll', onScroll); if (frame) cancelAnimationFrame(frame); };
@@ -57,7 +47,7 @@ export function Header({ navigate, language, setLanguage }) {
     window.addEventListener('keydown', onKey); document.addEventListener('pointerdown', onClick);
     return () => { window.removeEventListener('keydown', onKey); document.removeEventListener('pointerdown', onClick); };
   }, []);
-  return <header className={`site-header${condensed ? ' is-scrolled' : ''}${hidden && !open && !mobileOpen ? ' is-hidden' : ''}`} ref={headerRef} onMouseLeave={closeSoon}>
+  return <header className={`site-header${condensed ? ' is-scrolled' : ''}`} ref={headerRef} onMouseLeave={closeSoon}>
     <div className="nav-wrap">
       <button type="button" className="brand" onClick={() => go('/')} aria-label="WINFO home"><img src="/logo.png" alt="WINFO Business Solutions Ltd" /></button>
       <nav className="desktop-nav" aria-label="Primary navigation">
