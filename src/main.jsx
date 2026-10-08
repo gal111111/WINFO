@@ -7,6 +7,7 @@ import { BudFundPage } from './pages/BudFundPage';
 import { LegalPage } from './pages/LegalPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { ContentPage } from './pages/ContentPage';
+import { ScienceParkPage } from './pages/ScienceParkPage';
 import { CompanyRegistrationWizard } from './pages/CompanyRegistrationWizard';
 import { getUi, toSimplified } from './content/site';
 import './styles.css';
@@ -23,6 +24,7 @@ const routes = {
   '/contact': { component: ContentPage, kind: 'contact', key: 'contact' },
   '/services/compliance': { component: ContentPage, kind: 'maintenance', key: 'maintenance' },
   '/services/cross-border': { component: ContentPage, kind: 'crossBorder', key: 'crossBorder' },
+  '/services/science-park': { component: ScienceParkPage, key: 'sciencePark' },
   '/privacy-policy': { component: LegalPage, kind: 'privacy', key: 'privacy' },
   '/terms-of-use': { component: LegalPage, kind: 'terms', key: 'terms' },
 };
@@ -39,6 +41,7 @@ const metadata = {
   contact: ['Contact WINFO', 'Contact WINFO for Hong Kong business service enquiries.'],
   maintenance: ['Compliance and operations | WINFO', 'Ongoing company maintenance, accounting and tax coordination.'],
   crossBorder: ['Cross-border and technology landing | WINFO', 'Cross-border expansion and technology landing preparation.'],
+  sciencePark: ['Science Park funding and tenancy | WINFO', 'HKSTP programme fit, funding routes and self-application preparation.'],
   privacy: ['Privacy policy | WINFO', 'WINFO privacy policy draft and personal-data handling information.'],
   terms: ['Terms of use | WINFO', 'WINFO website terms of use.'],
 };
