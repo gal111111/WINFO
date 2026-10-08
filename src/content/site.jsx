@@ -59,7 +59,7 @@ const traditional = {
     ] },
     { title: '科技與跨境落地', items: [
       { title: '內地軟件註冊', description: '為跨境業務做好準備', to: '/services/cross-border' },
-      { title: '香港科技孵化園', description: '計劃門檻、進駐與審批安排', to: '/services/science-park' },
+      { title: '香港科學園入駐補助申請', description: '入駐資格、資助計劃與申請準備', to: '/services/science-park' },
     ] },
   ],
   homeServices: [
@@ -98,7 +98,7 @@ const english = {
     { title: 'Start in Hong Kong', items: [{ title: 'Company setup for HK residents', description: 'Name, statutory documents and handover.', to: '/company-registration/hong-kong-resident' }, { title: 'Company setup for mainland founders', description: 'Cross-border documents and banking readiness.', to: '/company-registration/mainland-resident' }] },
     { title: 'Compliance and Operations', items: [{ title: 'Audit, tax and company secretarial', description: 'Put annual compliance on a clear schedule.', to: '/services/compliance' }, { title: 'Listed-company support', description: 'Ongoing support tailored to your needs.', to: '/services/compliance' }] },
     { title: 'Funding and Growth', items: [{ title: 'BUD Fund', description: 'Initial review, proposal, documents and coordination.', to: '/bud-fund' }, { title: 'Science Park funding and tenancy', description: 'Programme ladder, funding scope and self-application.', to: '/services/science-park' }, { title: 'Mainland innovation parks', description: 'An initial review of park and expansion options.', to: '/services/cross-border' }] },
-    { title: 'Technology and Cross-border', items: [{ title: 'Mainland software registration', description: 'Practical preparation for cross-border business.', to: '/services/cross-border' }, { title: 'Hong Kong incubation parks', description: 'Programme thresholds, tenancy and approvals.', to: '/services/science-park' }] },
+    { title: 'Technology and Cross-border', items: [{ title: 'Mainland software registration', description: 'Practical preparation for cross-border business.', to: '/services/cross-border' }, { title: 'Hong Kong Science Park admission and funding', description: 'Admission criteria, funding programmes and application preparation.', to: '/services/science-park' }] },
   ],
   homeServices: [
     { label: 'Company setup', title: 'Set up a Hong Kong company', text: 'Clarify structure, documents, secretarial and registered-address needs for local and mainland founders.', cta: 'Choose your profile', to: '/company-registration/hong-kong-resident' },
