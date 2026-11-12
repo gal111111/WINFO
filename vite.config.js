@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { copyFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { writeRoutePages } from './scripts/route-pages.mjs';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
 
@@ -10,7 +10,7 @@ function githubPagesFallback() {
   return {
     name: 'github-pages-fallback',
     closeBundle() {
-      copyFileSync(resolve('dist/index.html'), resolve('dist/404.html'));
+      writeRoutePages(resolve('dist'));
     },
   };
 }

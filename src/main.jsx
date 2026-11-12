@@ -10,6 +10,7 @@ import { ContentPage } from './pages/ContentPage';
 import { ScienceParkPage } from './pages/ScienceParkPage';
 import { CompanyRegistrationWizard } from './pages/CompanyRegistrationWizard';
 import { getUi, toSimplified } from './content/site';
+import { canonicalUrl, pageMetadata } from './content/pageMetadata';
 import './styles.css';
 
 const routes = {
@@ -27,23 +28,6 @@ const routes = {
   '/services/science-park': { component: ScienceParkPage, key: 'sciencePark' },
   '/privacy-policy': { component: LegalPage, kind: 'privacy', key: 'privacy' },
   '/terms-of-use': { component: LegalPage, kind: 'terms', key: 'terms' },
-};
-
-const metadata = {
-  home: ['WINFO | Hong Kong Business Solutions', 'Company setup, BUD Fund applications and practical business support for Hong Kong and cross-border founders.'],
-  local: ['Set up a Hong Kong company | WINFO', 'A clear company incorporation process for Hong Kong founders.'],
-  mainland: ['Hong Kong company setup for mainland founders | WINFO', 'Cross-border incorporation preparation, company secretarial and banking readiness.'],
-  registrationStart: ['Start a Hong Kong company enquiry | WINFO', 'Share the general details WINFO needs to review your Hong Kong company registration enquiry.'],
-  bud: ['BUD Fund application support | WINFO', 'Initial BUD Fund assessment, project planning, document preparation and coordination.'],
-  pricing: ['Pricing | WINFO', 'WINFO service scope and pricing framework.'],
-  cases: ['Engagement scenarios | WINFO', 'Illustrative WINFO business service scenarios.'],
-  about: ['About WINFO | Hong Kong Business Solutions', 'How WINFO supports Hong Kong and cross-border businesses.'],
-  contact: ['Contact WINFO', 'Contact WINFO for Hong Kong business service enquiries.'],
-  maintenance: ['Compliance and operations | WINFO', 'Ongoing company maintenance, accounting and tax coordination.'],
-  crossBorder: ['Cross-border and technology landing | WINFO', 'Cross-border expansion and technology landing preparation.'],
-  sciencePark: ['Science Park funding and tenancy | WINFO', 'HKSTP programme fit, funding routes and self-application preparation.'],
-  privacy: ['Privacy policy | WINFO', 'WINFO privacy policy draft and personal-data handling information.'],
-  terms: ['Terms of use | WINFO', 'WINFO website terms of use.'],
 };
 
 function useRoute() {
@@ -83,7 +67,15 @@ function App() {
     });
     return () => cancelAnimationFrame(frame);
   }, [language, path]);
-  useEffect(() => { const [title, description] = metadata[route?.key] || [copy.notFound, copy.notFoundText]; document.title = title; document.querySelector('meta[name="description"]')?.setAttribute('content', description); document.querySelector('link[rel="canonical"]')?.setAttribute('href', `${window.location.origin}${window.location.pathname}`); }, [path, route, copy]);
+  useEffect(() => {
+    const [title, description] = pageMetadata[path] || [copy.notFound, copy.notFoundText];
+    document.title = title;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', description);
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonicalUrl(path));
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', canonicalUrl(path));
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
+  }, [path, copy]);
   const Page = route?.component || NotFoundPage;
   if (route?.standalone) return <Page navigate={navigate} language={language} setLanguage={setLanguage} />;
   return <SiteShell key={language} navigate={navigate} path={path} language={language} setLanguage={setLanguage}><main id="main-content" tabIndex="-1"><Page navigate={navigate} kind={route?.kind} language={language} setLanguage={setLanguage} /></main></SiteShell>;

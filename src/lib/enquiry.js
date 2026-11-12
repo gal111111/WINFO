@@ -12,8 +12,15 @@ const TYPE_LABELS = {
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export async function submitEnquiry(payload) {
-  const endpoint = import.meta.env.VITE_ENQUIRY_ENDPOINT?.trim();
+export function isValidEnquiryContact(value) {
+  const contact = clean(value, 180);
+  if (EMAIL_PATTERN.test(contact)) return true;
+  const digits = contact.replace(/\D/g, '');
+  return /^\+?[\d\s().-]+$/.test(contact) && digits.length >= 7 && digits.length <= 15;
+}
+
+export async function submitEnquiry(payload, options = {}) {
+  const endpoint = options.endpoint || import.meta.env?.VITE_ENQUIRY_ENDPOINT?.trim();
   if (!endpoint) throw new Error('enquiry_endpoint_not_configured');
 
   const type = clean(payload.type, 60) || 'website';
@@ -52,11 +59,23 @@ export async function submitEnquiry(payload) {
   }
   body._gotcha = clean(payload.website, 200);
 
-  const response = await fetch(endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-    body: JSON.stringify(body),
-  });
-  if (!response.ok) throw new Error('enquiry_delivery_failed');
-  return response.json();
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), options.timeoutMs ?? 20_000);
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+    if (!response.ok) throw new Error('enquiry_delivery_failed');
+    const result = await response.json();
+    if (!result || typeof result !== 'object' || Array.isArray(result)
+      || result.ok === false || result.error || result.errors?.length) {
+      throw new Error('enquiry_delivery_not_confirmed');
+    }
+    return result;
+  } finally {
+    clearTimeout(timer);
+  }
 }

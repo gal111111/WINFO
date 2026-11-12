@@ -1,3 +1,5 @@
+import { isValidEnquiryContact } from '../../lib/enquiry.js';
+
 export const WIZARD_STEPS = 6;
 export const DRAFT_KEY = 'winfo-company-registration-draft';
 
@@ -41,7 +43,12 @@ export function restoreWizardDraft(rawDraft, queryProfile) {
   }
 
   const restored = Object.fromEntries(
-    Object.keys(defaults).map((key) => [key, key in saved ? saved[key] : defaults[key]]),
+    Object.keys(defaults).map((key) => {
+      const value = saved[key];
+      if (typeof defaults[key] === 'boolean') return [key, value === true];
+      if (typeof defaults[key] === 'string') return [key, typeof value === 'string' ? value : defaults[key]];
+      return [key, value ?? defaults[key]];
+    }),
   );
   restored.companyNames = Array.isArray(restored.companyNames)
     ? [...restored.companyNames.slice(0, 3), '', '', ''].slice(0, 3).map((name) => String(name || ''))
@@ -62,9 +69,36 @@ export function validateWizardStep(step, data) {
     return ['business', 'timing', 'existingCompany'].filter((key) => !String(data[key] || '').trim());
   }
   if (step === 4) {
-    return ['name', 'contact', 'consent'].filter((key) => !data[key]);
+    return [
+      !String(data.name || '').trim() && 'name',
+      !isValidEnquiryContact(data.contact) && 'contact',
+      data.consent !== true && 'consent',
+    ].filter(Boolean);
   }
   return [];
+}
+
+export function selectedServices(data, copy) {
+  return [data.needsAddress && copy.fields.needsAddress, data.needsBanking && copy.fields.needsBanking, data.needsCompliance && copy.fields.needsCompliance].filter(Boolean);
+}
+
+export function wizardSummaryRows(data, copy) {
+  return [
+    [copy.summary.names, data.decideNameLater ? copy.summary.later : data.companyNames.map(name => name.trim()).filter(Boolean).join(copy.summary.joiner)],
+    [copy.summary.founders, copy.profiles[data.profile]],
+    [copy.summary.structure, `${copy.fields.directors}: ${data.directors}${copy.summary.joiner}${copy.fields.shareholders}: ${data.shareholders}`],
+    [copy.summary.business, data.business],
+    [copy.summary.timing, copy.timings[data.timing]],
+    [copy.summary.existing, copy.existingOptions[data.existingCompany]],
+    [copy.summary.services, selectedServices(data, copy).join(copy.summary.joiner) || copy.fields.noService],
+    [copy.summary.contact, [data.name, data.contact].filter(Boolean).join(copy.summary.joiner)],
+  ].filter(([, value]) => value);
+}
+
+export function wizardEnquiryBrief(data, copy) {
+  const rows = wizardSummaryRows(data, copy);
+  if (data.message.trim()) rows.push([copy.fields.message, data.message.trim()]);
+  return [`WINFO — ${copy.eyebrow}`, ...rows.map(([label, value]) => `${label}\n${value}`)].join('\n\n');
 }
 
 export function toEnquiryPayload(data, language) {

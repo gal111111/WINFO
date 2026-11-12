@@ -27,6 +27,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Test routing and enquiry flows
+        run: npm test
       # The enquiry form posts to Formspree, so the endpoint is baked in at build time.
       - name: Build
         run: npm run build
