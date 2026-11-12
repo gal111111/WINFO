@@ -3,6 +3,7 @@ import { contact, languages } from '../content/site';
 import { Icon, consultationUrl } from '../components/SiteShell';
 import { submitEnquiry } from '../lib/enquiry';
 import { wizardCopy } from '../features/company-registration/wizardContent';
+import { PreparationChecklist } from '../features/company-registration/PreparationChecklist';
 import {
   DRAFT_KEY,
   WIZARD_STEPS,
@@ -238,7 +239,7 @@ export function CompanyRegistrationWizard({ navigate, language, setLanguage }) {
     }
   };
 
-  if (status === 'success') return <main className="registration-wizard"><WizardHeader language={language} setLanguage={setLanguage} navigate={navigate} copy={copy} /><section className="wizard-success wizard-shell" role="status"><span className="wizard-success-mark" aria-hidden="true"><Icon name="check" size={28} /></span><p className="hero-kicker">WINFO</p><h1 ref={headingRef} tabIndex="-1">{copy.success.title}</h1><p>{copy.success.text}</p><div><button type="button" className="button" onClick={() => navigate('/')}>{copy.success.home}</button><a className="button button-secondary" href={consultationUrl(copy.eyebrow, language)} target="_blank" rel="noreferrer">{copy.success.whatsapp}</a></div></section></main>;
+  if (status === 'success') return <main className="registration-wizard"><WizardHeader language={language} setLanguage={setLanguage} navigate={navigate} copy={copy} /><section className="wizard-success wizard-shell" role="status"><span className="wizard-success-mark" aria-hidden="true"><Icon name="check" size={28} /></span><p className="hero-kicker">WINFO</p><h1 ref={headingRef} tabIndex="-1">{copy.success.title}</h1><p>{copy.success.text}</p><div><button type="button" className="button" onClick={() => navigate('/')}>{copy.success.home}</button><a className="button button-secondary" href={consultationUrl(copy.eyebrow, language)} target="_blank" rel="noreferrer">{copy.success.whatsapp}</a></div><PreparationChecklist data={data} language={language} /></section></main>;
 
   return <main className={`registration-wizard${step > 0 ? ' is-in-progress' : ''}`}>
     <WizardHeader language={language} setLanguage={setLanguage} navigate={navigate} copy={copy} />
@@ -251,6 +252,7 @@ export function CompanyRegistrationWizard({ navigate, language, setLanguage }) {
         <ErrorSummary errors={errors} copy={copy} summaryRef={errorSummaryRef} />
         <fieldset className="wizard-fields" disabled={status === 'sending'}><StepFields step={step} data={data} update={update} updateName={updateName} errors={errors} copy={copy} setStep={goToStep} /></fieldset>
         {step === WIZARD_STEPS - 1 && <EnquiryHandoff brief={brief} copy={copy} />}
+        {step === WIZARD_STEPS - 1 && <PreparationChecklist data={data} language={language} />}
         <p className="wizard-draft-note">{draftAvailable ? copy.draft : copy.draftUnavailable}</p>
         <StatusPanel status={status} copy={copy} brief={brief} retry={submit} statusRef={statusRef} />
         <WizardActions step={step} status={status} copy={copy} onBack={() => goToStep(Math.max(0, step - 1))} />

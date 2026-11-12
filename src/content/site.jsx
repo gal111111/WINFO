@@ -336,6 +336,14 @@ const simplifiedUi = {
 };
 
 ui['zh-Hant'] = traditionalUi;
+Object.assign(ui.en, {
+  cookieTemporary: 'Your choice applies to this visit. Browser storage is unavailable, so it cannot be remembered after reloading or closing this page.',
+  cookieClose: 'Close',
+});
+Object.assign(traditionalUi, {
+  cookieTemporary: '你的選擇已在本次瀏覽生效。目前無法使用瀏覽器儲存空間，重新載入或關閉此頁後便無法保留。',
+  cookieClose: '關閉',
+});
 ui['zh-Hans'] = { ...toSimplified(traditionalUi), ...simplifiedUi };
 
 Object.assign(ui.en, {

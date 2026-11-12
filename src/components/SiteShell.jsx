@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { contact, getContent, getUi, languages, toSimplified } from '../content/site';
+import { readPreference, savePreference } from '../lib/preferences';
 
 export function Icon({ name, size = 20 }) {
   const paths = {
@@ -82,8 +83,13 @@ export function Footer({ navigate, language, openCookieSettings }) {
 
 function CookieNotice({ language, visible, setVisible }) {
   const copy = getUi(language);
-  const save = (choice) => { localStorage.setItem('winfo-cookie-choice', choice); setVisible(false); };
+  const [temporary, setTemporary] = useState(false);
+  const save = (choice) => {
+    if (savePreference('winfo-cookie-choice', choice)) setVisible(false);
+    else setTemporary(true);
+  };
   if (!visible) return null;
+  if (temporary) return <aside className="cookie-notice" aria-label={copy.cookieTitle}><p role="status">{copy.cookieTemporary}</p><button type="button" className="button" onClick={() => { setTemporary(false); setVisible(false); }}>{copy.cookieClose}</button></aside>;
   return <aside className="cookie-notice" aria-label={copy.cookieTitle}><strong>{copy.cookieTitle}</strong><p>{copy.cookieText}</p><div><button type="button" className="button" onClick={() => save('essential')}>{copy.cookieAccept}</button><button type="button" onClick={() => save('rejected')}>{copy.cookieReject}</button></div></aside>;
 }
 
@@ -122,6 +128,6 @@ function StickyConsultBar({ navigate, language }) {
 
 export function SiteShell({ children, navigate, path, language, setLanguage }) {
   const copy = getUi(language);
-  const [cookieVisible, setCookieVisible] = useState(() => !localStorage.getItem('winfo-cookie-choice'));
+  const [cookieVisible, setCookieVisible] = useState(() => !['essential', 'rejected'].includes(readPreference('winfo-cookie-choice')));
   return <><Header navigate={navigate} path={path} language={language} setLanguage={setLanguage} />{children}<Footer navigate={navigate} language={language} openCookieSettings={() => setCookieVisible(true)} /><StickyConsultBar navigate={navigate} language={language} /><AdvisorWidget language={language} /><CookieNotice language={language} visible={cookieVisible} setVisible={setCookieVisible} /></>;
 }

@@ -11,6 +11,7 @@ import { ScienceParkPage } from './pages/ScienceParkPage';
 import { CompanyRegistrationWizard } from './pages/CompanyRegistrationWizard';
 import { getUi, toSimplified } from './content/site';
 import { canonicalUrl, pageMetadata } from './content/pageMetadata';
+import { initialLanguage, savePreference } from './lib/preferences';
 import './styles.css';
 
 const routes = {
@@ -53,10 +54,10 @@ function useRoute() {
 
 function App() {
   const [path, navigate] = useRoute();
-  const [language, setLanguage] = useState(() => localStorage.getItem('winfo-language') || 'en');
+  const [language, setLanguage] = useState(initialLanguage);
   const route = routes[path];
   const copy = getUi(language);
-  useEffect(() => { localStorage.setItem('winfo-language', language); document.documentElement.lang = language; }, [language]);
+  useEffect(() => { savePreference('winfo-language', language); document.documentElement.lang = language; }, [language]);
   useEffect(() => {
     if (language !== 'zh-Hans') return undefined;
     const frame = requestAnimationFrame(() => {

@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { getContent, getExtendedContent, getUi, toSimplified } from '../content/site';
+import { ServiceFinder } from '../components/ServiceFinder';
 import { Icon, LinkButton, consultationUrl } from '../components/SiteShell';
 import { ConsultationPanel, FAQ, GoogleRatingSection, FinalCta, Reveal, SectionHeading, TestimonialSection } from '../components/Sections';
 
@@ -10,19 +10,6 @@ export function HomePage({ navigate, language }) {
   const extended = getExtendedContent(language);
   const copy = getUi(language);
   const localize = (value) => language === 'zh-Hans' ? toSimplified(value) : value;
-  const [selected, setSelected] = useState(0);
-  const finder = language === 'en'
-    ? [
-        { label: 'I am setting up a Hong Kong company', title: 'Hong Kong company setup and compliance planning', text: 'Share your shareholder structure, equity allocation and expected operating timeline. WINFO advisers will map out the statutory framework and complete the incorporation and related filings efficiently.', to: '/company-registration/hong-kong-resident' },
-        { label: 'I need compliance or funding support', title: 'Put annual compliance in order', text: 'Review your current company status, BUD direction and the next information to prepare.', to: '/services/compliance' },
-        { label: 'I am preparing to expand cross-border', title: 'Clarify your landing conditions', text: 'Discuss your market, business model and existing company before choosing the next move.', to: '/services/cross-border' },
-      ]
-    : [
-        { label: copy.companyStatus, title: copy.freshCompany, text: localize('提供您的股東結構、股權配置及預計營運時間表，WINFO 專業顧問將為您梳理法定架構，高效完成公司註冊與相關備案。'), to: '/company-registration/hong-kong-resident' },
-        { label: copy.existingCompany, title: copy.currentSupport, text: copy.caseNote, to: '/services/compliance' },
-        { label: copy.mainlandFounder, title: copy.mainland, text: copy.setUpText, to: '/services/cross-border' },
-      ];
-  const current = finder[selected];
   const principles = language === 'en'
     ? [['Needs assessment and structure planning', 'Assess the nature of the business, operating scale and compliance requirements to match the most suitable corporate structure and statutory filing approach.'], ['Dedicated adviser follow-up and document review', 'A dedicated adviser manages the work end to end and rigorously reviews statutory documents and filing materials, so every submission meets regulatory requirements.'], ['Delivery and ongoing compliance follow-up', 'After documents are delivered and filed, we set out the compliance and operational milestones that follow, so the company keeps running on solid ground.']]
     : localize([['需求評估與架構規劃', '深度評估業務性質、營運規模與合規要件，精準匹配最適切的企業架構與法定申辦方案。'], ['專屬顧問跟進與文件審核', '指派專業顧問一對一全程跟進，嚴格覆核法定文件與申辦資料，確保每項提交均符合法規要求。'], ['交付與持續合規跟進', '完成文件交付及備案後，同步梳理後續合規與營運節點，確保企業在成立後持續穩健運作。']]);
@@ -74,7 +61,7 @@ export function HomePage({ navigate, language }) {
       </div>
     </div></section>
 
-    <section className="finder-section"><div className="container finder-layout"><SectionHeading label={copy.serviceFinder} title={copy.finderTitle} text={copy.finderText} /><Reveal className="finder"><div className="finder-options">{finder.map((item, index) => <button type="button" onClick={() => setSelected(index)} className={selected === index ? 'active' : ''} key={item.label}><span>0{index + 1}</span>{item.label}<Icon name="arrow" size={16} /></button>)}</div><div className="finder-result"><span>{copy.finderStart}</span><h3>{current.title}</h3><p>{current.text}</p><LinkButton to={current.to} navigate={navigate}>{copy.firstStep}</LinkButton></div></Reveal></div></section>
+    <ServiceFinder language={language} navigate={navigate} />
 
     <section id="why-winfo" className="section why-section"><div className="container"><SectionHeading label={copy.valueLabel} title={copy.valueTitle} /><div className="value-list">{principles.map(([title, text], index) => <Reveal className="value-item" key={title} delay={index * 80}><b>0{index + 1}</b><div><h3>{title}</h3><p>{text}</p></div></Reveal>)}</div></div></section>
 

@@ -9,7 +9,7 @@ const root = fileURLToPath(new URL('.', import.meta.url));
 function githubPagesFallback() {
   return {
     name: 'github-pages-fallback',
-    closeBundle() {
+    writeBundle() {
       writeRoutePages(resolve('dist'));
     },
   };
